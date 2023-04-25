@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css?family=Lexend");
+
+.infoContainer::-webkit-scrollbar,
+.castFlex::-webkit-scrollbar,
+.servicesFlex::-webkit-scrollbar {
+  width: 2px;
+  height: 0px;
+  background-color: black;
+}
+
+.infoContainer::-webkit-scrollbar-thumb,
+.castFlex::-webkit-scrollbar-thumb,
+.servicesFlex::-webkit-scrollbar-thumb {
+  height: 0px;
+  background-color: white;
+  border-radius: 999px;
+}
+
+.container {
+  position: relative;
+  width: 99.6%;
+  height: 100%;
+  background: linear-gradient(black, black) padding-box,
+    linear-gradient(to right, rgb(84, 58, 232), darkorchid) border-box;
+  border-radius: 10px;
+  z-index: 100;
+  font-family: "Lexend";
+  overflow: hidden;
+}
+
+.video {
+  position: absolute;
+  left: 50%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  width: 50%;
+  height: 100%;
+}
+
+.infoContainer {
+  position: absolute;
+  color: white;
+  width: 50%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /* direction: rtl; */
+  margin-left: 1px;
+  /* border: 1px solid white; */
+  z-index: 5;
+}
+
+.infoContainer > h3 {
+  border: 1px solid white;
+}
+
+.poster {
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  width: 20%;
+}
+
+.castFlex,
+.servicesFlex {
+  position: relative;
+  translate: -50%;
+  left: 50%;
+  /* border: 1px solid white; */
+  display: flex;
+  flex-flow: row nowrap;
+  width: fit-content;
+  max-width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  overflow-x: scroll;
+}
+
+.service {
+  display: grid;
+  place-items: center;
+  width: 100px;
+  height: 50px;
+  border: 1px solid;
+  border-radius: 50px;
+}
+
+.castMember {
+  margin: 5px;
+  font-size: 1.1vh;
+  /* transform: skewX(-5deg); */
+}
+
+.castMember > img {
+  object-fit: cover;
+  min-width: 60px;
+  width: 7vw;
+  aspect-ratio: 1/1;
+  border-radius: 9999px;
+}
+
+.names {
+  color: white;
+}
+
+.overview {
+  /* border: 1px solid; */
+  font-size: 1.7vh;
+}
