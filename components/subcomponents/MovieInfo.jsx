@@ -9,10 +9,6 @@ export default function MovieInfo({ film, isMobile }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (router.asPath === "/") {
-      //   router.replace(`/#${film.imdbId}`);
-    }
-
     const arr = [];
     film.cast.forEach((actor) => {
       const split = actor.split(" ");
@@ -35,51 +31,62 @@ export default function MovieInfo({ film, isMobile }) {
     }
   }, []);
 
+  function handleClick() {
+    router.replace("/home");
+  }
+
   return (
-    <div className={styles.container}>
-      <div className={styles.infoContainer}>
-        <h1>{film.title}</h1>
-        {/* <img className={styles.poster} src={film.posterURLs.original} /> */}
-        <section className={styles.servicesSection}>
-          <h3>Services</h3>
-          <div className={styles.servicesFlex}>
-            {streamingServices.map((service) => {
-              return (
-                <div className={styles.service}>
-                  <p>{service}</p>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-        <section className={styles.castSection}>
-          <h3>Main Cast</h3>
-          <div className={styles.castFlex}>
-            {actors ? (
-              actors.map((actor) => {
+    <div className={styles.expand}>
+      <div className={styles.container}>
+        <div className={styles.infoContainer}>
+          <button className={styles.backButton} onClick={handleClick}>
+            BACK
+          </button>
+          <h1>{film.title}</h1>
+          <img className={styles.poster} src={film.posterURLs.original} />
+          <section className={styles.servicesSection}>
+            <h3>Services</h3>
+            <div className={styles.servicesFlex}>
+              {streamingServices.map((service) => {
                 return (
-                  <div className={styles.castMember}>
-                    <img src={actor.image}></img>
-                    <p className={styles.names}>{actor.name}</p>
+                  <div className={styles.service}>
+                    <p>{service}</p>
                   </div>
                 );
-              })
-            ) : (
-              <></>
-            )}
-          </div>
-        </section>
-        <p className={styles.overview}>{film.overview}</p>
-      </div>
+              })}
+            </div>
+          </section>
+          <section className={styles.castSection}>
+            <h3>Main Cast</h3>
+            <div className={styles.castFlex}>
+              {actors ? (
+                actors.map((actor, index) => {
+                  return (
+                    <div key={index} className={styles.castMember}>
+                      <img key={actor.image} src={actor.image}></img>
+                      <p key={actor.name} className={styles.names}>
+                        {actor.name}
+                      </p>
+                    </div>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </div>
+          </section>
+          <p className={styles.overview}>{film.overview}</p>
+        </div>
 
-      <div className={styles.videoContainer}>
-        <iframe
-          id="video"
-          className={styles.video}
-          src={`https://www.youtube.com/embed/${film.youtubeTrailerVideoId}?loop=1&modestbranding=1`}
-          title="YouTube video player"
-          frameBorder={0}
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
+        <div className={styles.videoContainer}>
+          <iframe
+            id="video"
+            className={styles.video}
+            src={`https://www.youtube.com/embed/${film.youtubeTrailerVideoId}?loop=1&modestbranding=1`}
+            title="YouTube video player"
+            frameBorder={0}
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
+        </div>
       </div>
     </div>
   );

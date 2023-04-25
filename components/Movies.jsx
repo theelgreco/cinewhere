@@ -1,18 +1,17 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
+import MovieInfo from "./subcomponents/MovieInfo";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
-export default function Movies({
-  options,
-  setOptions,
-  isMobile,
-  isSelected,
-  setIsSelected,
-  noneSelected,
-  setNoneSelected,
-  filmFromUrl,
-}) {
+
+export default function Movies({ options, setOptions, isMobile }) {
   const [data, setData] = useState([]);
+  const [filmClicked, setFilmClicked] = useState(false);
+  const [singleFilm, setSingleFilm] = useState(false);
+  const [path, setPath] = useState("/home");
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!data.length || !options.url) {
@@ -991,32 +990,65 @@ export default function Movies({
         .then((res) => {
           setData(res);
         });
+    } else if (
+      options.url ===
+      "https://streaming-availability.p.rapidapi.com/v2/get/basic"
+    ) {
+      axios.request(options).then((res) => {
+        console.log(res.data.result);
+        setSingleFilm(res.data.result);
+      });
     }
   }, [options]);
 
-  return (
-    <section className={styles.Movies}>
-      <div className={styles.moviesFlex}>
-        {data ? (
-          data.map((film, index) => {
-            return (
-              <MovieCard
-                filmFromUrl={filmFromUrl}
-                key={index}
-                options={options}
-                setOptions={setOptions}
-                film={film}
-                noneSelected={noneSelected}
-                setNoneSelected={setNoneSelected}
-                isSelected={isSelected}
-                setIsSelected={setIsSelected}
-              />
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </div>
-    </section>
-  );
+  useEffect(() => {
+    if (router.asPath === "/home") {
+      setSingleFilm(false);
+      setPath("/home");
+      console.log(router.asPath);
+    } else if (!singleFilm) {
+      const imdbId = router.asPath.split("#")[1];
+      const newOptions = { ...options };
+      newOptions.url =
+        "https://streaming-availability.p.rapidapi.com/v2/get/basic";
+      newOptions.params.imdb_id = imdbId;
+      setOptions(newOptions);
+    }
+  }, [router.asPath]);
+
+  if (singleFilm) {
+    return (
+      <section className={styles.Movies}>
+        <div className={styles.moviesFlex}>
+          <MovieInfo
+            key={singleFilm.title}
+            film={singleFilm}
+            isMobile={isMobile}
+            id={singleFilm.title}
+            fromUrl={true}
+          />
+        </div>
+      </section>
+    );
+  } else if (path === "/home") {
+    return (
+      <section className={styles.Movies}>
+        <div className={styles.moviesFlex}>
+          {data ? (
+            data.map((film, index) => {
+              return (
+                <MovieCard
+                  key={index}
+                  film={film}
+                  setSingleFilm={setSingleFilm}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+      </section>
+    );
+  }
 }

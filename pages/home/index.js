@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
-import MovieInfo from "@/components/subcomponents/MovieInfo";
 import Search from "@/components/Search";
 import Services from "@/components/Services";
 import Genres from "@/components/Genres";
 import Type from "@/components/Type";
 import Movies from "@/components/Movies";
-import axios from "axios";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(null);
@@ -31,39 +28,11 @@ export default function Home() {
   const [mouseDown, setMouseDown] = useState(false);
   const [mouseX, setMouseX] = useState(null);
   const [mouseMoving, setMouseMoving] = useState(false);
-  const [path, setPath] = useState("/");
-  const router = useRouter();
-  const [filmFromUrl, setFilmFromUrl] = useState({});
-  const [isSelected, setIsSelected] = useState(false);
-  const [noneSelected, setNoneSelected] = useState(true);
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
     document.addEventListener("mouseleave", handleMouseUp);
-    setPath(router.asPath);
   }, []);
-
-  useEffect(() => {
-    if (path === "/") {
-      setIsSelected(false);
-      setNoneSelected(true);
-    } else {
-      const imdbId = router.asPath.slice(2);
-      const newOptions = { ...options };
-      newOptions.params.imdb_id = imdbId;
-      newOptions.url =
-        "https://streaming-availability.p.rapidapi.com/v2/get/basic";
-      setOptions(newOptions);
-
-      console.log(newOptions);
-      axios.request(newOptions).then((res) => {
-        setFilmFromUrl(res.data.result);
-        setIsSelected(true);
-        setNoneSelected(false);
-        console.log(res);
-      });
-    }
-  }, [path]);
 
   function handleMouseDown(e) {
     setMouseDown(true);
@@ -130,16 +99,7 @@ export default function Home() {
         handleMouseDown={handleMouseDown}
       />
       <Type isMobile={isMobile} />
-      <Movies
-        options={options}
-        setOptions={setOptions}
-        isMobile={isMobile}
-        isSelected={isSelected}
-        setIsSelected={setIsSelected}
-        noneSelected={noneSelected}
-        setNoneSelected={setNoneSelected}
-        filmFromUrl={filmFromUrl}
-      />
+      <Movies options={options} setOptions={setOptions} isMobile={isMobile} />
     </main>
   );
 }

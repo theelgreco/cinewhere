@@ -16,6 +16,18 @@
   border-radius: 999px;
 }
 
+.expand {
+  transition: 0.1s ease-in;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-height: 58.5vh;
+  aspect-ratio: 9/16;
+  z-index: 100;
+  cursor: pointer;
+}
+
 .container {
   position: relative;
   width: 99.6%;
@@ -50,8 +62,9 @@
   z-index: 5;
 }
 
-.infoContainer > h3 {
-  border: 1px solid white;
+.backButton {
+  position: absolute;
+  left: 0;
 }
 
 .poster {
