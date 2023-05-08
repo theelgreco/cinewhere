@@ -16,10 +16,6 @@
   /* transform: skewX(-2deg); */
 }
 
-.MovieCardLink.genre {
-  margin: 18px;
-}
-
 .MovieCardLink::after,
 .MovieCardLink.genre::after {
   content: "";
@@ -73,11 +69,13 @@
   top: 0;
   right: 0;
   width: 30%;
+  max-width: 110px;
   color: white;
 }
 
 .serviceIcons img {
   border-radius: 9999px;
   width: 80%;
+  max-width: 80px;
   aspect-ratio: 1;
 }

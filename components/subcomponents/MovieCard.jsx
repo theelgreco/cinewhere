@@ -17,20 +17,22 @@ export default function MovieCard({
   const [serviceIcons, setServiceIcons] = useState([]);
 
   useEffect(() => {
-    const serviceNames = Object.keys(film.streamingInfo[country]);
-    let serviceList = [];
-    serviceNames.forEach((service) => {
-      const indexOfService = servicesArray.findIndex((el) => {
-        return el.id === service;
+    if (Object.keys(film.streamingInfo).length) {
+      const serviceNames = Object.keys(film.streamingInfo[country]) ?? null;
+      let serviceList = [];
+      serviceNames.forEach((service) => {
+        const indexOfService = servicesArray.findIndex((el) => {
+          return el.id === service;
+        });
+        serviceList.push({
+          name: service,
+          image: servicesArray[indexOfService].image,
+          link: film.streamingInfo[country][service],
+        });
       });
-      serviceList.push({
-        name: service,
-        image: servicesArray[indexOfService].image,
-        link: film.streamingInfo[country][service],
-      });
-    });
-    console.log(serviceList);
-    setServiceIcons(serviceList);
+      console.log(serviceList);
+      setServiceIcons(serviceList);
+    }
   }, []);
 
   function handleClick(e) {
@@ -55,37 +57,20 @@ export default function MovieCard({
         </div> */}
         <img src={film.posterURLs.original} />
         <div className={styles.serviceIcons}>
-          {serviceIcons.map(
-            (service, index) => {
+          {serviceIcons.length ? (
+            serviceIcons.map((service, index) => {
               return (
-                // <React.Fragment key={`${service.name}-${index}`}>
-                //   {service.link.length > 1 ? (
-                //     <>
-                //       {service.link.map((icon, index) => {
-                //         return (
-                //           <React.Fragment
-                //             key={`${service.name}${icon.type}${index}${film.title}`}>
-                //             <img src={service.image} />
-                //             <p>{icon.type}</p>
-                //           </React.Fragment>
-                //         );
-                //       })}
-                //     </>
-                //   ) : (
-                <React.Fragment
-                  key={`${service.name}${service.link[0].type}${index}${film.title}`}>
-                  <img src={service.image} />
-                  {/* <p>{service.link[0].type}</p> */}
-                </React.Fragment>
+                //prettier-ignore
+                <React.Fragment key={`${service.name}${service.link[0].type}${index}${film.title}`}>
+                <img src={service.image} />
+              </React.Fragment>
               );
-            }
-            // </React.Fragment>
+            })
+          ) : (
+            <></>
           )}
-          {/* )} */}
         </div>
       </div>
     </Link>
   );
 }
-
-//className={clsx({[styles.MovieCardLink] : genre || !genre, [styles.genre] : genre})}
