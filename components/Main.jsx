@@ -37,7 +37,7 @@ export default function Main({
     setMouseDown(true);
     setMouseX(e.clientX);
 
-    if (e.target.id === "Services" || e.target.id === "Genres") {
+    if (e.target.id === "Services" || e.target.id === "Services") {
       setDivToScroll(e.target.parentElement);
     } else {
       setDivToScroll(e.target.parentElement.parentElement);
