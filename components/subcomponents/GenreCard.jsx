@@ -19,6 +19,11 @@ export default function GenreCard({
         setIsSelected(true);
       }
     });
+
+    if (!selectedGenres.length) {
+      setIsSelected(false);
+      setGenreIdToSearch(null);
+    }
   }, [selectedGenres]);
 
   function handleClick(e) {

@@ -5,7 +5,7 @@ import { getFilmById } from "api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function MovieInfo({ isMobile }) {
+export default function MovieInfo({ country, isMobile }) {
   const { imdb_id } = useParams();
   const [film, setFilm] = useState(null);
   const [actors, setActors] = useState([]);
@@ -13,7 +13,7 @@ export default function MovieInfo({ isMobile }) {
 
   useEffect(() => {
     console.log(imdb_id);
-    getFilmById(imdb_id).then((res) => {
+    getFilmById(imdb_id, country).then((res) => {
       setFilm(res);
     });
   }, []);

@@ -23,6 +23,7 @@ export default function Main({
   setSelectedGenres,
   genreData,
   setGenreData,
+  country,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -101,6 +102,7 @@ export default function Main({
         isMobile={isMobile}
         atBottom={atBottom}
         setAtBottom={setAtBottom}
+        setSelectedServices={setSelectedServices}
         selectedServices={selectedServices}
         data={data}
         setData={setData}
@@ -115,6 +117,7 @@ export default function Main({
         genreIdToSearch={genreIdToSearch}
         genreData={genreData}
         setSelectedGenres={setSelectedGenres}
+        country={country}
       />
     </>
   );

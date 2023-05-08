@@ -15,11 +15,14 @@ export default function ServiceCard({
   const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
-    if (!selectedServices.length) setNoneSelected(true);
+    if (!selectedServices.length) {
+      setIsSelected(false);
+      setNoneSelected(true);
+    }
 
     if (selectedServices.includes(serviceName)) {
       setIsSelected(true);
-      noneSelected ?? setNoneSelected(false);
+      noneSelected ? setNoneSelected(false) : null;
     }
   }, [selectedServices]);
 

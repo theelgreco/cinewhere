@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "bright";
+  src: url("/bright.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .genreMovies::-webkit-scrollbar {
   height: 0px;
   background-color: transparent;
@@ -62,11 +69,19 @@
 }
 
 .genreName {
+  position: relative;
   color: white;
   font-size: 3vh;
   min-width: 150px;
   width: 10%;
+  height: fit-content;
   margin-top: 18px;
+  z-index: 1;
+}
+
+.genreName > p {
+  font-family: "bright";
+  color: rgb(232, 188, 241);
 }
 
 .moviesFlex::after {

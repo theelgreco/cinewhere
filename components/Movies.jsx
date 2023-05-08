@@ -7,6 +7,7 @@ export default function Movies({
   isMobile,
   atBottom,
   setAtBottom,
+  setSelectedServices,
   selectedServices,
   data,
   setData,
@@ -20,6 +21,7 @@ export default function Movies({
   selectedGenres,
   setSelectedGenres,
   setGenreIdToSearch,
+  country,
 }) {
   useEffect(() => {
     if (!selectedGenres.length) {
@@ -30,7 +32,7 @@ export default function Movies({
   useEffect(() => {
     //if there are no genres selected
     if (selectedServices.length && !filmClicked && !selectedGenres.length) {
-      getServiceFilms(selectedServices).then((res) => {
+      getServiceFilms(selectedServices, country).then((res) => {
         sectionRef.current.scrollTop = 0;
         setData(res.result);
         setNextPage(res.nextCursor);
@@ -42,7 +44,7 @@ export default function Movies({
       selectedGenres.length
     ) {
       selectedGenres.forEach((genre) => {
-        getServiceFilms(selectedServices, {
+        getServiceFilms(selectedServices, country, {
           genre: genre.id,
           cursor: genre.cursor,
         }).then((res) => {
@@ -57,6 +59,7 @@ export default function Movies({
       });
     } else if (!selectedServices.length) {
       setData([]);
+      setSelectedGenres([]);
     }
 
     setFilmClicked(false);
@@ -64,28 +67,34 @@ export default function Movies({
 
   useEffect(() => {
     if (atBottom) {
-      getServiceFilms(selectedServices, { cursor: nextPage }).then((res) => {
-        setData([...data, ...res.result]);
-        setNextPage(res.nextCursor);
-        setAtBottom(false);
-      });
+      getServiceFilms(selectedServices, country, { cursor: nextPage }).then(
+        (res) => {
+          setData([...data, ...res.result]);
+          setNextPage(res.nextCursor);
+          setAtBottom(false);
+        }
+      );
     }
   }, [atBottom]);
 
   useEffect(() => {
     if (selectedServices.length && !filmClicked && genreIdToSearch) {
-      getServiceFilms(selectedServices, { genre: genreIdToSearch }).then(
-        (res) => {
-          const genreDataCopy = [...selectedGenres];
-          const indexOfGenre = genreDataCopy.findIndex(
-            (el) => el.id === genreIdToSearch
-          );
-          genreDataCopy[indexOfGenre].movies = res.result;
-          genreDataCopy[indexOfGenre].cursor = res.nextCursor;
-          setSelectedGenres(genreDataCopy);
-          setGenreIdToSearch(null);
-        }
-      );
+      getServiceFilms(selectedServices, country, {
+        genre: genreIdToSearch,
+      }).then((res) => {
+        const genreDataCopy = [...selectedGenres];
+        const indexOfGenre = genreDataCopy.findIndex(
+          (el) => el.id === genreIdToSearch
+        );
+        genreDataCopy[indexOfGenre].movies = res.result;
+        genreDataCopy[indexOfGenre].cursor = res.nextCursor;
+        setSelectedGenres(genreDataCopy);
+        setGenreIdToSearch(null);
+      });
+    }
+
+    if (!selectedGenres.length && !data.length) {
+      setSelectedServices([]);
     }
   }, [genreIdToSearch]);
 
@@ -115,6 +124,7 @@ export default function Movies({
                     setFilmClicked={setFilmClicked}
                     scrollHeight={scrollHeight}
                     sectionRef={sectionRef}
+                    country={country}
                   />
                 );
               })
@@ -128,7 +138,9 @@ export default function Movies({
           {selectedGenres.map((genre) => {
             return (
               <div key={genre.id} className={styles.individualGenreContainer}>
-                <div className={styles.genreName}>{genre.genre}</div>
+                <div className={styles.genreName}>
+                  <p>{genre.genre}</p>
+                </div>
                 {genre.movies ? (
                   <div className={styles.genreMovies}>
                     {genre.movies.map((film) => {
@@ -138,6 +150,7 @@ export default function Movies({
                           film={film}
                           setFilmClicked={setFilmClicked}
                           genre={true}
+                          country={country}
                         />
                       );
                     })}

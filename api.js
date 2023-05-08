@@ -14,7 +14,7 @@ const filmApi = axios.create({
   baseURL: "https://streaming-availability.p.rapidapi.com/v2",
 });
 
-export const getServiceFilms = (services, optionalParams) => {
+export const getServiceFilms = (services, country, optionalParams) => {
   let urlString = `/search/basic`;
   let params;
   let servicesString;
@@ -26,9 +26,9 @@ export const getServiceFilms = (services, optionalParams) => {
   }
 
   if (optionalParams) {
-    params = { country: "gb", services: servicesString, ...optionalParams };
+    params = { country: country, services: servicesString, ...optionalParams };
   } else {
-    params = { country: "gb", services: servicesString };
+    params = { country: country, services: servicesString };
   }
 
   return filmApi
@@ -50,7 +50,7 @@ export const getFilmById = (id, country) => {
       headers: mine,
       params: {
         imdb_id: id,
-        country: "gb",
+        country: country,
       },
     })
     .then((res) => {

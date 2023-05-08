@@ -65,3 +65,19 @@
   object-fit: cover;
   aspect-ratio: 9/16;
 }
+
+.serviceIcons {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  color: white;
+}
+
+.serviceIcons img {
+  border-radius: 9999px;
+  width: 80%;
+  aspect-ratio: 1;
+}

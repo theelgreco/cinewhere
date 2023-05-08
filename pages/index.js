@@ -13,6 +13,7 @@ export default function Home() {
   const [genreData, setGenreData] = useState([]);
   const [filmClicked, setFilmClicked] = useState(false);
   const [nextPage, setNextPage] = useState(null);
+  const [country, setCountry] = useState("gb");
   const scrollHeight = useRef();
   const sectionRef = useRef();
 
@@ -45,10 +46,14 @@ export default function Home() {
                 setGenreData={setGenreData}
                 selectedGenres={selectedGenres}
                 setSelectedGenres={setSelectedGenres}
+                country={country}
               />
             }
           />
-          <Route path="/movies/:imdb_id" element={<MovieInfo />} />
+          <Route
+            path="/movies/:imdb_id"
+            element={<MovieInfo country={country} />}
+          />
         </Routes>
       </main>
     </BrowserRouter>
