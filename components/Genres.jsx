@@ -8,6 +8,8 @@ export default function Genres({
   mouseMoving,
   handleMouseDown,
   isMobile,
+  selectedGenres,
+  setSelectedGenres,
 }) {
   function handleContext(e) {
     e.preventDefault();
@@ -35,14 +37,17 @@ export default function Genres({
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onContextMenu={handleContext}>
-      <div id="Genres" className={styles.genreFlex}>
+      <div id="Genres" className={styles.genreFlex} onMouseUp={handleMouseUp}>
         {genres.map((genre) => {
           return (
             <GenreCard
               key={genre.id}
+              genreId={genre.id}
               genre={genre.genre}
               mouseMoving={mouseMoving}
               isMobile={isMobile}
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
             />
           );
         })}

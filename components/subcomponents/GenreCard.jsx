@@ -1,24 +1,48 @@
 import styles from "@/styles/GenreCard.module.css";
 import clsx from "clsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function GenreCard({ genre, mouseMoving, isMobile }) {
+export default function GenreCard({
+  genreId,
+  genre,
+  mouseMoving,
+  isMobile,
+  selectedGenres,
+  setSelectedGenres,
+}) {
   const [isSelected, setIsSelected] = useState(false);
-  const [noneSelectedGenre, setNoneSelectedGenre] = useState(false);
+
+  useEffect(() => {
+    if (selectedGenres.includes(genre)) {
+      setIsSelected(true);
+    }
+  }, []);
 
   function handleClick(e) {
+    if (!e.target.id) {
+      console.log(e.target.parentElement.id, "<--- parent");
+    } else {
+      console.log(e.target.id);
+    }
+
     if (mouseMoving) {
       return;
-    } else if (!isSelected) {
+    }
+
+    if (!isSelected) {
       setIsSelected(true);
-      setNoneSelectedGenre(false);
+      setSelectedGenres([...selectedGenres, genre]);
     } else {
       setIsSelected(false);
+      const selectedGenresCopy = [...selectedGenres];
+      selectedGenresCopy.splice(selectedGenresCopy.indexOf(genre), 1);
+      setSelectedGenres(selectedGenresCopy);
     }
   }
 
   return (
     <div
+      id={genreId}
       className={clsx({
         [styles.unselected]:
           (!isSelected && !isMobile) || (!isSelected && isMobile),
@@ -27,7 +51,7 @@ export default function GenreCard({ genre, mouseMoving, isMobile }) {
         // [styles.mobileSelected]: isSelected && isMobile,
       })}
       onClick={handleClick}>
-      <p> {genre}</p>
+      <p>{genre}</p>
     </div>
   );
 }

@@ -11,16 +11,16 @@ export default function Search({
     }
   }
 
-  function handleClick(e) {
-    e.preventDefault();
-    if (searchText) {
-      const newOptions = { ...options };
-      newOptions.params.title = searchText;
-      newOptions.url =
-        "https://streaming-availability.p.rapidapi.com/v2/search/title";
-      setOptions(newOptions);
-    }
-  }
+  // function handleClick(e) {
+  //   e.preventDefault();
+  //   if (searchText) {
+  //     const newOptions = { ...options };
+  //     newOptions.params.title = searchText;
+  //     newOptions.url =
+  //       "https://streaming-availability.p.rapidapi.com/v2/search/title";
+  //     setOptions(newOptions);
+  //   }
+  // }
 
   return (
     <section className={styles.Search}>
@@ -30,7 +30,7 @@ export default function Search({
           placeholder="search by title"
           onChangeCapture={handleChange}
         />
-        <button onClick={handleClick}>Submit</button>
+        {/* <button onClick={handleClick}>Submit</button> */}
       </div>
     </section>
   );

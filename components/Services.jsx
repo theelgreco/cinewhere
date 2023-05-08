@@ -1,8 +1,6 @@
 import styles from "@/styles/Services.module.css";
 import ServiceCard from "@/subcomponents/ServiceCard";
 import servicesArray from "../constants/services";
-import useSWR from "swr";
-import fetcher from "../pages/api/movieApi";
 import { useState } from "react";
 
 export default function Services({
@@ -13,12 +11,32 @@ export default function Services({
   handleMouseDown,
   options,
   setOptions,
+  selectedServices,
+  setSelectedServices,
 }) {
   const [noneSelected, setNoneSelected] = useState(true);
+  
 
   function handleContext(e) {
     e.preventDefault();
   }
+
+  // useEffect(() => {
+  //   console.log(selectedServices);
+
+  //   if (selectedServices.length) {
+  //     router.push({
+  //       query: {
+  //         services: selectedServices.join(","),
+  //       },
+  //     });
+  //   } else {
+  //     delete router.query.services;
+  //     router.push({
+  //       query: router.query,
+  //     });
+  //   }
+  // }, [selectedServices]);
 
   return (
     // <div className={styles.sideText} onMouseUp={handleMouseUp}>
@@ -47,6 +65,8 @@ export default function Services({
                 setOptions={setOptions}
                 noneSelected={noneSelected}
                 setNoneSelected={setNoneSelected}
+                selectedServices={selectedServices}
+                setSelectedServices={setSelectedServices}
               />
             );
           })

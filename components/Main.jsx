@@ -1,36 +1,35 @@
+import Search from "./Search";
+import Services from "./Services";
+import Genres from "./Genres";
+import Type from "./Type";
+import Movies from "./Movies";
 import { useState, useEffect } from "react";
-import styles from "@/styles/Home.module.css";
-import Search from "@/components/Search";
-import Services from "@/components/Services";
-import Genres from "@/components/Genres";
-import Type from "@/components/Type";
-import Movies from "@/components/Movies";
 
-export default function Home() {
-  const [isMobile, setIsMobile] = useState(null);
-  const [searchText, setSearchText] = useState("");
-  const [options, setOptions] = useState({
-    method: "GET",
-    params: {
-      country: "gb",
-      output_language: "en",
-    },
-    headers: {
-      //mine
-      "X-RapidAPI-Key": "120295f81bmshef2922b0bc8ec70p1bf2acjsnf91e520d2110",
-      "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
-      //Zoe's
-      // "X-RapidAPI-Key": "4a3a480da5mshc9cea72feeab0c6p15c1bfjsn3a198667740f",
-      // "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
-    },
-  });
+export default function Main({
+  isMobile,
+  searchText,
+  setSearchText,
+  selectedServices,
+  setSelectedServices,
+  data,
+  setData,
+  filmClicked,
+  setFilmClicked,
+  scrollHeight,
+  sectionRef,
+  nextPage,
+  setNextPage,
+  selectedGenres,
+  setSelectedGenres,
+}) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouseX, setMouseX] = useState(null);
   const [mouseMoving, setMouseMoving] = useState(false);
+  const [atBottom, setAtBottom] = useState(false);
+  const [genreIdToSearch, setGenreIdToSearch] = useState(null);
 
   useEffect(() => {
-    setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
     document.addEventListener("mouseleave", handleMouseUp);
   }, []);
 
@@ -38,7 +37,7 @@ export default function Home() {
     setMouseDown(true);
     setMouseX(e.clientX);
 
-    if (e.target.id === "Services") {
+    if (e.target.id === "Services" || e.target.id === "Genres") {
       setDivToScroll(e.target.parentElement);
     } else {
       setDivToScroll(e.target.parentElement.parentElement);
@@ -65,17 +64,11 @@ export default function Home() {
       setMouseMoving(false);
     }, 4);
   }
-
   return (
-    <main
-      className={styles.Home}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}>
+    <>
       <Search
         searchText={searchText}
         setSearchText={setSearchText}
-        options={options}
-        setOptions={setOptions}
         isMobile={isMobile}
       />
       <Services
@@ -86,8 +79,8 @@ export default function Home() {
         mouseMoving={mouseMoving}
         divToScroll={divToScroll}
         handleMouseDown={handleMouseDown}
-        options={options}
-        setOptions={setOptions}
+        selectedServices={selectedServices}
+        setSelectedServices={setSelectedServices}
       />
       <Genres
         isMobile={isMobile}
@@ -97,9 +90,26 @@ export default function Home() {
         mouseMoving={mouseMoving}
         divToScroll={divToScroll}
         handleMouseDown={handleMouseDown}
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+        setGenreIdToSearch={setGenreIdToSearch}
       />
       <Type isMobile={isMobile} />
-      <Movies options={options} setOptions={setOptions} isMobile={isMobile} />
-    </main>
+      <Movies
+        isMobile={isMobile}
+        atBottom={atBottom}
+        setAtBottom={setAtBottom}
+        selectedServices={selectedServices}
+        data={data}
+        setData={setData}
+        filmClicked={filmClicked}
+        setFilmClicked={setFilmClicked}
+        scrollHeight={scrollHeight}
+        sectionRef={sectionRef}
+        nextPage={nextPage}
+        setNextPage={setNextPage}
+        genreIdToSearch={genreIdToSearch}
+      />
+    </>
   );
 }
