@@ -50,36 +50,38 @@ export default function MovieCard({
       })}
       onClick={handleClick}>
       <div className={styles.MovieCard}>
-        <div className={styles.textBox}>
+        {/* <div className={styles.textBox}>
           <p>{film.title}</p>
-        </div>
+        </div> */}
         <img src={film.posterURLs.original} />
         <div className={styles.serviceIcons}>
-          {serviceIcons.map((service, index) => {
-            return (
-              <React.Fragment key={`${service.name}-${index}`}>
-                {service.link.length > 1 ? (
-                  <>
-                    {service.link.map((icon, index) => {
-                      return (
-                        <React.Fragment
-                          key={`${service.name}${icon.type}${index}${film.title}`}>
-                          <img src={service.image} />
-                          <p>{icon.type}</p>
-                        </React.Fragment>
-                      );
-                    })}
-                  </>
-                ) : (
-                  <React.Fragment
-                    key={`${service.name}${service.link[0].type}${index}${film.title}`}>
-                    <img src={service.image} />
-                    <p>{service.link[0].type}</p>
-                  </React.Fragment>
-                )}
-              </React.Fragment>
-            );
-          })}
+          {serviceIcons.map(
+            (service, index) => {
+              return (
+                // <React.Fragment key={`${service.name}-${index}`}>
+                //   {service.link.length > 1 ? (
+                //     <>
+                //       {service.link.map((icon, index) => {
+                //         return (
+                //           <React.Fragment
+                //             key={`${service.name}${icon.type}${index}${film.title}`}>
+                //             <img src={service.image} />
+                //             <p>{icon.type}</p>
+                //           </React.Fragment>
+                //         );
+                //       })}
+                //     </>
+                //   ) : (
+                <React.Fragment
+                  key={`${service.name}${service.link[0].type}${index}${film.title}`}>
+                  <img src={service.image} />
+                  {/* <p>{service.link[0].type}</p> */}
+                </React.Fragment>
+              );
+            }
+            // </React.Fragment>
+          )}
+          {/* )} */}
         </div>
       </div>
     </Link>
