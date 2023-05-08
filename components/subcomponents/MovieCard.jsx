@@ -8,17 +8,23 @@ export default function MovieCard({
   setFilmClicked,
   scrollHeight,
   sectionRef,
+  genre,
 }) {
   function handleClick(e) {
     setFilmClicked(true);
-    scrollHeight.current = sectionRef.current.scrollTop;
-    console.log(sectionRef.current.scrollTop);
+    if (!genre) {
+      scrollHeight.current = sectionRef.current.scrollTop;
+      console.log(sectionRef.current.scrollTop);
+    }
   }
 
   return (
     <Link
       to={`/movies/${film.imdbId}`}
-      className={styles.MovieCardLink}
+      className={clsx({
+        [styles.MovieCardLink]: genre || !genre,
+        [styles.genre]: genre,
+      })}
       onClick={handleClick}>
       <div className={styles.MovieCard}>
         <div className={styles.textBox}>
@@ -29,3 +35,5 @@ export default function MovieCard({
     </Link>
   );
 }
+
+//className={clsx({[styles.MovieCardLink] : genre || !genre, [styles.genre] : genre})}

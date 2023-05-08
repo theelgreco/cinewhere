@@ -8,9 +8,9 @@ export default function Genres({
   mouseMoving,
   handleMouseDown,
   isMobile,
+  setGenreIdToSearch,
   selectedGenres,
   setSelectedGenres,
-  setGenreIdToSearch,
 }) {
   function handleContext(e) {
     e.preventDefault();
@@ -47,9 +47,9 @@ export default function Genres({
               genre={genre.genre}
               mouseMoving={mouseMoving}
               isMobile={isMobile}
+              setGenreIdToSearch={setGenreIdToSearch}
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
-              setGenreIdToSearch={setGenreIdToSearch}
             />
           );
         })}

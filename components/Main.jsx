@@ -92,9 +92,9 @@ export default function Main({
         mouseMoving={mouseMoving}
         divToScroll={divToScroll}
         handleMouseDown={handleMouseDown}
+        setGenreIdToSearch={setGenreIdToSearch}
         selectedGenres={selectedGenres}
         setSelectedGenres={setSelectedGenres}
-        setGenreIdToSearch={setGenreIdToSearch}
       />
       <Type isMobile={isMobile} />
       <Movies
@@ -111,6 +111,7 @@ export default function Main({
         nextPage={nextPage}
         setNextPage={setNextPage}
         selectedGenres={selectedGenres}
+        setGenreIdToSearch={setGenreIdToSearch}
         genreIdToSearch={genreIdToSearch}
         genreData={genreData}
         setSelectedGenres={setSelectedGenres}

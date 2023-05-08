@@ -16,7 +16,12 @@
   /* transform: skewX(-2deg); */
 }
 
-.MovieCardLink::after {
+.MovieCardLink.genre {
+  margin: 18px;
+}
+
+.MovieCardLink::after,
+.MovieCardLink.genre::after {
   content: "";
   position: absolute;
   top: 0;

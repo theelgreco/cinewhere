@@ -14,8 +14,8 @@ export default function GenreCard({
   const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
-    selectedGenres.forEach((genre) => {
-      if (selectedGenres.genre === genre) {
+    selectedGenres.forEach((obj) => {
+      if (obj.genre === genre) {
         setIsSelected(true);
       }
     });
@@ -29,14 +29,15 @@ export default function GenreCard({
     if (!isSelected) {
       setIsSelected(true);
       setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
+
       setGenreIdToSearch(genreId);
     } else {
       setIsSelected(false);
       const selectedGenresCopy = [...selectedGenres];
-      const indexToRemove = selectedGenresCopy.findIndex(
-        (el) => el.genre === genre
-      );
-      selectedGenresCopy.splice(selectedGenresCopy.indexOf(indexToRemove), 1);
+      const indexToRemove = selectedGenresCopy.findIndex((el) => {
+        return el.genre === genre;
+      });
+      selectedGenresCopy.splice(indexToRemove, 1);
       setSelectedGenres(selectedGenresCopy);
     }
   }
@@ -45,8 +46,7 @@ export default function GenreCard({
     <div
       id={genreId}
       className={clsx({
-        [styles.unselected]:
-          (!isSelected && !isMobile) || (!isSelected && isMobile),
+        [styles.unselected]: !isSelected,
         [styles.selected]: isSelected,
         // [styles.mobile]: !isSelected && isMobile,
         // [styles.mobileSelected]: isSelected && isMobile,

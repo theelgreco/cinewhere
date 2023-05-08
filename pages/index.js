@@ -41,10 +41,10 @@ export default function Home() {
                 sectionRef={sectionRef}
                 nextPage={nextPage}
                 setNextPage={setNextPage}
-                selectedGenres={selectedGenres}
-                setSelectedGenres={setSelectedGenres}
                 genreData={genreData}
                 setGenreData={setGenreData}
+                selectedGenres={selectedGenres}
+                setSelectedGenres={setSelectedGenres}
               />
             }
           />

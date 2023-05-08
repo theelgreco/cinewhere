@@ -1,3 +1,13 @@
+.genreMovies::-webkit-scrollbar {
+  height: 0px;
+  background-color: transparent;
+}
+
+.genreMovies::-webkit-scrollbar-thumb {
+  height: 0px;
+  background-color: transparent;
+}
+
 .Movies {
   padding: 10px;
   overflow: hidden;
@@ -20,6 +30,43 @@
   height: fit-content;
   /* height: 100%; */
   justify-content: space-evenly;
+}
+
+.genreContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-x: hidden;
+  background: radial-gradient(
+    523px at 7.1% 19.3%,
+    rgb(147, 15, 255) 2%,
+    rgb(101, 5, 255) 100.7%
+  );
+  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
+}
+
+.individualGenreContainer {
+  display: flex;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+}
+
+.genreMovies {
+  display: flex;
+  flex-flow: row nowrap;
+  /* gap: 3%; */
+  width: 100%;
+  overflow-x: scroll;
+  height: fit-content;
+}
+
+.genreName {
+  color: white;
+  font-size: 3vh;
+  min-width: 150px;
+  width: 10%;
+  margin-top: 18px;
 }
 
 .moviesFlex::after {

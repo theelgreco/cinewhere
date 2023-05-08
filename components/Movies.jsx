@@ -19,16 +19,41 @@ export default function Movies({
   genreIdToSearch,
   selectedGenres,
   setSelectedGenres,
+  setGenreIdToSearch,
 }) {
   useEffect(() => {
-    sectionRef.current.scrollTop = scrollHeight.current;
+    if (!selectedGenres.length) {
+      sectionRef.current.scrollTop = scrollHeight.current;
+    }
   }, []);
 
   useEffect(() => {
-    if (selectedServices.length && !filmClicked) {
+    //if there are no genres selected
+    if (selectedServices.length && !filmClicked && !selectedGenres.length) {
       getServiceFilms(selectedServices).then((res) => {
+        sectionRef.current.scrollTop = 0;
         setData(res.result);
         setNextPage(res.nextCursor);
+      });
+      //
+    } else if (
+      selectedServices.length &&
+      !filmClicked &&
+      selectedGenres.length
+    ) {
+      selectedGenres.forEach((genre) => {
+        getServiceFilms(selectedServices, {
+          genre: genre.id,
+          cursor: genre.cursor,
+        }).then((res) => {
+          const genreDataCopy = [...selectedGenres];
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genre.id
+          );
+          genreDataCopy[indexOfGenre].movies = res.result;
+          genreDataCopy[indexOfGenre].cursor = res.nextCursor;
+          setSelectedGenres(genreDataCopy);
+        });
       });
     } else if (!selectedServices.length) {
       setData([]);
@@ -48,7 +73,7 @@ export default function Movies({
   }, [atBottom]);
 
   useEffect(() => {
-    if (selectedServices.length && !filmClicked) {
+    if (selectedServices.length && !filmClicked && genreIdToSearch) {
       getServiceFilms(selectedServices, { genre: genreIdToSearch }).then(
         (res) => {
           const genreDataCopy = [...selectedGenres];
@@ -56,8 +81,9 @@ export default function Movies({
             (el) => el.id === genreIdToSearch
           );
           genreDataCopy[indexOfGenre].movies = res.result;
-          // const newGenreSection = { ...genreIdToSearch, movies: res.result };
+          genreDataCopy[indexOfGenre].cursor = res.nextCursor;
           setSelectedGenres(genreDataCopy);
+          setGenreIdToSearch(null);
         }
       );
     }
@@ -71,24 +97,6 @@ export default function Movies({
       setAtBottom(true);
     }
   }
-
-  // useEffect(() => {
-  //   console.log(options);
-  //   if (options.url) {
-  //     axios
-  //       .request(options)
-  //       .then((res) => {
-  //         console.log([...res.data.result]);
-  //         setNextPage(res.data.nextCursor);
-  //         return res.data.result;
-  //       })
-  //       .then((res) => {
-  //         setData([...data, ...res]);
-  //         localStorage.setItem("films", JSON.stringify(data));
-  //         setAtBottom(false);
-  //       });
-  //   }
-  // }, [options]);
 
   return (
     <>
@@ -116,9 +124,29 @@ export default function Movies({
           </div>
         </section>
       ) : (
-        <section>
+        <section className={styles.genreContainer}>
           {selectedGenres.map((genre) => {
-            return <div key={genre.id}>{genre.genre}</div>;
+            return (
+              <div key={genre.id} className={styles.individualGenreContainer}>
+                <div className={styles.genreName}>{genre.genre}</div>
+                {genre.movies ? (
+                  <div className={styles.genreMovies}>
+                    {genre.movies.map((film) => {
+                      return (
+                        <MovieCard
+                          key={`${film.imdbId}${genre.genre}`}
+                          film={film}
+                          setFilmClicked={setFilmClicked}
+                          genre={true}
+                        />
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            );
           })}
         </section>
       )}
