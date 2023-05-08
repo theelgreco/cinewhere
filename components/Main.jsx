@@ -21,6 +21,8 @@ export default function Main({
   setNextPage,
   selectedGenres,
   setSelectedGenres,
+  genreData,
+  setGenreData,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -108,7 +110,10 @@ export default function Main({
         sectionRef={sectionRef}
         nextPage={nextPage}
         setNextPage={setNextPage}
+        selectedGenres={selectedGenres}
         genreIdToSearch={genreIdToSearch}
+        genreData={genreData}
+        setSelectedGenres={setSelectedGenres}
       />
     </>
   );

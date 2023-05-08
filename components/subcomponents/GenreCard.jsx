@@ -9,33 +9,34 @@ export default function GenreCard({
   isMobile,
   selectedGenres,
   setSelectedGenres,
+  setGenreIdToSearch,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
-    if (selectedGenres.includes(genre)) {
-      setIsSelected(true);
-    }
-  }, []);
+    selectedGenres.forEach((genre) => {
+      if (selectedGenres.genre === genre) {
+        setIsSelected(true);
+      }
+    });
+  }, [selectedGenres]);
 
   function handleClick(e) {
-    if (!e.target.id) {
-      console.log(e.target.parentElement.id, "<--- parent");
-    } else {
-      console.log(e.target.id);
-    }
-
     if (mouseMoving) {
       return;
     }
 
     if (!isSelected) {
       setIsSelected(true);
-      setSelectedGenres([...selectedGenres, genre]);
+      setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
+      setGenreIdToSearch(genreId);
     } else {
       setIsSelected(false);
       const selectedGenresCopy = [...selectedGenres];
-      selectedGenresCopy.splice(selectedGenresCopy.indexOf(genre), 1);
+      const indexToRemove = selectedGenresCopy.findIndex(
+        (el) => el.genre === genre
+      );
+      selectedGenresCopy.splice(selectedGenresCopy.indexOf(indexToRemove), 1);
       setSelectedGenres(selectedGenresCopy);
     }
   }

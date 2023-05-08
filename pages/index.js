@@ -10,6 +10,7 @@ export default function Home() {
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [data, setData] = useState([]);
+  const [genreData, setGenreData] = useState([]);
   const [filmClicked, setFilmClicked] = useState(false);
   const [nextPage, setNextPage] = useState(null);
   const scrollHeight = useRef();
@@ -42,6 +43,8 @@ export default function Home() {
                 setNextPage={setNextPage}
                 selectedGenres={selectedGenres}
                 setSelectedGenres={setSelectedGenres}
+                genreData={genreData}
+                setGenreData={setGenreData}
               />
             }
           />

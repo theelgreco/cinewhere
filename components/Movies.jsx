@@ -16,6 +16,9 @@ export default function Movies({
   sectionRef,
   nextPage,
   setNextPage,
+  genreIdToSearch,
+  selectedGenres,
+  setSelectedGenres,
 }) {
   useEffect(() => {
     sectionRef.current.scrollTop = scrollHeight.current;
@@ -43,6 +46,22 @@ export default function Movies({
       });
     }
   }, [atBottom]);
+
+  useEffect(() => {
+    if (selectedServices.length && !filmClicked) {
+      getServiceFilms(selectedServices, { genre: genreIdToSearch }).then(
+        (res) => {
+          const genreDataCopy = [...selectedGenres];
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genreIdToSearch
+          );
+          genreDataCopy[indexOfGenre].movies = res.result;
+          // const newGenreSection = { ...genreIdToSearch, movies: res.result };
+          setSelectedGenres(genreDataCopy);
+        }
+      );
+    }
+  }, [genreIdToSearch]);
 
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;
@@ -72,24 +91,37 @@ export default function Movies({
   // }, [options]);
 
   return (
-    <section className={styles.Movies} onScroll={handleScroll} ref={sectionRef}>
-      <div className={styles.moviesFlex}>
-        {data ? (
-          data.map((film, index) => {
-            return (
-              <MovieCard
-                key={index}
-                film={film}
-                setFilmClicked={setFilmClicked}
-                scrollHeight={scrollHeight}
-                sectionRef={sectionRef}
-              />
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </div>
-    </section>
+    <>
+      {!selectedGenres.length ? (
+        <section
+          className={styles.Movies}
+          onScroll={handleScroll}
+          ref={sectionRef}>
+          <div className={styles.moviesFlex}>
+            {data ? (
+              data.map((film, index) => {
+                return (
+                  <MovieCard
+                    key={index}
+                    film={film}
+                    setFilmClicked={setFilmClicked}
+                    scrollHeight={scrollHeight}
+                    sectionRef={sectionRef}
+                  />
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </div>
+        </section>
+      ) : (
+        <section>
+          {selectedGenres.map((genre) => {
+            return <div key={genre.id}>{genre.genre}</div>;
+          })}
+        </section>
+      )}
+    </>
   );
 }
