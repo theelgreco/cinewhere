@@ -9,8 +9,6 @@ export default function MovieCard({
   film,
   isMobile,
   setFilmClicked,
-  scrollHeight,
-  sectionRef,
   genre,
   country,
 }) {
@@ -24,23 +22,24 @@ export default function MovieCard({
         const indexOfService = servicesArray.findIndex((el) => {
           return el.id === service;
         });
-        serviceList.push({
-          name: service,
-          image: servicesArray[indexOfService].image,
-          link: film.streamingInfo[country][service],
-        });
+
+        if (indexOfService > -1) {
+          serviceList.push({
+            name: service,
+            image: servicesArray[indexOfService].image,
+            link: film.streamingInfo[country][service],
+          });
+        }
       });
-      console.log(serviceList);
+
       setServiceIcons(serviceList);
+    } else {
+      setServiceIcons([]);
     }
-  }, []);
+  }, [film]);
 
   function handleClick(e) {
     setFilmClicked(true);
-    if (!genre) {
-      scrollHeight.current = sectionRef.current.scrollTop;
-      console.log(sectionRef.current.scrollTop);
-    }
   }
 
   return (

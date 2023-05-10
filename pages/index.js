@@ -1,6 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
 
+import servicesArray from "constants/services";
+import genres from "constants/genres";
 import Main from "@/components/Main";
 import MovieInfo from "@/components/subcomponents/MovieInfo";
 
@@ -14,11 +17,22 @@ export default function Home() {
   const [filmClicked, setFilmClicked] = useState(false);
   const [nextPage, setNextPage] = useState(null);
   const [country, setCountry] = useState("gb");
-  const scrollHeight = useRef();
-  const sectionRef = useRef();
+  const [servicesList, setServicesList] = useState([...servicesArray]);
+  const [genreList, setGenreList] = useState([...genres]);
+  const [refs, setRefs] = useState({});
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
+
+    if (!Object.keys(refs).length) {
+      const refsObject = {};
+      genres.forEach((genre) => {
+        refsObject[genre.genre] = React.createRef();
+      });
+      refsObject.sectionRef = React.createRef();
+      refsObject.scrollHeight = React.createRef();
+      setRefs(refsObject);
+    }
   }, []);
 
   return (
@@ -37,8 +51,6 @@ export default function Home() {
               setData={setData}
               filmClicked={filmClicked}
               setFilmClicked={setFilmClicked}
-              scrollHeight={scrollHeight}
-              sectionRef={sectionRef}
               nextPage={nextPage}
               setNextPage={setNextPage}
               genreData={genreData}
@@ -46,6 +58,12 @@ export default function Home() {
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
               country={country}
+              refs={refs}
+              setRefs={setRefs}
+              servicesList={servicesList}
+              setServicesList={setServicesList}
+              genreList={genreList}
+              setGenreList={setGenreList}
             />
           }
         />

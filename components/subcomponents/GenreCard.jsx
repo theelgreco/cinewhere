@@ -1,5 +1,6 @@
 import styles from "@/styles/GenreCard.module.css";
 import clsx from "clsx";
+import genres from "constants/genres";
 import { useState, useEffect } from "react";
 
 export default function GenreCard({
@@ -10,6 +11,8 @@ export default function GenreCard({
   selectedGenres,
   setSelectedGenres,
   setGenreIdToSearch,
+  genreList,
+  setGenreList,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
@@ -31,11 +34,20 @@ export default function GenreCard({
       return;
     }
 
+    const genreListCopy = [...genreList];
+    const findGenreIndex = genreListCopy.findIndex((el) => {
+      return el.genre === genre;
+    });
+    const genreToReplace = genreListCopy[findGenreIndex];
+    genreListCopy.splice(findGenreIndex, 1);
+
     if (!isSelected) {
       setIsSelected(true);
       setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
-
       setGenreIdToSearch(genreId);
+
+      genreListCopy.splice(selectedGenres.length, 0, genreToReplace);
+      setGenreList(genreListCopy);
     } else {
       setIsSelected(false);
       const selectedGenresCopy = [...selectedGenres];
@@ -44,6 +56,16 @@ export default function GenreCard({
       });
       selectedGenresCopy.splice(indexToRemove, 1);
       setSelectedGenres(selectedGenresCopy);
+
+      genreListCopy.splice(selectedGenres.length - 1, 0, genreToReplace);
+      setGenreList(genreListCopy);
+
+      // const indexToInsert = genres.findIndex((el) => {
+      //   return el.genre === genre;
+      // });
+      // console.log(selectedGenres);
+      // genreListCopy.splice(indexToInsert, 0, genreToReplace);
+      // setGenreList(genreListCopy);
     }
   }
 

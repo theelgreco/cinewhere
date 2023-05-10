@@ -1,6 +1,5 @@
 import styles from "@/styles/Services.module.css";
 import ServiceCard from "@/subcomponents/ServiceCard";
-import servicesArray from "../constants/services";
 import { useState } from "react";
 
 export default function Services({
@@ -13,35 +12,16 @@ export default function Services({
   setOptions,
   selectedServices,
   setSelectedServices,
+  servicesList,
+  setServicesList,
 }) {
   const [noneSelected, setNoneSelected] = useState(true);
-  
 
   function handleContext(e) {
     e.preventDefault();
   }
 
-  // useEffect(() => {
-  //   console.log(selectedServices);
-
-  //   if (selectedServices.length) {
-  //     router.push({
-  //       query: {
-  //         services: selectedServices.join(","),
-  //       },
-  //     });
-  //   } else {
-  //     delete router.query.services;
-  //     router.push({
-  //       query: router.query,
-  //     });
-  //   }
-  // }, [selectedServices]);
-
   return (
-    // <div className={styles.sideText} onMouseUp={handleMouseUp}>
-    //   <p>services</p>
-    // </div>
     <section
       className={styles.Services}
       onMouseDown={handleMouseDown}
@@ -52,8 +32,8 @@ export default function Services({
         id="Services"
         className={styles.servicesFlex}
         onMouseUp={handleMouseUp}>
-        {servicesArray ? (
-          servicesArray.map((service) => {
+        {servicesList ? (
+          servicesList.map((service) => {
             return (
               <ServiceCard
                 key={service.id}
@@ -67,6 +47,8 @@ export default function Services({
                 setNoneSelected={setNoneSelected}
                 selectedServices={selectedServices}
                 setSelectedServices={setSelectedServices}
+                servicesList={servicesList}
+                setServicesList={setServicesList}
               />
             );
           })

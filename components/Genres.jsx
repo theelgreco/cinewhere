@@ -11,21 +11,11 @@ export default function Genres({
   setGenreIdToSearch,
   selectedGenres,
   setSelectedGenres,
+  genreList,
+  setGenreList,
 }) {
   function handleContext(e) {
     e.preventDefault();
-  }
-
-  function detectTrackPad(e) {
-    let isTrackpad = false;
-    if (e.wheelDeltaY) {
-      if (e.wheelDeltaY === e.deltaY * -3) {
-        isTrackpad = true;
-      }
-    } else if (e.deltaMode === 0) {
-      isTrackpad = true;
-    }
-    return isTrackpad;
   }
 
   return (
@@ -39,7 +29,7 @@ export default function Genres({
       onMouseUp={handleMouseUp}
       onContextMenu={handleContext}>
       <div id="Genres" className={styles.genreFlex}>
-        {genres.map((genre) => {
+        {genreList.map((genre) => {
           return (
             <GenreCard
               key={genre.id}
@@ -50,6 +40,8 @@ export default function Genres({
               setGenreIdToSearch={setGenreIdToSearch}
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
+              genreList={genreList}
+              setGenreList={setGenreList}
             />
           );
         })}

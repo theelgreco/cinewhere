@@ -16,15 +16,17 @@ export default function Main({
   setData,
   filmClicked,
   setFilmClicked,
-  scrollHeight,
-  sectionRef,
   nextPage,
   setNextPage,
   selectedGenres,
   setSelectedGenres,
-  genreData,
-  setGenreData,
   country,
+  refs,
+  setRefs,
+  servicesList,
+  setServicesList,
+  genreList,
+  setGenreList,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -68,6 +70,7 @@ export default function Main({
       setMouseMoving(false);
     }, 4);
   }
+
   return (
     <main
       className={styles.Home}
@@ -88,6 +91,8 @@ export default function Main({
         handleMouseDown={handleMouseDown}
         selectedServices={selectedServices}
         setSelectedServices={setSelectedServices}
+        servicesList={servicesList}
+        setServicesList={setServicesList}
       />
       <Genres
         isMobile={isMobile}
@@ -100,6 +105,8 @@ export default function Main({
         setGenreIdToSearch={setGenreIdToSearch}
         selectedGenres={selectedGenres}
         setSelectedGenres={setSelectedGenres}
+        genreList={genreList}
+        setGenreList={setGenreList}
       />
       <Type isMobile={isMobile} />
       <Movies
@@ -112,16 +119,15 @@ export default function Main({
         setData={setData}
         filmClicked={filmClicked}
         setFilmClicked={setFilmClicked}
-        scrollHeight={scrollHeight}
-        sectionRef={sectionRef}
         nextPage={nextPage}
         setNextPage={setNextPage}
         selectedGenres={selectedGenres}
         setGenreIdToSearch={setGenreIdToSearch}
         genreIdToSearch={genreIdToSearch}
-        genreData={genreData}
         setSelectedGenres={setSelectedGenres}
         country={country}
+        refs={refs}
+        setRefs={setRefs}
       />
     </main>
   );

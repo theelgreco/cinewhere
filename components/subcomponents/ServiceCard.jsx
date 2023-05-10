@@ -11,6 +11,8 @@ export default function ServiceCard({
   setNoneSelected,
   selectedServices,
   setSelectedServices,
+  servicesList,
+  setServicesList,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
@@ -31,15 +33,28 @@ export default function ServiceCard({
       return;
     }
 
+    const serviceListCopy = [...servicesList];
+    const findServiceIndex = serviceListCopy.findIndex((el) => {
+      return el.id === serviceName;
+    });
+    const serviceToReplace = serviceListCopy[findServiceIndex];
+    serviceListCopy.splice(findServiceIndex, 1);
+
     if (!isSelected) {
       setSelectedServices([...selectedServices, serviceName]);
       setIsSelected(true);
       setNoneSelected(false);
+
+      serviceListCopy.splice(selectedServices.length, 0, serviceToReplace);
+      setServicesList(serviceListCopy);
     } else {
       const servicesCopy = [...selectedServices];
       servicesCopy.splice(servicesCopy.indexOf(serviceName), 1);
       setSelectedServices(servicesCopy);
       setIsSelected(false);
+
+      serviceListCopy.splice(selectedServices.length - 1, 0, serviceToReplace);
+      setServicesList(serviceListCopy);
     }
   }
 
