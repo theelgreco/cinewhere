@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import styles from "@/styles/Home.module.css";
+
 import Main from "@/components/Main";
 import MovieInfo from "@/components/subcomponents/MovieInfo";
 
@@ -23,39 +23,37 @@ export default function Home() {
 
   return (
     <BrowserRouter>
-      <main className={styles.Home}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Main
-                isMobile={isMobile}
-                searchText={searchText}
-                setSearchText={setSearchText}
-                selectedServices={selectedServices}
-                setSelectedServices={setSelectedServices}
-                data={data}
-                setData={setData}
-                filmClicked={filmClicked}
-                setFilmClicked={setFilmClicked}
-                scrollHeight={scrollHeight}
-                sectionRef={sectionRef}
-                nextPage={nextPage}
-                setNextPage={setNextPage}
-                genreData={genreData}
-                setGenreData={setGenreData}
-                selectedGenres={selectedGenres}
-                setSelectedGenres={setSelectedGenres}
-                country={country}
-              />
-            }
-          />
-          <Route
-            path="/movies/:imdb_id"
-            element={<MovieInfo country={country} />}
-          />
-        </Routes>
-      </main>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Main
+              isMobile={isMobile}
+              searchText={searchText}
+              setSearchText={setSearchText}
+              selectedServices={selectedServices}
+              setSelectedServices={setSelectedServices}
+              data={data}
+              setData={setData}
+              filmClicked={filmClicked}
+              setFilmClicked={setFilmClicked}
+              scrollHeight={scrollHeight}
+              sectionRef={sectionRef}
+              nextPage={nextPage}
+              setNextPage={setNextPage}
+              genreData={genreData}
+              setGenreData={setGenreData}
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
+              country={country}
+            />
+          }
+        />
+        <Route
+          path="/movies/:imdb_id"
+          element={<MovieInfo country={country} />}
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

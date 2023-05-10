@@ -3,6 +3,7 @@ import Services from "./Services";
 import Genres from "./Genres";
 import Type from "./Type";
 import Movies from "./Movies";
+import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from "react";
 
 export default function Main({
@@ -68,7 +69,10 @@ export default function Main({
     }, 4);
   }
   return (
-    <>
+    <main
+      className={styles.Home}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}>
       <Search
         searchText={searchText}
         setSearchText={setSearchText}
@@ -119,6 +123,6 @@ export default function Main({
         setSelectedGenres={setSelectedGenres}
         country={country}
       />
-    </>
+    </main>
   );
 }
