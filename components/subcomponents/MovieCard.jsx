@@ -1,26 +1,75 @@
 import styles from "@/styles/MovieCard.module.css";
+import servicesArray from "constants/services";
+import React from "react";
+import { useEffect, useState } from "react";
 import { clsx } from "clsx";
-import { useRouter } from "next/router";
+import { Link } from "react-router-dom";
 
 export default function MovieCard({
   film,
   isMobile,
-  setSingleFilm,
+  setFilmClicked,
+  genre,
+  country,
 }) {
-  const router = useRouter();
+  const [serviceIcons, setServiceIcons] = useState([]);
+
+  useEffect(() => {
+    if (Object.keys(film.streamingInfo).length) {
+      const serviceNames = Object.keys(film.streamingInfo[country]) ?? null;
+      let serviceList = [];
+      serviceNames.forEach((service) => {
+        const indexOfService = servicesArray.findIndex((el) => {
+          return el.id === service;
+        });
+
+        if (indexOfService > -1) {
+          serviceList.push({
+            name: service,
+            image: servicesArray[indexOfService].image,
+            link: film.streamingInfo[country][service],
+          });
+        }
+      });
+
+      setServiceIcons(serviceList);
+    } else {
+      setServiceIcons([]);
+    }
+  }, [film]);
 
   function handleClick(e) {
-    setSingleFilm(film);
-    router.push(`/home/#${film.imdbId}`);
+    setFilmClicked(true);
   }
 
   return (
-    <div className={styles.MovieCard} onClick={handleClick}>
-      <div className={styles.textBox}>
-        <p>{film.title}</p>
+    <Link
+      to={`/movies/${film.imdbId}`}
+      className={clsx({
+        [styles.MovieCardLink]: genre || !genre,
+        [styles.genre]: genre,
+      })}
+      onClick={handleClick}>
+      <div className={styles.MovieCard}>
+        {/* <div className={styles.textBox}>
+          <p>{film.title}</p>
+        </div> */}
+        <img src={film.posterURLs.original} />
+        <div className={styles.serviceIcons}>
+          {serviceIcons.length ? (
+            serviceIcons.map((service, index) => {
+              return (
+                //prettier-ignore
+                <React.Fragment key={`${service.name}${service.link[0].type}${index}${film.title}`}>
+                  <img src={service.image} />
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
-      <img src={film.posterURLs.original} />
-    </div>
+    </Link>
   );
-
 }

@@ -1,8 +1,5 @@
 import styles from "@/styles/Services.module.css";
 import ServiceCard from "@/subcomponents/ServiceCard";
-import servicesArray from "../constants/services";
-import useSWR from "swr";
-import fetcher from "../pages/api/movieApi";
 import { useState } from "react";
 
 export default function Services({
@@ -13,6 +10,10 @@ export default function Services({
   handleMouseDown,
   options,
   setOptions,
+  selectedServices,
+  setSelectedServices,
+  servicesList,
+  setServicesList,
 }) {
   const [noneSelected, setNoneSelected] = useState(true);
 
@@ -21,9 +22,6 @@ export default function Services({
   }
 
   return (
-    // <div className={styles.sideText} onMouseUp={handleMouseUp}>
-    //   <p>services</p>
-    // </div>
     <section
       className={styles.Services}
       onMouseDown={handleMouseDown}
@@ -34,8 +32,8 @@ export default function Services({
         id="Services"
         className={styles.servicesFlex}
         onMouseUp={handleMouseUp}>
-        {servicesArray ? (
-          servicesArray.map((service) => {
+        {servicesList ? (
+          servicesList.map((service) => {
             return (
               <ServiceCard
                 key={service.id}
@@ -47,6 +45,10 @@ export default function Services({
                 setOptions={setOptions}
                 noneSelected={noneSelected}
                 setNoneSelected={setNoneSelected}
+                selectedServices={selectedServices}
+                setSelectedServices={setSelectedServices}
+                servicesList={servicesList}
+                setServicesList={setServicesList}
               />
             );
           })

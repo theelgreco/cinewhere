@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Abril+Fatface");
 @import url("https://fonts.googleapis.com/css?family=Lexend");
 
-.MovieCard {
+.MovieCardLink {
   position: relative;
   width: 32%;
   max-height: 58.5vh;
@@ -16,7 +16,8 @@
   /* transform: skewX(-2deg); */
 }
 
-.MovieCard::after {
+.MovieCardLink::after,
+.MovieCardLink.genre::after {
   content: "";
   position: absolute;
   top: 0;
@@ -59,4 +60,22 @@
   width: 100%;
   object-fit: cover;
   aspect-ratio: 9/16;
+}
+
+.serviceIcons {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  max-width: 110px;
+  color: white;
+}
+
+.serviceIcons img {
+  border-radius: 9999px;
+  width: 80%;
+  max-width: 80px;
+  aspect-ratio: 1;
 }

@@ -1,5 +1,6 @@
 import styles from "@/styles/Genres.module.css";
 import GenreCard from "@/subcomponents/GenreCard";
+import { useEffect, useState } from "react";
 import genres from "../constants/genres";
 
 export default function Genres({
@@ -8,22 +9,25 @@ export default function Genres({
   mouseMoving,
   handleMouseDown,
   isMobile,
+  setGenreIdToSearch,
+  selectedGenres,
+  setSelectedGenres,
+  genreList,
+  setGenreList,
 }) {
   function handleContext(e) {
     e.preventDefault();
   }
 
-  function detectTrackPad(e) {
-    let isTrackpad = false;
-    if (e.wheelDeltaY) {
-      if (e.wheelDeltaY === e.deltaY * -3) {
-        isTrackpad = true;
-      }
-    } else if (e.deltaMode === 0) {
-      isTrackpad = true;
+  useEffect(() => {
+    const otherGenres = genreList.slice(selectedGenres.length);
+    if (otherGenres.length) {
+      const sorted = otherGenres.sort((a, b) => {
+        return a.genre.localeCompare(b.genre);
+      });
+      setGenreList([...selectedGenres, ...sorted]);
     }
-    return isTrackpad;
-  }
+  }, [selectedGenres]);
 
   return (
     // <div className={styles.sideText}>
@@ -36,13 +40,19 @@ export default function Genres({
       onMouseUp={handleMouseUp}
       onContextMenu={handleContext}>
       <div id="Genres" className={styles.genreFlex}>
-        {genres.map((genre) => {
+        {genreList.map((genre) => {
           return (
             <GenreCard
               key={genre.id}
+              genreId={genre.id}
               genre={genre.genre}
               mouseMoving={mouseMoving}
               isMobile={isMobile}
+              setGenreIdToSearch={setGenreIdToSearch}
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
+              genreList={genreList}
+              setGenreList={setGenreList}
             />
           );
         })}
