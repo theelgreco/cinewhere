@@ -11,8 +11,8 @@ const zoes = {
 };
 
 const filmApi = axios.create({
-  // baseURL: "https://streaming-availability.p.rapidapi.com/v2",
-  baseURL: "https://api.movieofthenight.com/v2",
+  baseURL: "https://streaming-availability.p.rapidapi.com/v2",
+  // baseURL: "https://api.movieofthenight.com/v2",
 });
 
 export const getServiceFilms = (services, country, optionalParams) => {
@@ -34,7 +34,7 @@ export const getServiceFilms = (services, country, optionalParams) => {
 
   return filmApi
     .get(urlString, {
-      // headers: mine,
+      headers: mine,
       params: params,
     })
     .then((res) => {
@@ -51,7 +51,7 @@ export const getFilmById = (id, country) => {
 
   return filmApi
     .get(urlString, {
-      // headers: mine,
+      headers: mine,
       params: {
         imdb_id: id,
         country: country,
@@ -65,10 +65,44 @@ export const getFilmById = (id, country) => {
 export const searchByTitle = (title, country, optionalParams) => {
   return filmApi
     .get("/search/title", {
-      // headers: mine,
+      headers: mine,
       params: { title: title, country: country },
     })
     .then((res) => {
       return res.data.result;
+    });
+};
+
+const tmdb = axios.create({ baseURL: "https://api.themoviedb.org/3" });
+
+const authHeader = {
+  Authorization:
+    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZDZjYTEzZGJlYmNiMmIxNGYxNTRjODE0ZTE1NmQ5OSIsInN1YiI6IjY0NWQ0NDQzMTU2Y2M3MDBmZmE5YTFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vMuMXOgxFYgh_viKM6qoUnOX1r9LHXVkb8C_wqedtvs",
+};
+
+export const testTmdb = () => {
+  return tmdb
+    .get("/discover/movie", {
+      headers: authHeader,
+      params: { page: 1, with_watch_providers: 8, watch_region: "GB" },
+    })
+    .then((res) => {
+      const movies = res.data.results;
+      movies.forEach((element) => {
+        getFilmServicesTmdb(element.id).then((res) => {
+          element.services = res;
+        });
+      });
+      console.log(movies);
+    });
+};
+
+const getFilmServicesTmdb = (movie_id) => {
+  return tmdb
+    .get(`/movie/${movie_id}/watch/providers`, {
+      headers: authHeader,
+    })
+    .then((res) => {
+      return res.data.results.GB;
     });
 };

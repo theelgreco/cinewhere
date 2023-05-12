@@ -5,6 +5,7 @@ import Type from "./Type";
 import Movies from "./Movies";
 import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from "react";
+import { testTmdb } from "api";
 
 export default function Main({
   isMobile,
@@ -38,6 +39,7 @@ export default function Main({
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
+    testTmdb();
   }, []);
 
   function handleMouseDown(e) {
