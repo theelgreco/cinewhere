@@ -34,6 +34,7 @@ export default function Main({
   const [mouseMoving, setMouseMoving] = useState(false);
   const [atBottom, setAtBottom] = useState(false);
   const [genreIdToSearch, setGenreIdToSearch] = useState(null);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
@@ -80,6 +81,7 @@ export default function Main({
         searchText={searchText}
         setSearchText={setSearchText}
         isMobile={isMobile}
+        setShowSearchResults={setShowSearchResults}
       />
       <Services
         isMobile={isMobile}
@@ -128,6 +130,8 @@ export default function Main({
         country={country}
         refs={refs}
         setRefs={setRefs}
+        showSearchResults={showSearchResults}
+        searchText={searchText}
       />
     </main>
   );

@@ -11,7 +11,8 @@ const zoes = {
 };
 
 const filmApi = axios.create({
-  baseURL: "https://streaming-availability.p.rapidapi.com/v2",
+  // baseURL: "https://streaming-availability.p.rapidapi.com/v2",
+  baseURL: "https://api.movieofthenight.com/v2",
 });
 
 export const getServiceFilms = (services, country, optionalParams) => {
@@ -33,12 +34,15 @@ export const getServiceFilms = (services, country, optionalParams) => {
 
   return filmApi
     .get(urlString, {
-      headers: mine,
+      // headers: mine,
       params: params,
     })
     .then((res) => {
       console.log(res.data.result);
       return res.data;
+    })
+    .catch((err) => {
+      if (err) console.log(err);
     });
 };
 
@@ -47,11 +51,22 @@ export const getFilmById = (id, country) => {
 
   return filmApi
     .get(urlString, {
-      headers: mine,
+      // headers: mine,
       params: {
         imdb_id: id,
         country: country,
       },
+    })
+    .then((res) => {
+      return res.data.result;
+    });
+};
+
+export const searchByTitle = (title, country, optionalParams) => {
+  return filmApi
+    .get("/search/title", {
+      // headers: mine,
+      params: { title: title, country: country },
     })
     .then((res) => {
       return res.data.result;

@@ -1,5 +1,6 @@
 import styles from "@/styles/Genres.module.css";
 import GenreCard from "@/subcomponents/GenreCard";
+import { useEffect, useState } from "react";
 import genres from "../constants/genres";
 
 export default function Genres({
@@ -17,6 +18,16 @@ export default function Genres({
   function handleContext(e) {
     e.preventDefault();
   }
+
+  useEffect(() => {
+    const otherGenres = genreList.slice(selectedGenres.length);
+    if (otherGenres.length) {
+      const sorted = otherGenres.sort((a, b) => {
+        return a.genre.localeCompare(b.genre);
+      });
+      setGenreList([...selectedGenres, ...sorted]);
+    }
+  }, [selectedGenres]);
 
   return (
     // <div className={styles.sideText}>

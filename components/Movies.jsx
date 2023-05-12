@@ -1,6 +1,6 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
-import { getServiceFilms } from "api";
+import { getServiceFilms, searchByTitle } from "api";
 import { useEffect, useState, useRef } from "react";
 import React from "react";
 
@@ -22,6 +22,8 @@ export default function Movies({
   setGenreIdToSearch,
   country,
   refs,
+  showSearchResults,
+  searchText,
 }) {
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -114,6 +116,14 @@ export default function Movies({
     }
   }, [selectedGenres, selectedServices]);
 
+  useEffect(() => {
+    if (showSearchResults) {
+      searchByTitle(searchText, country).then((res) => {
+        setData(res);
+      });
+    }
+  }, [showSearchResults]);
+
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;
     const scrollHeight = e.target.scrollHeight;
@@ -124,6 +134,8 @@ export default function Movies({
 
     refs.scrollHeight.current = scrollTop;
   }
+
+  //if original index is = to selectedGenres.length - 1
 
   function handleGenreScroll(e) {
     const genresCopy = [...selectedGenres];
