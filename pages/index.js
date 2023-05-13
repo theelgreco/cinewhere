@@ -27,7 +27,7 @@ export default function Home() {
     if (!Object.keys(refs).length) {
       const refsObject = {};
       genres.forEach((genre) => {
-        refsObject[genre.genre] = React.createRef();
+        refsObject[genre.id] = React.createRef();
       });
       refsObject.sectionRef = React.createRef();
       refsObject.scrollHeight = React.createRef();

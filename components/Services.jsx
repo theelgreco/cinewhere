@@ -1,6 +1,6 @@
 import styles from "@/styles/Services.module.css";
 import ServiceCard from "@/subcomponents/ServiceCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Services({
   isMobile,
@@ -21,6 +21,10 @@ export default function Services({
     e.preventDefault();
   }
 
+  useEffect(() => {
+    console.log(servicesList);
+  }, [servicesList]);
+
   return (
     <section
       className={styles.Services}
@@ -39,6 +43,7 @@ export default function Services({
                 key={service.id}
                 isMobile={isMobile}
                 serviceName={service.id}
+                provider_id={service.provider_id}
                 background={service.image}
                 mouseMoving={mouseMoving}
                 options={options}

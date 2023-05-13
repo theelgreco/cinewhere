@@ -73,6 +73,8 @@ export const searchByTitle = (title, country, optionalParams) => {
     });
 };
 
+///////////////////////////TMDB///////////////////////////////////////
+
 const tmdb = axios.create({ baseURL: "https://api.themoviedb.org/3" });
 
 const authHeader = {
@@ -80,24 +82,25 @@ const authHeader = {
     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZDZjYTEzZGJlYmNiMmIxNGYxNTRjODE0ZTE1NmQ5OSIsInN1YiI6IjY0NWQ0NDQzMTU2Y2M3MDBmZmE5YTFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vMuMXOgxFYgh_viKM6qoUnOX1r9LHXVkb8C_wqedtvs",
 };
 
-export const testTmdb = () => {
+export const testTmdb = (params) => {
+
   return tmdb
     .get("/discover/movie", {
       headers: authHeader,
-      params: { page: 1, with_watch_providers: 8, watch_region: "GB" },
+      params: params,
     })
     .then((res) => {
       const movies = res.data.results;
-      movies.forEach((element) => {
-        getFilmServicesTmdb(element.id).then((res) => {
-          element.services = res;
-        });
-      });
-      console.log(movies);
+      // movies.forEach((element) => {
+      //   getFilmServicesTmdb(element.id).then((res) => {
+      //     element.services = res;
+      //   });
+      // });
+      return movies;
     });
 };
 
-const getFilmServicesTmdb = (movie_id) => {
+export const getFilmServicesTmdb = (movie_id) => {
   return tmdb
     .get(`/movie/${movie_id}/watch/providers`, {
       headers: authHeader,
