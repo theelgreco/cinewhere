@@ -45,5 +45,12 @@ export const getFilmByIdTmdb = (movie_id) => {
 };
 
 export const searchMovies = (text) => {
-  return tmdb.get("/search/movie", { headers: authHeader, params: {} });
+  return tmdb
+    .get("/search/movie", {
+      headers: authHeader,
+      params: { query: text },
+    })
+    .then((res) => {
+      return res.data.results;
+    });
 };

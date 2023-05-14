@@ -13,8 +13,8 @@ export default function Search({
   }
 
   function handleClick(e) {
-    // e.preventDefault();
-    // setShowSearchResults(true);
+    e.preventDefault();
+    setShowSearchResults(true);
   }
 
   return (

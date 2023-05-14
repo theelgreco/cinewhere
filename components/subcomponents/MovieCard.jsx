@@ -18,7 +18,9 @@ export default function MovieCard({
 
   useEffect(() => {
     getFilmServicesTmdb(film.id).then((res) => {
-      setServiceIcons(res.flatrate);
+      if (res) {
+        if (res.flatrate) setServiceIcons(res.flatrate);
+      }
     });
   }, []);
 

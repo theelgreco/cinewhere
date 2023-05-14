@@ -16,8 +16,6 @@ export default function Main({
   setData,
   filmClicked,
   setFilmClicked,
-  nextPage,
-  setNextPage,
   selectedGenres,
   setSelectedGenres,
   country,
@@ -122,8 +120,6 @@ export default function Main({
         setData={setData}
         filmClicked={filmClicked}
         setFilmClicked={setFilmClicked}
-        nextPage={nextPage}
-        setNextPage={setNextPage}
         selectedGenres={selectedGenres}
         setGenreIdToSearch={setGenreIdToSearch}
         genreIdToSearch={genreIdToSearch}

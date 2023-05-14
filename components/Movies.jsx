@@ -1,7 +1,7 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
-import { getServiceFilms, searchByTitle, testTmdb } from "api";
-import { useEffect, useState, useRef } from "react";
+import { testTmdb, searchMovies } from "api";
+import { useEffect, useState } from "react";
 import React from "react";
 
 export default function Movies({
@@ -14,8 +14,6 @@ export default function Movies({
   setData,
   filmClicked,
   setFilmClicked,
-  nextPage,
-  setNextPage,
   genreIdToSearch,
   selectedGenres,
   setSelectedGenres,
@@ -173,13 +171,14 @@ export default function Movies({
   //   }
   // }, [selectedGenres, selectedServices]);
 
-  // useEffect(() => {
-  //   if (showSearchResults) {
-  //     searchByTitle(searchText, country).then((res) => {
-  //       setData(res);
-  //     });
-  //   }
-  // }, [showSearchResults]);
+  useEffect(() => {
+    if (showSearchResults) {
+      searchMovies(searchText).then((res) => {
+        setData(res);
+        refs.page.current = 1;
+      });
+    }
+  }, [showSearchResults]);
 
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;

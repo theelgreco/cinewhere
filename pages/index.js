@@ -15,7 +15,6 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [genreData, setGenreData] = useState([]);
   const [filmClicked, setFilmClicked] = useState(false);
-  const [nextPage, setNextPage] = useState(null);
   const [country, setCountry] = useState("gb");
   const [servicesList, setServicesList] = useState([...servicesArray]);
   const [genreList, setGenreList] = useState([...genres]);
@@ -55,8 +54,6 @@ export default function Home() {
               setData={setData}
               filmClicked={filmClicked}
               setFilmClicked={setFilmClicked}
-              nextPage={nextPage}
-              setNextPage={setNextPage}
               genreData={genreData}
               setGenreData={setGenreData}
               selectedGenres={selectedGenres}
