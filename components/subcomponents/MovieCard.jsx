@@ -17,34 +17,6 @@ export default function MovieCard({
   const [serviceIcons, setServiceIcons] = useState([]);
 
   useEffect(() => {
-    // if (Object.keys(film.streamingInfo).length) {
-    //   const serviceNames = Object.keys(film.streamingInfo[country]) ?? null;
-    // let serviceList = [];
-    //   serviceNames.forEach((service) => {
-    //     const indexOfService = servicesArray.findIndex((el) => {
-    //       return el.id === service;
-    //     });
-
-    //     if (indexOfService > -1) {
-    //       serviceList.push({
-    //         name: service,
-    //         image: servicesArray[indexOfService].image,
-    //         link: film.streamingInfo[country][service],
-    //       });
-    //     }
-    //   });
-
-    //   setServiceIcons(serviceList);
-    // } else {
-    //   setServiceIcons([]);
-    // }
-    // `https://image.tmdb.org/t/p/original/${service.logo_path}`
-
-    // if (film.services && !serviceIcons.length) {
-    //   console.log(film.services.flatrate);
-    //   setServiceIcons(film.services.flatrate);
-    // }
-
     getFilmServicesTmdb(film.id).then((res) => {
       setServiceIcons(res.flatrate);
     });
@@ -63,9 +35,6 @@ export default function MovieCard({
       })}
       onClick={handleClick}>
       <div className={styles.MovieCard}>
-        {/* <div className={styles.textBox}>
-          <p>{film.title}</p>
-        </div> */}
         <img src={`https://image.tmdb.org/t/p/original/${film.poster_path}`} />
         <div className={styles.serviceIcons}>
           {serviceIcons.length ? (

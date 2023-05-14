@@ -25,35 +25,44 @@ export default function Movies({
   showSearchResults,
   searchText,
 }) {
-  const [page, setPage] = useState(1);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
-  // useEffect(() => {
-  //   if (!selectedGenres.length && data.length) {
-  //     refs.sectionRef.current.scrollTop = refs.scrollHeight.current;
-  //   }
+  useEffect(() => {
+    if (!selectedGenres.length && data.length) {
+      refs.sectionRef.current.scrollTop = refs.scrollHeight.current;
+    } else if (selectedGenres.length) {
+      refs.sectionRefGenre.current.scrollTop = refs.scrollHeightGenre.current;
+    }
 
-  //   selectedGenres.forEach((genre) => {
-  //     if (genre.scrollLeft) {
-  //       refs[genre.genre].current.scrollLeft = genre.scrollLeft;
-  //     }
-  //   });
-  // }, []);
+    selectedGenres.forEach((genre) => {
+      if (genre.scrollLeft) {
+        refs[genre.id].current.scrollLeft = genre.scrollLeft;
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (selectedServices.length && !selectedGenres.length) {
-      setData([]);
-      setPage(1);
-      let params = {
-        page: 1,
-        watch_region: "GB",
-        with_watch_monetization_types: "flatrate",
-        with_watch_providers: selectedServices.join("|"),
-      };
-      testTmdb(params).then((res) => {
-        setData(res);
-        setPage(page + 1);
-      });
-    } else if (selectedServices.length && selectedGenres.length) {
+      if (!filmClicked) {
+        setData([]);
+        refs.page.current = 1;
+        let params = {
+          page: 1,
+          watch_region: "GB",
+          with_watch_monetization_types: "flatrate",
+          with_watch_providers: selectedServices.join("|"),
+        };
+        testTmdb(params).then((res) => {
+          setData(res);
+          refs.page.current++;
+        });
+      } else {
+        setFilmClicked(false);
+      }
+    } else if (
+      selectedServices.length &&
+      selectedGenres.length &&
+      !filmClicked
+    ) {
       selectedGenres.forEach((genre) => {
         if (refs[genre.id].current) {
           refs[genre.id].current.scrollLeft = 0;
@@ -79,27 +88,17 @@ export default function Movies({
         });
       });
     } else {
+      console.log("yhhh");
       setData([]);
-      setPage(1);
+      if (Object.keys(refs).length) {
+        refs.page.current = 1;
+      }
     }
 
     setFilmClicked(false);
   }, [selectedServices]);
 
   useEffect(() => {
-    // else if (
-    //     selectedServices.length && !filmClicked && !selectedGenres.length) {
-    //     getServiceFilms(selectedServices, country).then((res) => {
-    //       refs.sectionRef.current.scrollTop = 0;
-    //       setData(res.result);
-    //       setNextPage(res.nextCursor);
-    //     });
-    //   }
-
-    // if (!selectedGenres.length && !data.length) {
-    //   setSelectedServices([]);
-    // }
-
     if (genreIdToSearch && selectedServices.length) {
       let params = {
         page: 1,
@@ -123,16 +122,15 @@ export default function Movies({
 
   useEffect(() => {
     if (atBottom) {
-      console.log(page);
       let params = {
-        page: page,
+        page: refs.page.current,
         watch_region: "GB",
         with_watch_monetization_types: "flatrate",
         with_watch_providers: selectedServices.join("|"),
       };
       testTmdb(params).then((res) => {
         setData([...data, ...res]);
-        setPage(page + 1);
+        refs.page.current++;
         setAtBottom(false);
       });
     } else if (genreScroll.atEnd) {
@@ -187,11 +185,16 @@ export default function Movies({
     const clientHeight = e.target.clientHeight;
     const scrollHeight = e.target.scrollHeight;
     const scrollTop = e.target.scrollTop;
-    if (scrollTop > scrollHeight - clientHeight - 450 && !atBottom) {
+    //prettier-ignore
+    if (scrollTop > scrollHeight - clientHeight - 450 && !atBottom && e.target.id === "sectionRef") {
       setAtBottom(true);
     }
 
-    refs.scrollHeight.current = scrollTop;
+    if (e.target.id === "sectionRef") {
+      refs.scrollHeight.current = scrollTop;
+    } else if (e.target.id === "sectionRefGenre") {
+      refs.scrollHeightGenre.current = scrollTop;
+    }
   }
 
   //if original index is = to selectedGenres.length - 1
@@ -209,7 +212,7 @@ export default function Movies({
 
     genresCopy.map((genre) => {
       if (String(genre.id) === e.target.id) {
-        refs[genre.id].current.scrollLeft = scrollLeft;
+        genre.scrollLeft = scrollLeft;
       }
     });
   }
@@ -218,6 +221,7 @@ export default function Movies({
     <>
       {!selectedGenres.length ? (
         <section
+          id="sectionRef"
           className={styles.Movies}
           onScroll={handleScroll}
           ref={refs.sectionRef}>
@@ -239,7 +243,11 @@ export default function Movies({
           </div>
         </section>
       ) : (
-        <section className={styles.genreContainer}>
+        <section
+          id="sectionRefGenre"
+          className={styles.genreContainer}
+          ref={refs.sectionRefGenre}
+          onScroll={handleScroll}>
           {selectedGenres.map((genre) => {
             return (
               <div key={genre.id} className={styles.individualGenreContainer}>

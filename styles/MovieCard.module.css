@@ -4,6 +4,7 @@
 .MovieCardLink {
   position: relative;
   width: 30vh;
+  min-height: 45.5vh;
   max-height: 58.5vh;
   min-width: 180px;
   margin-bottom: 12px;

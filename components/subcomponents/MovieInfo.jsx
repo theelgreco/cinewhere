@@ -1,7 +1,7 @@
 import styles from "@/styles/MovieInfo.module.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { getFilmById } from "api";
+import { getFilmByIdTmdb } from "api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -10,38 +10,39 @@ export default function MovieInfo({ country, isMobile }) {
   const [film, setFilm] = useState(null);
   const [actors, setActors] = useState([]);
   const [streamingServices, setStreamingServices] = useState([]);
+  const watchCostTypes = ["flatrate", "free", "ads", "rent", "buy"];
 
   useEffect(() => {
     console.log(imdb_id);
-    getFilmById(imdb_id, country).then((res) => {
+    getFilmByIdTmdb(imdb_id).then((res) => {
       setFilm(res);
+      setStreamingServices(res["watch/providers"].results.GB);
+      setActors(res.credits.cast);
     });
   }, []);
 
-  useEffect(() => {
-    if (film) {
-      const arr = [];
-      film.cast.forEach((actor) => {
-        const split = actor.split(" ");
-        const formatted = split[0] + "+" + split[1];
-        arr.push(formatted);
-      });
-      const joined = arr.join("&");
-
-      axios
-        .get(`https://getgglimg.onrender.com/${joined}`)
-        .then((res) => {
-          setActors(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
+  function streamingServicesDOM(services, costs) {
+    let dom = [];
+    costs.forEach((cost) => {
+      if (services[cost]) {
+        let arr = [];
+        services[cost].forEach((service, index) => {
+          console.log(service);
+          arr.push(
+            <div
+              className={styles.service}
+              key={`${service.provider_name}${cost}${index}`}>
+              <img
+                src={`https://image.tmdb.org/t/p/original${service.logo_path}`}
+              />
+            </div>
+          );
         });
-
-      if (film.streamingInfo.gb) {
-        setStreamingServices(Object.keys(film.streamingInfo.gb));
+        dom.push({ price: cost, elements: arr });
       }
-    }
-  }, [film]);
+    });
+    return dom;
+  }
 
   if (film) {
     return (
@@ -52,30 +53,36 @@ export default function MovieInfo({ country, isMobile }) {
               <button className={styles.backButton}>BACK</button>
             </Link>
             <h1>{film.title}</h1>
-            <img className={styles.poster} src={film.posterURLs.original} />
+            <img
+              className={styles.poster}
+              src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
+            />
             <section className={styles.servicesSection}>
               <h3>Services</h3>
-              <div className={styles.servicesFlex}>
-                {streamingServices.map((service, index) => {
+              {streamingServicesDOM(streamingServices, watchCostTypes).map(
+                (price) => {
                   return (
-                    <div className={styles.service} key={index}>
-                      <p>{service}</p>
-                    </div>
+                    <>
+                      <p>{price.price}</p>
+                      <div className={styles.servicesFlex}>
+                        {price.elements}
+                      </div>
+                    </>
                   );
-                })}
-              </div>
+                }
+              )}
             </section>
             <section className={styles.castSection}>
               <h3>Main Cast</h3>
               <div className={styles.castFlex}>
-                {actors ? (
-                  actors.map((actor, index) => {
+                {film.credits.cast ? (
+                  film.credits.cast.map((actor, index) => {
                     return (
-                      <div key={index} className={styles.castMember}>
-                        <img key={actor.image} src={actor.image}></img>
-                        <p key={actor.name} className={styles.names}>
-                          {actor.name}
-                        </p>
+                      <div key={actor.name} className={styles.castMember}>
+                        <img
+                          key={`https://image.tmdb.org/t/p/original${actor.profile_path}`}
+                          src={`https://image.tmdb.org/t/p/original${actor.profile_path}`}></img>
+                        <p className={styles.names}>{actor.name}</p>
                       </div>
                     );
                   })
@@ -91,7 +98,7 @@ export default function MovieInfo({ country, isMobile }) {
             <iframe
               id="video"
               className={styles.video}
-              src={`https://www.youtube.com/embed/${film.youtubeTrailerVideoId}?loop=1&modestbranding=1`}
+              src={`https://www.youtube.com/embed/${film.videos.results[0].key}?loop=1&modestbranding=1`}
               title="YouTube video player"
               frameBorder={0}
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>

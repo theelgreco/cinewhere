@@ -29,8 +29,12 @@ export default function Home() {
       genres.forEach((genre) => {
         refsObject[genre.id] = React.createRef();
       });
+      refsObject.sectionRefGenre = React.createRef();
+      refsObject.scrollHeightGenre = React.createRef();
       refsObject.sectionRef = React.createRef();
       refsObject.scrollHeight = React.createRef();
+      refsObject.page = React.createRef();
+      refsObject.page.current = 1;
       setRefs(refsObject);
     }
   }, []);
