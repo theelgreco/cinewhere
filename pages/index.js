@@ -70,7 +70,9 @@ export default function Home() {
         />
         <Route
           path="/movies/:imdb_id"
-          element={<MovieInfo country={country} />}
+          element={
+            <MovieInfo country={country} />
+          }
         />
       </Routes>
     </BrowserRouter>

@@ -44,13 +44,14 @@ export const getFilmByIdTmdb = (movie_id) => {
     });
 };
 
-export const searchMovies = (text) => {
+export const searchMovies = (params) => {
   return tmdb
     .get("/search/movie", {
       headers: authHeader,
-      params: { query: text },
+      params: params,
     })
     .then((res) => {
+      console.log(res);
       return res.data.results;
     });
 };

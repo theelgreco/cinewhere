@@ -14,7 +14,9 @@ export default function Search({
 
   function handleClick(e) {
     e.preventDefault();
-    setShowSearchResults(true);
+    setShowSearchResults({ show: true, text: searchText });
+    e.target.previousSibling.value = "";
+    setSearchText("");
   }
 
   return (

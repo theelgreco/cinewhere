@@ -21,9 +21,10 @@ export default function Movies({
   country,
   refs,
   showSearchResults,
-  searchText,
+  setShowSearchResults,
 }) {
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
+
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
       refs.sectionRef.current.scrollTop = refs.scrollHeight.current;
@@ -39,23 +40,19 @@ export default function Movies({
   }, []);
 
   useEffect(() => {
-    if (selectedServices.length && !selectedGenres.length) {
-      if (!filmClicked) {
-        setData([]);
-        refs.page.current = 1;
-        let params = {
-          page: 1,
-          watch_region: "GB",
-          with_watch_monetization_types: "flatrate",
-          with_watch_providers: selectedServices.join("|"),
-        };
-        testTmdb(params).then((res) => {
-          setData(res);
-          refs.page.current++;
-        });
-      } else {
-        setFilmClicked(false);
-      }
+    if (selectedServices.length && !selectedGenres.length && !filmClicked) {
+      setData([]);
+      refs.page.current = 1;
+      let params = {
+        page: 1,
+        watch_region: "GB",
+        with_watch_monetization_types: "flatrate",
+        with_watch_providers: selectedServices.join("|"),
+      };
+      testTmdb(params).then((res) => {
+        setData(res);
+        refs.page.current++;
+      });
     } else if (
       selectedServices.length &&
       selectedGenres.length &&
@@ -85,8 +82,7 @@ export default function Movies({
           setSelectedGenres(genreDataCopy);
         });
       });
-    } else {
-      console.log("yhhh");
+    } else if (!filmClicked) {
       setData([]);
       if (Object.keys(refs).length) {
         refs.page.current = 1;
@@ -119,7 +115,7 @@ export default function Movies({
   }, [genreIdToSearch]);
 
   useEffect(() => {
-    if (atBottom) {
+    if (atBottom && !showSearchResults.show) {
       let params = {
         page: refs.page.current,
         watch_region: "GB",
@@ -131,7 +127,20 @@ export default function Movies({
         refs.page.current++;
         setAtBottom(false);
       });
-    } else if (genreScroll.atEnd) {
+    } else if (atBottom && showSearchResults.show) {
+      console.log("yes mate");
+      let params = {
+        query: showSearchResults.text,
+        page: refs.page.current,
+      };
+      searchMovies(params).then((res) => {
+        setData([...data, ...res]);
+        refs.page.current++;
+        setAtBottom(false);
+      });
+    }
+
+    if (genreScroll.atEnd) {
       selectedGenres.forEach((genre) => {
         if (String(genre.id) === genreScroll.id) {
           console.log(genre);
@@ -158,24 +167,26 @@ export default function Movies({
     }
   }, [atBottom, genreScroll]);
 
-  // MORE BELOW \\
-
-  // useEffect(() => {
-  //   if (selectedServices.length && !filmClicked && !selectedGenres.length) {
-  //     getServiceFilms(selectedServices, country).then((res) => {
-  //       refs.sectionRef.current.scrollTop = 0;
-  //       setData(res.result);
-  //       setNextPage(res.nextCursor);
-  //     });
-  //     //
-  //   }
-  // }, [selectedGenres, selectedServices]);
+  useEffect(() => {
+    if (
+      showSearchResults.show &&
+      (selectedGenres.length || selectedServices.length)
+    ) {
+      setShowSearchResults({ show: false, text: "" });
+    }
+  }, [selectedGenres, selectedServices]);
 
   useEffect(() => {
-    if (showSearchResults) {
-      searchMovies(searchText).then((res) => {
+    if (showSearchResults.show) {
+      setSelectedServices([]);
+      setSelectedGenres([]);
+      console.log(refs.page.current);
+      setData([]);
+      refs.page.current = 1;
+      let params = { query: showSearchResults.text, page: refs.page.current };
+      searchMovies(params).then((res) => {
         setData(res);
-        refs.page.current = 1;
+        refs.page.current++;
       });
     }
   }, [showSearchResults]);
@@ -195,8 +206,6 @@ export default function Movies({
       refs.scrollHeightGenre.current = scrollTop;
     }
   }
-
-  //if original index is = to selectedGenres.length - 1
 
   function handleGenreScroll(e) {
     const genresCopy = [...selectedGenres];
