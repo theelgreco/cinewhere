@@ -1,6 +1,6 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
-import { testTmdb, searchMovies } from "api";
+import { getFilmsTmdb, searchMovies } from "api";
 import { useEffect, useState } from "react";
 import React from "react";
 
@@ -49,7 +49,7 @@ export default function Movies({
         with_watch_monetization_types: "flatrate",
         with_watch_providers: selectedServices.join("|"),
       };
-      testTmdb(params).then((res) => {
+      getFilmsTmdb(params).then((res) => {
         setData(res);
         refs.page.current++;
       });
@@ -73,7 +73,7 @@ export default function Movies({
           with_watch_providers: selectedServices.join("|"),
           with_genres: genre.id,
         };
-        testTmdb(params).then((res) => {
+        getFilmsTmdb(params).then((res) => {
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
@@ -101,7 +101,7 @@ export default function Movies({
         with_watch_providers: selectedServices.join("|"),
         with_genres: genreIdToSearch,
       };
-      testTmdb(params).then((res) => {
+      getFilmsTmdb(params).then((res) => {
         const genreDataCopy = [...selectedGenres];
         const indexOfGenre = genreDataCopy.findIndex(
           (el) => el.id === genreIdToSearch
@@ -122,7 +122,7 @@ export default function Movies({
         with_watch_monetization_types: "flatrate",
         with_watch_providers: selectedServices.join("|"),
       };
-      testTmdb(params).then((res) => {
+      getFilmsTmdb(params).then((res) => {
         setData([...data, ...res]);
         refs.page.current++;
         setAtBottom(false);
@@ -151,7 +151,7 @@ export default function Movies({
             with_watch_providers: selectedServices.join("|"),
             with_genres: genre.id,
           };
-          testTmdb(params).then((res) => {
+          getFilmsTmdb(params).then((res) => {
             const genreDataCopy = [...selectedGenres];
             const indexOfGenre = genreDataCopy.findIndex(
               (el) => el.id === genre.id

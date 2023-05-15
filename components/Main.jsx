@@ -39,7 +39,7 @@ export default function Main({
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
-    // testTmdb();
+    // getFilmsTmdb();
   }, []);
 
   function handleMouseDown(e) {
