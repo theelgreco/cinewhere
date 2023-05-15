@@ -59,13 +59,6 @@ export default function GenreCard({
 
       genreListCopy.splice(selectedGenres.length - 1, 0, genreToReplace);
       setGenreList(genreListCopy);
-
-      // const indexToInsert = genres.findIndex((el) => {
-      //   return el.genre === genre;
-      // });
-      // console.log(selectedGenres);
-      // genreListCopy.splice(indexToInsert, 0, genreToReplace);
-      // setGenreList(genreListCopy);
     }
   }
 
@@ -75,8 +68,6 @@ export default function GenreCard({
       className={clsx({
         [styles.unselected]: !isSelected,
         [styles.selected]: isSelected,
-        // [styles.mobile]: !isSelected && isMobile,
-        // [styles.mobileSelected]: isSelected && isMobile,
       })}
       onClick={handleClick}>
       <p>{genre}</p>

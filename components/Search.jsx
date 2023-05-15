@@ -3,8 +3,6 @@ export default function Search({
   searchText,
   setSearchText,
   setShowSearchResults,
-  options,
-  setOptions,
 }) {
   function handleChange(e) {
     if (e.target.value) {
