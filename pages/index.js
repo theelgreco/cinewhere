@@ -15,7 +15,6 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [genreData, setGenreData] = useState([]);
   const [filmClicked, setFilmClicked] = useState(false);
-  const [nextPage, setNextPage] = useState(null);
   const [country, setCountry] = useState("gb");
   const [servicesList, setServicesList] = useState([...servicesArray]);
   const [genreList, setGenreList] = useState([...genres]);
@@ -27,10 +26,14 @@ export default function Home() {
     if (!Object.keys(refs).length) {
       const refsObject = {};
       genres.forEach((genre) => {
-        refsObject[genre.genre] = React.createRef();
+        refsObject[genre.id] = React.createRef();
       });
+      refsObject.sectionRefGenre = React.createRef();
+      refsObject.scrollHeightGenre = React.createRef();
       refsObject.sectionRef = React.createRef();
       refsObject.scrollHeight = React.createRef();
+      refsObject.page = React.createRef();
+      refsObject.page.current = 1;
       setRefs(refsObject);
     }
   }, []);
@@ -51,8 +54,6 @@ export default function Home() {
               setData={setData}
               filmClicked={filmClicked}
               setFilmClicked={setFilmClicked}
-              nextPage={nextPage}
-              setNextPage={setNextPage}
               genreData={genreData}
               setGenreData={setGenreData}
               selectedGenres={selectedGenres}
@@ -69,7 +70,9 @@ export default function Home() {
         />
         <Route
           path="/movies/:imdb_id"
-          element={<MovieInfo country={country} />}
+          element={
+            <MovieInfo country={country} />
+          }
         />
       </Routes>
     </BrowserRouter>

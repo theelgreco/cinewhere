@@ -3,17 +3,15 @@
 
 .MovieCardLink {
   position: relative;
-  width: 32%;
+  width: 30vh;
+  min-height: 45.5vh;
   max-height: 58.5vh;
   min-width: 180px;
   margin-bottom: 12px;
   border-radius: 10px;
   overflow: hidden;
-  aspect-ratio: 9/16;
   z-index: 100;
   cursor: pointer;
-  /* aspect-ratio: 3/2; */
-  /* transform: skewX(-2deg); */
 }
 
 .MovieCardLink::after,
@@ -24,8 +22,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-color: black; */
   box-shadow: inset 0px 0px 8px 3px rgba(0, 0, 0, 1);
+}
+
+.MovieCard {
+  width: 100%;
+  height: 100%;
 }
 
 .textBox {
@@ -58,8 +60,8 @@
 
 .MovieCard img {
   width: 100%;
+  height: 100%;
   object-fit: cover;
-  aspect-ratio: 9/16;
 }
 
 .serviceIcons {

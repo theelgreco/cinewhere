@@ -1,7 +1,7 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
-import { getServiceFilms, searchByTitle } from "api";
-import { useEffect, useState, useRef } from "react";
+import { getFilmsTmdb, searchMovies } from "api";
+import { useEffect, useState } from "react";
 import React from "react";
 
 export default function Movies({
@@ -14,8 +14,6 @@ export default function Movies({
   setData,
   filmClicked,
   setFilmClicked,
-  nextPage,
-  setNextPage,
   genreIdToSearch,
   selectedGenres,
   setSelectedGenres,
@@ -23,103 +21,172 @@ export default function Movies({
   country,
   refs,
   showSearchResults,
-  searchText,
+  setShowSearchResults,
 }) {
+  const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
+
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
       refs.sectionRef.current.scrollTop = refs.scrollHeight.current;
+    } else if (selectedGenres.length) {
+      refs.sectionRefGenre.current.scrollTop = refs.scrollHeightGenre.current;
     }
 
     selectedGenres.forEach((genre) => {
       if (genre.scrollLeft) {
-        refs[genre.genre].current.scrollLeft = genre.scrollLeft;
+        refs[genre.id].current.scrollLeft = genre.scrollLeft;
       }
     });
   }, []);
 
   useEffect(() => {
-    if (selectedServices.length && !filmClicked && selectedGenres.length) {
+    if (selectedServices.length && !selectedGenres.length && !filmClicked) {
+      setData([]);
+      refs.page.current = 1;
+      let params = {
+        page: 1,
+        watch_region: "GB",
+        with_watch_monetization_types: "flatrate",
+        with_watch_providers: selectedServices.join("|"),
+      };
+      getFilmsTmdb(params).then((res) => {
+        setData(res);
+        refs.page.current++;
+      });
+    } else if (
+      selectedServices.length &&
+      selectedGenres.length &&
+      !filmClicked
+    ) {
       selectedGenres.forEach((genre) => {
-        getServiceFilms(selectedServices, country, {
-          genre: genre.id,
-          cursor: genre.cursor,
-        }).then((res) => {
-          const genreDataCopy = [...selectedGenres];
+        if (refs[genre.id].current) {
+          refs[genre.id].current.scrollLeft = 0;
+        }
+      });
+
+      selectedGenres.forEach((genre) => {
+        const genreDataCopy = [...selectedGenres];
+        let params = {
+          page: 1,
+          watch_region: "GB",
+          with_watch_monetization_types: "flatrate",
+          with_watch_providers: selectedServices.join("|"),
+          with_genres: genre.id,
+        };
+        getFilmsTmdb(params).then((res) => {
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
-          genreDataCopy[indexOfGenre].movies = res.result;
-          genreDataCopy[indexOfGenre].cursor = res.nextCursor;
+          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].page = 1;
           setSelectedGenres(genreDataCopy);
         });
       });
-    } else if (!selectedServices.length) {
+    } else if (!filmClicked) {
       setData([]);
-      setSelectedGenres([]);
+      if (Object.keys(refs).length) {
+        refs.page.current = 1;
+      }
     }
 
     setFilmClicked(false);
   }, [selectedServices]);
 
   useEffect(() => {
-    if (atBottom) {
-      getServiceFilms(selectedServices, country, { cursor: nextPage }).then(
-        (res) => {
-          setData([...data, ...res.result]);
-          setNextPage(res.nextCursor);
-          setAtBottom(false);
-        }
-      );
-    }
-  }, [atBottom]);
-
-  useEffect(() => {
-    if (selectedServices.length && !filmClicked && genreIdToSearch) {
-      getServiceFilms(selectedServices, country, {
-        genre: genreIdToSearch,
-      }).then((res) => {
+    if (genreIdToSearch && selectedServices.length) {
+      let params = {
+        page: 1,
+        watch_region: "GB",
+        with_watch_monetization_types: "flatrate",
+        with_watch_providers: selectedServices.join("|"),
+        with_genres: genreIdToSearch,
+      };
+      getFilmsTmdb(params).then((res) => {
         const genreDataCopy = [...selectedGenres];
         const indexOfGenre = genreDataCopy.findIndex(
           (el) => el.id === genreIdToSearch
         );
-        genreDataCopy[indexOfGenre].movies = res.result;
-        genreDataCopy[indexOfGenre].cursor = res.nextCursor;
+        genreDataCopy[indexOfGenre].movies = res;
+        genreDataCopy[indexOfGenre].page = 1;
         setSelectedGenres(genreDataCopy);
         setGenreIdToSearch(null);
       });
-    } else if (
-      selectedServices.length &&
-      !filmClicked &&
-      !selectedGenres.length
-    ) {
-      getServiceFilms(selectedServices, country).then((res) => {
-        refs.sectionRef.current.scrollTop = 0;
-        setData(res.result);
-        setNextPage(res.nextCursor);
-      });
-      //
-    }
-
-    if (!selectedGenres.length && !data.length) {
-      setSelectedServices([]);
     }
   }, [genreIdToSearch]);
 
   useEffect(() => {
-    if (selectedServices.length && !filmClicked && !selectedGenres.length) {
-      getServiceFilms(selectedServices, country).then((res) => {
-        refs.sectionRef.current.scrollTop = 0;
-        setData(res.result);
-        setNextPage(res.nextCursor);
+    if (atBottom && !showSearchResults.show) {
+      let params = {
+        page: refs.page.current,
+        watch_region: "GB",
+        with_watch_monetization_types: "flatrate",
+        with_watch_providers: selectedServices.join("|"),
+      };
+      getFilmsTmdb(params).then((res) => {
+        setData([...data, ...res]);
+        refs.page.current++;
+        setAtBottom(false);
       });
-      //
+    } else if (atBottom && showSearchResults.show) {
+      console.log("yes mate");
+      let params = {
+        query: showSearchResults.text,
+        page: refs.page.current,
+      };
+      searchMovies(params).then((res) => {
+        setData([...data, ...res]);
+        refs.page.current++;
+        setAtBottom(false);
+      });
+    }
+
+    if (genreScroll.atEnd) {
+      selectedGenres.forEach((genre) => {
+        if (String(genre.id) === genreScroll.id) {
+          console.log(genre);
+          let params = {
+            page: genre.page + 1,
+            watch_region: "GB",
+            with_watch_monetization_types: "flatrate",
+            with_watch_providers: selectedServices.join("|"),
+            with_genres: genre.id,
+          };
+          getFilmsTmdb(params).then((res) => {
+            const genreDataCopy = [...selectedGenres];
+            const indexOfGenre = genreDataCopy.findIndex(
+              (el) => el.id === genre.id
+            );
+            //prettier-ignore
+            genreDataCopy[indexOfGenre].movies = [...genreDataCopy[indexOfGenre].movies, ...res];
+            genreDataCopy[indexOfGenre].page++;
+            setSelectedGenres(genreDataCopy);
+            setGenreScroll({ atEnd: false, id: null });
+          });
+        }
+      });
+    }
+  }, [atBottom, genreScroll]);
+
+  useEffect(() => {
+    if (
+      showSearchResults.show &&
+      (selectedGenres.length || selectedServices.length)
+    ) {
+      setShowSearchResults({ show: false, text: "" });
     }
   }, [selectedGenres, selectedServices]);
 
   useEffect(() => {
-    if (showSearchResults) {
-      searchByTitle(searchText, country).then((res) => {
+    if (showSearchResults.show) {
+      setSelectedServices([]);
+      setSelectedGenres([]);
+      console.log(refs.page.current);
+      setData([]);
+      refs.page.current = 1;
+      let params = { query: showSearchResults.text, page: refs.page.current };
+      searchMovies(params).then((res) => {
         setData(res);
+        refs.page.current++;
       });
     }
   }, [showSearchResults]);
@@ -128,29 +195,41 @@ export default function Movies({
     const clientHeight = e.target.clientHeight;
     const scrollHeight = e.target.scrollHeight;
     const scrollTop = e.target.scrollTop;
-    if (scrollTop > scrollHeight - clientHeight - 150 && !atBottom) {
+    //prettier-ignore
+    if (scrollTop > scrollHeight - clientHeight - 450 && !atBottom && e.target.id === "sectionRef") {
       setAtBottom(true);
     }
 
-    refs.scrollHeight.current = scrollTop;
+    if (e.target.id === "sectionRef") {
+      refs.scrollHeight.current = scrollTop;
+    } else if (e.target.id === "sectionRefGenre") {
+      refs.scrollHeightGenre.current = scrollTop;
+    }
   }
-
-  //if original index is = to selectedGenres.length - 1
 
   function handleGenreScroll(e) {
     const genresCopy = [...selectedGenres];
+
+    const scrollWidth = e.target.scrollWidth;
+    const clientWidth = e.target.clientWidth;
+    const scrollLeft = e.target.scrollLeft;
+
+    if (scrollLeft > scrollWidth - clientWidth - 450 && !genreScroll.atEnd) {
+      setGenreScroll({ atEnd: true, id: e.target.id });
+    }
+
     genresCopy.map((genre) => {
-      if (genre.genre === e.target.id) {
-        genre.scrollLeft = e.target.scrollLeft;
+      if (String(genre.id) === e.target.id) {
+        genre.scrollLeft = scrollLeft;
       }
     });
-    setSelectedGenres(genresCopy);
   }
 
   return (
     <>
       {!selectedGenres.length ? (
         <section
+          id="sectionRef"
           className={styles.Movies}
           onScroll={handleScroll}
           ref={refs.sectionRef}>
@@ -172,7 +251,11 @@ export default function Movies({
           </div>
         </section>
       ) : (
-        <section className={styles.genreContainer}>
+        <section
+          id="sectionRefGenre"
+          className={styles.genreContainer}
+          ref={refs.sectionRefGenre}
+          onScroll={handleScroll}>
           {selectedGenres.map((genre) => {
             return (
               <div key={genre.id} className={styles.individualGenreContainer}>
@@ -183,12 +266,12 @@ export default function Movies({
                   <div
                     className={styles.genreMovies}
                     onScroll={handleGenreScroll}
-                    id={genre.genre}
-                    ref={refs[genre.genre]}>
+                    id={genre.id}
+                    ref={refs[genre.id]}>
                     {genre.movies.map((film) => {
                       return (
                         <MovieCard
-                          key={`${film.imdbId}${genre.genre}`}
+                          key={`${film.id}${genre.genre}`}
                           film={film}
                           setFilmClicked={setFilmClicked}
                           genre={true}

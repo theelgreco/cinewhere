@@ -575,6 +575,7 @@ const servicesArray = [
         addOns: {},
       },
     },
+    provider_id: 8,
   },
   {
     image:
@@ -912,6 +913,7 @@ const servicesArray = [
         addOns: {},
       },
     },
+    provider_id: 337,
   },
   {
     image:
@@ -5795,11 +5797,13 @@ const servicesArray = [
         addOns: {},
       },
     },
+    provider_id: 9,
   },
   {
     image:
       "https://static.skyassets.com/contentstack/assets/bltdc2476c7b6b194dd/bltea7a8d147f4d305a/6050992b6d24ea4cb9b57481/NOW2a.jpg",
     id: "now",
+    provider_id: 39,
     countries: {
       gb: {
         supportedStreamingTypes: {
@@ -5879,6 +5883,7 @@ const servicesArray = [
   },
   {
     id: "all4",
+    provider_id: 103,
     countries: {
       gb: {
         supportedStreamingTypes: {
@@ -5908,6 +5913,7 @@ const servicesArray = [
     image:
       "https://www.marrableservices.com/wp-content/uploads/2016/02/iPlayer.jpg",
     id: "iplayer",
+    provider_id: 38,
     countries: {
       gb: {
         supportedStreamingTypes: {
@@ -5925,6 +5931,7 @@ const servicesArray = [
     id: "britbox",
     image:
       "https://play-lh.googleusercontent.com/55eiBjZAzkSmfIQim74HoP7EVzroPIp7EmTr2j5NlQXMw6oiNSZ7wHL9uDsmZU7jQM8",
+    provider_id: 380,
     countries: {
       au: {
         supportedStreamingTypes: {
@@ -5980,6 +5987,7 @@ const servicesArray = [
   },
   {
     id: "apple",
+    provider_id: 2,
     image:
       "https://i.insider.com/55f0a291dd08957b5a8b46f6?width=750&format=jpeg&auto=webp",
     countries: {

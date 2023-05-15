@@ -3,8 +3,6 @@ export default function Search({
   searchText,
   setSearchText,
   setShowSearchResults,
-  options,
-  setOptions,
 }) {
   function handleChange(e) {
     if (e.target.value) {
@@ -14,7 +12,9 @@ export default function Search({
 
   function handleClick(e) {
     e.preventDefault();
-    setShowSearchResults(true);
+    setShowSearchResults({ show: true, text: searchText });
+    e.target.previousSibling.value = "";
+    setSearchText("");
   }
 
   return (

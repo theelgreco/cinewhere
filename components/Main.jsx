@@ -16,8 +16,6 @@ export default function Main({
   setData,
   filmClicked,
   setFilmClicked,
-  nextPage,
-  setNextPage,
   selectedGenres,
   setSelectedGenres,
   country,
@@ -34,10 +32,14 @@ export default function Main({
   const [mouseMoving, setMouseMoving] = useState(false);
   const [atBottom, setAtBottom] = useState(false);
   const [genreIdToSearch, setGenreIdToSearch] = useState(null);
-  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState({
+    show: false,
+    text: "",
+  });
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
+    // getFilmsTmdb();
   }, []);
 
   function handleMouseDown(e) {
@@ -121,8 +123,6 @@ export default function Main({
         setData={setData}
         filmClicked={filmClicked}
         setFilmClicked={setFilmClicked}
-        nextPage={nextPage}
-        setNextPage={setNextPage}
         selectedGenres={selectedGenres}
         setGenreIdToSearch={setGenreIdToSearch}
         genreIdToSearch={genreIdToSearch}
@@ -131,7 +131,7 @@ export default function Main({
         refs={refs}
         setRefs={setRefs}
         showSearchResults={showSearchResults}
-        searchText={searchText}
+        setShowSearchResults={setShowSearchResults}
       />
     </main>
   );
