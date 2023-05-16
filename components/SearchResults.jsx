@@ -1,6 +1,7 @@
 import styles from "@/styles/SearchResults.module.css";
 import MovieCard from "./subcomponents/MovieCard";
 import SearchBar from "./subcomponents/SearchBar";
+import clsx from "clsx";
 
 import { useEffect, useState } from "react";
 
@@ -21,7 +22,7 @@ export default function SearchResults({
           focus={true}
         />
       </div>
-      {searchResultsData.length ? (
+      {searchResultsData && searchResultsData.length ? (
         <div className={styles.flexContainer}>
           {searchResultsData.map((film) => {
             return (

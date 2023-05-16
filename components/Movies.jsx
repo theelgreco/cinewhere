@@ -20,8 +20,6 @@ export default function Movies({
   setGenreIdToSearch,
   country,
   refs,
-  showSearchResults,
-  setShowSearchResults,
 }) {
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
 
@@ -115,7 +113,7 @@ export default function Movies({
   }, [genreIdToSearch]);
 
   useEffect(() => {
-    if (atBottom && !showSearchResults.show) {
+    if (atBottom) {
       let params = {
         page: refs.page.current,
         watch_region: "GB",
@@ -123,17 +121,6 @@ export default function Movies({
         with_watch_providers: selectedServices.join("|"),
       };
       getFilmsTmdb(params).then((res) => {
-        setData([...data, ...res]);
-        refs.page.current++;
-        setAtBottom(false);
-      });
-    } else if (atBottom && showSearchResults.show) {
-      console.log("yes mate");
-      let params = {
-        query: showSearchResults.text,
-        page: refs.page.current,
-      };
-      searchMovies(params).then((res) => {
         setData([...data, ...res]);
         refs.page.current++;
         setAtBottom(false);
@@ -166,30 +153,6 @@ export default function Movies({
       });
     }
   }, [atBottom, genreScroll]);
-
-  useEffect(() => {
-    if (
-      showSearchResults.show &&
-      (selectedGenres.length || selectedServices.length)
-    ) {
-      setShowSearchResults({ show: false, text: "" });
-    }
-  }, [selectedGenres, selectedServices]);
-
-  useEffect(() => {
-    if (showSearchResults.show) {
-      setSelectedServices([]);
-      setSelectedGenres([]);
-      console.log(refs.page.current);
-      setData([]);
-      refs.page.current = 1;
-      let params = { query: showSearchResults.text, page: refs.page.current };
-      searchMovies(params).then((res) => {
-        setData(res);
-        refs.page.current++;
-      });
-    }
-  }, [showSearchResults]);
 
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;

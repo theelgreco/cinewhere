@@ -27,6 +27,8 @@ export default function Main({
   setGenreList,
   searchResultsData,
   setSearchResultsData,
+  expand,
+  setExpand,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -34,10 +36,6 @@ export default function Main({
   const [mouseMoving, setMouseMoving] = useState(false);
   const [atBottom, setAtBottom] = useState(false);
   const [genreIdToSearch, setGenreIdToSearch] = useState(null);
-  const [showSearchResults, setShowSearchResults] = useState({
-    show: false,
-    text: "",
-  });
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
@@ -84,11 +82,12 @@ export default function Main({
         searchText={searchText}
         setSearchText={setSearchText}
         isMobile={isMobile}
-        setShowSearchResults={setShowSearchResults}
         setFilmClicked={setFilmClicked}
         searchResultsData={searchResultsData}
         setSearchResultsData={setSearchResultsData}
         refs={refs}
+        expand={expand}
+        setExpand={setExpand}
       />
       <Services
         isMobile={isMobile}
@@ -135,8 +134,6 @@ export default function Main({
         country={country}
         refs={refs}
         setRefs={setRefs}
-        showSearchResults={showSearchResults}
-        setShowSearchResults={setShowSearchResults}
       />
     </main>
   );

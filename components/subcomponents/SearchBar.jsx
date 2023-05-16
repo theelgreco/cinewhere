@@ -6,6 +6,7 @@ export default function SearchBar({
   expandSearch,
   handleClick,
   focus,
+  searchText,
 }) {
   const search = useRef();
 
@@ -18,9 +19,10 @@ export default function SearchBar({
       <input
         type="text"
         placeholder="search by title"
-        onChangeCapture={handleChange}
+        onChange={handleChange}
         onClick={expandSearch}
         ref={search}
+        value={searchText}
       />
       {/* <button onClick={handleClick}>Submit</button> */}
     </div>

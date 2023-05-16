@@ -19,6 +19,7 @@ export default function Home() {
   const [country, setCountry] = useState("gb");
   const [servicesList, setServicesList] = useState([...servicesArray]);
   const [genreList, setGenreList] = useState([...genres]);
+  const [expand, setExpand] = useState(false);
   const [refs, setRefs] = useState({});
 
   useEffect(() => {
@@ -70,6 +71,8 @@ export default function Home() {
               setGenreList={setGenreList}
               searchResultsData={searchResultsData}
               setSearchResultsData={setSearchResultsData}
+              expand={expand}
+              setExpand={setExpand}
             />
           }
         />

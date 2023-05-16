@@ -24,6 +24,7 @@ export default function MovieInfo({ country, isMobile }) {
   function streamingServicesDOM(services, costs) {
     let dom = [];
     costs.forEach((cost) => {
+      console.log(services);
       if (services[cost]) {
         let arr = [];
         services[cost].forEach((service, index) => {

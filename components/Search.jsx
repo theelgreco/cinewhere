@@ -7,13 +7,13 @@ import { useState, useEffect } from "react";
 export default function Search({
   searchText,
   setSearchText,
-  setShowSearchResults,
   setFilmClicked,
   searchResultsData,
   setSearchResultsData,
   refs,
+  expand,
+  setExpand,
 }) {
-  const [expand, setExpand] = useState(false);
   const [finishedTyping, setFinishedTyping] = useState(false);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Search({
         setSearchResultsData(res);
         // refs.page.current++;
       });
-    } else if (!searchText) {
+    } else if (finishedTyping && !searchText) {
       setSearchResultsData([]);
     }
   }, [finishedTyping]);
@@ -56,7 +56,6 @@ export default function Search({
 
   function handleClick(e) {
     e.preventDefault();
-    // setShowSearchResults({ show: true, text: searchText });
 
     e.target.previousSibling.value = "";
     setSearchText("");
@@ -73,6 +72,7 @@ export default function Search({
           handleChange={handleChange}
           expandSearch={expandSearch}
           handleClick={handleClick}
+          searchText={searchText}
         />
       ) : (
         <SearchResults
