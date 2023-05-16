@@ -31,8 +31,7 @@ export default function MovieCard({
   return (
     <Link
       to={`/movies/${film.id}`}
-      className={clsx({
-        [styles.MovieCardLink]: genre || !genre,
+      className={clsx(styles.MovieCardLink, {
         [styles.genre]: genre,
       })}
       onClick={handleClick}>

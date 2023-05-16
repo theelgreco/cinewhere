@@ -241,6 +241,7 @@ export default function Movies({
                     key={index}
                     film={film}
                     setFilmClicked={setFilmClicked}
+                    data={data}
                     country={country}
                   />
                 );

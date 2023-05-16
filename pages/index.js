@@ -13,6 +13,7 @@ export default function Home() {
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [data, setData] = useState([]);
+  const [searchResultsData, setSearchResultsData] = useState([]);
   const [genreData, setGenreData] = useState([]);
   const [filmClicked, setFilmClicked] = useState(false);
   const [country, setCountry] = useState("gb");
@@ -34,6 +35,8 @@ export default function Home() {
       refsObject.scrollHeight = React.createRef();
       refsObject.page = React.createRef();
       refsObject.page.current = 1;
+      refsObject.searchResultsPage = React.createRef();
+      refsObject.searchResultsPage.current = 1;
       setRefs(refsObject);
     }
   }, []);
@@ -65,14 +68,14 @@ export default function Home() {
               setServicesList={setServicesList}
               genreList={genreList}
               setGenreList={setGenreList}
+              searchResultsData={searchResultsData}
+              setSearchResultsData={setSearchResultsData}
             />
           }
         />
         <Route
           path="/movies/:imdb_id"
-          element={
-            <MovieInfo country={country} />
-          }
+          element={<MovieInfo country={country} />}
         />
       </Routes>
     </BrowserRouter>

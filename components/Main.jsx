@@ -25,6 +25,8 @@ export default function Main({
   setServicesList,
   genreList,
   setGenreList,
+  searchResultsData,
+  setSearchResultsData,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -39,7 +41,6 @@ export default function Main({
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
-    // getFilmsTmdb();
   }, []);
 
   function handleMouseDown(e) {
@@ -84,6 +85,10 @@ export default function Main({
         setSearchText={setSearchText}
         isMobile={isMobile}
         setShowSearchResults={setShowSearchResults}
+        setFilmClicked={setFilmClicked}
+        searchResultsData={searchResultsData}
+        setSearchResultsData={setSearchResultsData}
+        refs={refs}
       />
       <Services
         isMobile={isMobile}

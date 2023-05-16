@@ -26,17 +26,18 @@
     rgb(101, 5, 255) 100.7%
   );
   box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
+  z-index: 0;
 }
 
 .moviesFlex {
   position: relative;
-    display: flex;
-    margin-top: 1vh;
-    gap: 3px;
-    flex-flow: row wrap;
-    width: 100%;
-    height: fit-content;
-    justify-content: space-evenly;
+  display: flex;
+  margin-top: 1vh;
+  gap: 3px;
+  flex-flow: row wrap;
+  width: 100%;
+  height: fit-content;
+  justify-content: space-evenly;
 }
 
 .genreContainer {
