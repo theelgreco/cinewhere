@@ -14,6 +14,34 @@
   cursor: pointer;
 }
 
+@keyframes preload {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.MovieCardLinkPreload {
+  position: relative;
+  width: 30vh;
+  min-height: 45.5vh;
+  max-height: 58.5vh;
+  min-width: 180px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 100;
+  background: linear-gradient(66deg, black, transparent);
+  background-size: 400% 400%;
+  animation: preload 2s ease-in infinite;
+  /* animation-direction: alternate; */
+}
+
 .MovieCardLink::after,
 .MovieCardLink.genre::after {
   content: "";

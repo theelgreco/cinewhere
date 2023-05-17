@@ -83,7 +83,7 @@ export default function Home() {
           }
         />
         <Route
-          path="/movies/:imdb_id"
+          path="/:media_type/:imdb_id"
           element={<MovieInfo country={country} />}
         />
       </Routes>

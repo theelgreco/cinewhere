@@ -17,13 +17,15 @@ export default function MovieCard({
   const [serviceIcons, setServiceIcons] = useState([]);
 
   useEffect(() => {
-    getFilmServicesTmdb(film.id).then((res) => {
-      if (res) {
-        if (res.flatrate) setServiceIcons(res.flatrate);
-      } else {
-        setServiceIcons([]);
-      }
-    });
+    if (Object.keys(film).length) {
+      getFilmServicesTmdb(film.id, film.media_type).then((res) => {
+        if (res) {
+          if (res.flatrate) setServiceIcons(res.flatrate);
+        } else {
+          setServiceIcons([]);
+        }
+      });
+    }
   }, [film]);
 
   function handleClick(e) {
@@ -31,29 +33,37 @@ export default function MovieCard({
   }
 
   return (
-    <Link
-      to={`/movies/${film.id}`}
-      className={clsx(styles.MovieCardLink, {
-        [styles.genre]: genre,
-      })}
-      onClick={handleClick}>
-      <div className={styles.MovieCard}>
-        <img src={`https://image.tmdb.org/t/p/original/${film.poster_path}`} />
-        <div className={styles.serviceIcons}>
-          {serviceIcons.length ? (
-            serviceIcons.map((service, index) => {
-              return (
-                //prettier-ignore
-                <React.Fragment key={`${service.provider_name}${index}${film.title}`}>
+    <>
+      {Object.keys(film).length ? (
+        <Link
+          to={`/${film.media_type}/${film.id}`}
+          className={clsx(styles.MovieCardLink, {
+            [styles.genre]: genre,
+          })}
+          onClick={handleClick}>
+          <div className={styles.MovieCard}>
+            <img
+              src={`https://image.tmdb.org/t/p/original/${film.poster_path}`}
+            />
+            <div className={styles.serviceIcons}>
+              {serviceIcons.length ? (
+                serviceIcons.map((service, index) => {
+                  return (
+                    //prettier-ignore
+                    <React.Fragment key={`${service.provider_name}${index}${film.title}`}>
                   <img src={`https://image.tmdb.org/t/p/original${service.logo_path}`} />
                 </React.Fragment>
-              );
-            })
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
-    </Link>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        </Link>
+      ) : (
+        <div className={styles.MovieCardLinkPreload}></div>
+      )}
+    </>
   );
 }

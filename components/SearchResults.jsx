@@ -15,8 +15,10 @@ export default function SearchResults({
   expand,
   setSearchClosed,
   setSearchResultsData,
-  setSearchText,
+  searchText,
 }) {
+  const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+
   useEffect(() => {
     if (expand && searchClosed) {
       const search = refs.expandedSearch.current;
@@ -117,7 +119,17 @@ export default function SearchResults({
           })}
         </div>
       ) : (
-        <></>
+        <>
+          {!searchText ? (
+            <></>
+          ) : (
+            <div className={styles.flexContainer}>
+              {preload.map((temp) => {
+                return <MovieCard film={temp} />;
+              })}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

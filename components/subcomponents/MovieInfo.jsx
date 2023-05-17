@@ -6,14 +6,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function MovieInfo({ country, isMobile }) {
-  const { imdb_id } = useParams();
+  const { imdb_id, media_type } = useParams();
   const [film, setFilm] = useState(null);
   const [actors, setActors] = useState([]);
   const [streamingServices, setStreamingServices] = useState([]);
   const watchCostTypes = ["flatrate", "free", "ads", "rent", "buy"];
 
   useEffect(() => {
-    getFilmByIdTmdb(imdb_id).then((res) => {
+    console.log(film);
+    getFilmByIdTmdb(imdb_id, media_type).then((res) => {
       setFilm(res);
       setStreamingServices(res["watch/providers"].results.GB);
       setActors(res.credits.cast);
@@ -57,7 +58,7 @@ export default function MovieInfo({ country, isMobile }) {
             />
             <section className={styles.servicesSection}>
               <h3>Services</h3>
-              {/* {streamingServicesDOM(streamingServices, watchCostTypes).map(
+              {streamingServicesDOM(streamingServices, watchCostTypes).map(
                 (price) => {
                   return (
                     <>
@@ -68,7 +69,7 @@ export default function MovieInfo({ country, isMobile }) {
                     </>
                   );
                 }
-              )} */}
+              )}
             </section>
             <section className={styles.castSection}>
               <h3>Main Cast</h3>
