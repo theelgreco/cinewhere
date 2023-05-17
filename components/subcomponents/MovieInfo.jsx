@@ -13,7 +13,6 @@ export default function MovieInfo({ country, isMobile }) {
   const watchCostTypes = ["flatrate", "free", "ads", "rent", "buy"];
 
   useEffect(() => {
-    console.log(imdb_id);
     getFilmByIdTmdb(imdb_id).then((res) => {
       setFilm(res);
       setStreamingServices(res["watch/providers"].results.GB);
@@ -24,11 +23,9 @@ export default function MovieInfo({ country, isMobile }) {
   function streamingServicesDOM(services, costs) {
     let dom = [];
     costs.forEach((cost) => {
-      console.log(services);
       if (services[cost]) {
         let arr = [];
         services[cost].forEach((service, index) => {
-          console.log(service);
           arr.push(
             <div
               className={styles.service}
@@ -60,7 +57,7 @@ export default function MovieInfo({ country, isMobile }) {
             />
             <section className={styles.servicesSection}>
               <h3>Services</h3>
-              {streamingServicesDOM(streamingServices, watchCostTypes).map(
+              {/* {streamingServicesDOM(streamingServices, watchCostTypes).map(
                 (price) => {
                   return (
                     <>
@@ -71,7 +68,7 @@ export default function MovieInfo({ country, isMobile }) {
                     </>
                   );
                 }
-              )}
+              )} */}
             </section>
             <section className={styles.castSection}>
               <h3>Main Cast</h3>

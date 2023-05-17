@@ -20,6 +20,7 @@ export default function Home() {
   const [servicesList, setServicesList] = useState([...servicesArray]);
   const [genreList, setGenreList] = useState([...genres]);
   const [expand, setExpand] = useState(false);
+  const [searchClosed, setSearchClosed] = useState(true);
   const [refs, setRefs] = useState({});
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function Home() {
       refsObject.page.current = 1;
       refsObject.searchResultsPage = React.createRef();
       refsObject.searchResultsPage.current = 1;
+      refsObject.expandedSearch = React.createRef();
       setRefs(refsObject);
     }
   }, []);
@@ -73,6 +75,8 @@ export default function Home() {
               setSearchResultsData={setSearchResultsData}
               expand={expand}
               setExpand={setExpand}
+              searchClosed={searchClosed}
+              setSearchClosed={setSearchClosed}
             />
           }
         />

@@ -21,10 +21,6 @@ export default function Services({
     e.preventDefault();
   }
 
-  useEffect(() => {
-    console.log(servicesList);
-  }, [servicesList]);
-
   return (
     <section
       className={styles.Services}

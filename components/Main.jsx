@@ -29,6 +29,8 @@ export default function Main({
   setSearchResultsData,
   expand,
   setExpand,
+  searchClosed,
+  setSearchClosed,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -88,6 +90,8 @@ export default function Main({
         refs={refs}
         expand={expand}
         setExpand={setExpand}
+        searchClosed={searchClosed}
+        setSearchClosed={setSearchClosed}
       />
       <Services
         isMobile={isMobile}

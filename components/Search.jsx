@@ -13,22 +13,22 @@ export default function Search({
   refs,
   expand,
   setExpand,
+  searchClosed,
+  setSearchClosed,
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);
 
   useEffect(() => {
-    console.log(searchText);
+    setSearchText("");
+  }, []);
 
+  useEffect(() => {
     setFinishedTyping(false);
 
     if (searchText) {
       setTimeout(() => {
         setFinishedTyping(true);
       }, 500);
-    } else {
-      setTimeout(() => {
-        setFinishedTyping(true);
-      }, 100);
     }
   }, [searchText]);
 
@@ -41,12 +41,10 @@ export default function Search({
         page: refs.searchResultsPage.current,
       };
       searchMovies(params).then((res) => {
-        console.log(res);
         setSearchResultsData(res);
+        setFinishedTyping(false);
         // refs.page.current++;
       });
-    } else if (finishedTyping && !searchText) {
-      setSearchResultsData([]);
     }
   }, [finishedTyping]);
 
@@ -62,7 +60,10 @@ export default function Search({
   }
 
   function expandSearch(e) {
-    if (!expand) setExpand(true);
+    if (!expand) {
+      setExpand(true);
+    }
+    // !expand ? setExpand(true) : setExpand(false);
   }
 
   return (
@@ -71,7 +72,6 @@ export default function Search({
         <SearchBar
           handleChange={handleChange}
           expandSearch={expandSearch}
-          handleClick={handleClick}
           searchText={searchText}
         />
       ) : (
@@ -79,8 +79,12 @@ export default function Search({
           setFilmClicked={setFilmClicked}
           searchResultsData={searchResultsData}
           handleChange={handleChange}
-          expandSearch={expandSearch}
-          handleClick={handleClick}
+          refs={refs}
+          setExpand={setExpand}
+          searchClosed={searchClosed}
+          expand={expand}
+          setSearchClosed={setSearchClosed}
+          setSearchResultsData={setSearchResultsData}
         />
       )}
     </section>

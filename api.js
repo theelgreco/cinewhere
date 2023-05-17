@@ -10,7 +10,6 @@ const authHeader = {
 };
 
 export const getFilmsTmdb = (params) => {
-  console.log(params);
 
   return tmdb
     .get("/discover/movie", {

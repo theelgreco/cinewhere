@@ -23,8 +23,9 @@ export default function ServiceCard({
       setNoneSelected(true);
     }
 
-    if (selectedServices.includes(serviceName)) {
+    if (selectedServices.includes(provider_id)) {
       setIsSelected(true);
+
       noneSelected ? setNoneSelected(false) : null;
     }
   }, [selectedServices]);
