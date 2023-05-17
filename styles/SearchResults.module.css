@@ -88,4 +88,9 @@
   border-radius: 9999px;
   width: 30px;
   height: 30px;
+  font-size: 11px;
+  color: #e8bcf1;
+  background: rgb(74, 59, 167);
+  border: none;
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
 }

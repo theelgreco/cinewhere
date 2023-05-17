@@ -40,6 +40,8 @@ export default function Home() {
       refsObject.searchResultsPage = React.createRef();
       refsObject.searchResultsPage.current = 1;
       refsObject.expandedSearch = React.createRef();
+      refsObject.search = React.createRef();
+
       setRefs(refsObject);
     }
   }, []);

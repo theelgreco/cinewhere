@@ -20,9 +20,11 @@ export default function MovieCard({
     getFilmServicesTmdb(film.id).then((res) => {
       if (res) {
         if (res.flatrate) setServiceIcons(res.flatrate);
+      } else {
+        setServiceIcons([]);
       }
     });
-  }, []);
+  }, [film]);
 
   function handleClick(e) {
     setFilmClicked(true);

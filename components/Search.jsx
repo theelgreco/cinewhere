@@ -28,7 +28,7 @@ export default function Search({
     if (searchText) {
       setTimeout(() => {
         setFinishedTyping(true);
-      }, 500);
+      }, 1000);
     }
   }, [searchText]);
 
@@ -50,6 +50,7 @@ export default function Search({
 
   function handleChange(e) {
     expand ? setSearchText(e.target.value) : (e.target.value = "");
+    refs.search.current = e.target.value;
   }
 
   function handleClick(e) {
@@ -69,11 +70,7 @@ export default function Search({
   return (
     <section className={styles.Search}>
       {!expand ? (
-        <SearchBar
-          handleChange={handleChange}
-          expandSearch={expandSearch}
-          searchText={searchText}
-        />
+        <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
       ) : (
         <SearchResults
           setFilmClicked={setFilmClicked}
@@ -85,6 +82,7 @@ export default function Search({
           expand={expand}
           setSearchClosed={setSearchClosed}
           setSearchResultsData={setSearchResultsData}
+          setSearchText={setSearchText}
         />
       )}
     </section>

@@ -15,6 +15,7 @@ export default function SearchResults({
   expand,
   setSearchClosed,
   setSearchResultsData,
+  setSearchText,
 }) {
   useEffect(() => {
     if (expand && searchClosed) {
@@ -55,6 +56,7 @@ export default function SearchResults({
   function closeSearch(e) {
     e.target.style.display = "none";
     setSearchResultsData([]);
+    refs.search.current = "";
     const search = refs.expandedSearch.current;
     search.animate(
       {
@@ -100,7 +102,7 @@ export default function SearchResults({
         X
       </button>
       <div className={styles.searchBar}>
-        <SearchBar handleChange={handleChange} focus={true} />
+        <SearchBar handleChange={handleChange} focus={true} refs={refs} />
       </div>
       {searchResultsData && searchResultsData.length ? (
         <div className={styles.flexContainer}>
