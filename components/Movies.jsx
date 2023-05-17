@@ -20,8 +20,10 @@ export default function Movies({
   setGenreIdToSearch,
   country,
   refs,
+  options,
 }) {
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
+  const preload = [{}, {}, {}, {}, {}, {}, {}];
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -46,6 +48,7 @@ export default function Movies({
         watch_region: "GB",
         with_watch_monetization_types: "flatrate",
         with_watch_providers: selectedServices.join("|"),
+        ...options,
       };
       getFilmsTmdb(params).then((res) => {
         setData(res);
@@ -70,6 +73,7 @@ export default function Movies({
           with_watch_monetization_types: "flatrate",
           with_watch_providers: selectedServices.join("|"),
           with_genres: genre.id,
+          ...options,
         };
         getFilmsTmdb(params).then((res) => {
           const indexOfGenre = genreDataCopy.findIndex(
@@ -88,7 +92,7 @@ export default function Movies({
     }
 
     setFilmClicked(false);
-  }, [selectedServices]);
+  }, [selectedServices, options]);
 
   useEffect(() => {
     if (genreIdToSearch && selectedServices.length) {
@@ -98,6 +102,7 @@ export default function Movies({
         with_watch_monetization_types: "flatrate",
         with_watch_providers: selectedServices.join("|"),
         with_genres: genreIdToSearch,
+        ...options,
       };
       getFilmsTmdb(params).then((res) => {
         const genreDataCopy = [...selectedGenres];
@@ -110,7 +115,7 @@ export default function Movies({
         setGenreIdToSearch(null);
       });
     }
-  }, [genreIdToSearch]);
+  }, [genreIdToSearch, options]);
 
   useEffect(() => {
     if (atBottom) {
@@ -119,6 +124,7 @@ export default function Movies({
         watch_region: "GB",
         with_watch_monetization_types: "flatrate",
         with_watch_providers: selectedServices.join("|"),
+        ...options,
       };
       getFilmsTmdb(params).then((res) => {
         setData([...data, ...res]);
@@ -137,6 +143,7 @@ export default function Movies({
             with_watch_monetization_types: "flatrate",
             with_watch_providers: selectedServices.join("|"),
             with_genres: genre.id,
+            ...options,
           };
           getFilmsTmdb(params).then((res) => {
             const genreDataCopy = [...selectedGenres];
@@ -245,7 +252,11 @@ export default function Movies({
                     })}
                   </div>
                 ) : (
-                  <></>
+                  <div className={styles.genreMovies}>
+                    {preload.map((temp) => {
+                      return <MovieCard film={temp} />;
+                    })}
+                  </div>
                 )}
               </div>
             );

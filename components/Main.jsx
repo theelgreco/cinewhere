@@ -31,6 +31,8 @@ export default function Main({
   setExpand,
   searchClosed,
   setSearchClosed,
+  options,
+  setOptions,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -120,7 +122,7 @@ export default function Main({
         genreList={genreList}
         setGenreList={setGenreList}
       />
-      <Type isMobile={isMobile} />
+      <Type isMobile={isMobile} options={options} setOptions={setOptions} />
       <Movies
         isMobile={isMobile}
         atBottom={atBottom}
@@ -138,6 +140,7 @@ export default function Main({
         country={country}
         refs={refs}
         setRefs={setRefs}
+        options={options}
       />
     </main>
   );

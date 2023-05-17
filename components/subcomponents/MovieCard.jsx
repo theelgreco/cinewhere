@@ -17,6 +17,8 @@ export default function MovieCard({
   const [serviceIcons, setServiceIcons] = useState([]);
 
   useEffect(() => {
+    console.log(film);
+
     if (Object.keys(film).length) {
       getFilmServicesTmdb(film.id, film.media_type).then((res) => {
         if (res) {
@@ -42,16 +44,14 @@ export default function MovieCard({
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
-            <img
-              src={`https://image.tmdb.org/t/p/original/${film.poster_path}`}
-            />
+            <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} />
             <div className={styles.serviceIcons}>
               {serviceIcons.length ? (
                 serviceIcons.map((service, index) => {
                   return (
                     //prettier-ignore
                     <React.Fragment key={`${service.provider_name}${index}${film.title}`}>
-                  <img src={`https://image.tmdb.org/t/p/original${service.logo_path}`} />
+                  <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} />
                 </React.Fragment>
                   );
                 })

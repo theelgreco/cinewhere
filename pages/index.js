@@ -22,6 +22,7 @@ export default function Home() {
   const [expand, setExpand] = useState(false);
   const [searchClosed, setSearchClosed] = useState(true);
   const [refs, setRefs] = useState({});
+  const [options, setOptions] = useState({});
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
@@ -79,6 +80,8 @@ export default function Home() {
               setExpand={setExpand}
               searchClosed={searchClosed}
               setSearchClosed={setSearchClosed}
+              options={options}
+              setOptions={setOptions}
             />
           }
         />

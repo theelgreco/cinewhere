@@ -17,6 +17,7 @@ export default function Search({
   setSearchClosed,
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);
+  const [noResults, setNoResults] = useState(false);
 
   // useEffect(() => {
   //   setSearchText("");
@@ -44,6 +45,7 @@ export default function Search({
         page: refs.searchResultsPage.current,
       };
       searchMovies(params).then((res) => {
+        if (!res.length) setNoResults(true);
         setSearchResultsData(res);
         setFinishedTyping(false);
         // refs.page.current++;
@@ -54,6 +56,7 @@ export default function Search({
   }, [finishedTyping]);
 
   function handleChange(e) {
+    if (noResults) setNoResults(false);
     setSearchResultsData([]);
     expand ? setSearchText(e.target.value) : (e.target.value = "");
     refs.search.current = e.target.value;
@@ -89,6 +92,8 @@ export default function Search({
           setSearchClosed={setSearchClosed}
           setSearchResultsData={setSearchResultsData}
           searchText={searchText}
+          noResults={noResults}
+          setSearchText={setSearchText}
         />
       )}
     </section>

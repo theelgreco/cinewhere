@@ -16,6 +16,8 @@ export default function SearchResults({
   setSearchClosed,
   setSearchResultsData,
   searchText,
+  noResults,
+  setSearchText,
 }) {
   const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
@@ -58,6 +60,7 @@ export default function SearchResults({
   function closeSearch(e) {
     e.target.style.display = "none";
     setSearchResultsData([]);
+    setSearchText("");
     refs.search.current = "";
     const search = refs.expandedSearch.current;
     search.animate(
@@ -106,7 +109,7 @@ export default function SearchResults({
       <div className={styles.searchBar}>
         <SearchBar handleChange={handleChange} focus={true} refs={refs} />
       </div>
-      {searchResultsData && searchResultsData.length ? (
+      {searchResultsData.length ? (
         <div className={styles.flexContainer}>
           {searchResultsData.map((film) => {
             return (
@@ -120,14 +123,14 @@ export default function SearchResults({
         </div>
       ) : (
         <>
-          {!searchText ? (
-            <></>
-          ) : (
+          {searchText && !noResults ? (
             <div className={styles.flexContainer}>
               {preload.map((temp) => {
                 return <MovieCard film={temp} />;
               })}
             </div>
+          ) : (
+            <></>
           )}
         </>
       )}
