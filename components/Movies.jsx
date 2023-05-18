@@ -29,7 +29,7 @@ export default function Movies({
   setOrder,
 }) {
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
-  const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+  const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -90,7 +90,7 @@ export default function Movies({
             setSelectedGenres(genreDataCopy);
           });
         });
-      } else if (!selectedServices.length && selectedGenres.length) {
+      } else if (!selectedServices.length) {
         setData([]);
         setSelectedGenres([]);
       }

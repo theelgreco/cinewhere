@@ -1,5 +1,6 @@
 import styles from "@/styles/MovieInfo.module.css";
 import axios from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
 import { getFilmByIdTmdb } from "api";
 import { useEffect, useState } from "react";
@@ -61,14 +62,14 @@ export default function MovieInfo({ country, isMobile }) {
             <section className={styles.servicesSection}>
               <h3>Services</h3>
               {streamingServicesDOM(streamingServices, watchCostTypes).map(
-                (price) => {
+                (price, index) => {
                   return (
-                    <>
+                    <React.Fragment key={`${index}${price}`}>
                       <p>{price.price}</p>
                       <div className={styles.servicesFlex}>
                         {price.elements}
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 }
               )}

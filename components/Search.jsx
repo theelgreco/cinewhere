@@ -19,26 +19,19 @@ export default function Search({
   const [finishedTyping, setFinishedTyping] = useState(false);
   const [noResults, setNoResults] = useState(false);
 
-  // useEffect(() => {
-  //   setSearchText("");
-  // }, []);
-
   useEffect(() => {
-    setFinishedTyping(false);
+    if (!searchResultsData.length) {
+      setFinishedTyping(false);
 
-    if (searchText && !searchResultsData.length) {
       setTimeout(() => {
         setFinishedTyping(true);
       }, 500);
-    } else if (!searchText) {
-      setTimeout(() => {
-        setFinishedTyping(true);
-      }, 200);
     }
   }, [searchText]);
 
   useEffect(() => {
     if (finishedTyping && searchText) {
+      console.log("yepppp");
       refs.searchResultsPage.current = 1;
       let params = {
         query: searchText,
@@ -51,6 +44,8 @@ export default function Search({
         // refs.page.current++;
       });
     } else if (finishedTyping && !searchText) {
+      console.log("yepppp");
+      setSearchResultsData([]);
       setFinishedTyping(false);
     }
   }, [finishedTyping]);
@@ -62,18 +57,10 @@ export default function Search({
     refs.search.current = e.target.value;
   }
 
-  function handleClick(e) {
-    e.preventDefault();
-
-    e.target.previousSibling.value = "";
-    setSearchText("");
-  }
-
   function expandSearch(e) {
     if (!expand) {
       setExpand(true);
     }
-    // !expand ? setExpand(true) : setExpand(false);
   }
 
   return (

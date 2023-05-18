@@ -13,6 +13,8 @@ export default function GenreCard({
   setGenreIdToSearch,
   genreList,
   setGenreList,
+  clicked,
+  setClicked,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
@@ -30,9 +32,11 @@ export default function GenreCard({
   }, [selectedGenres]);
 
   function handleClick(e) {
-    if (mouseMoving) {
+    if (mouseMoving || clicked) {
       return;
     }
+
+    setClicked(true);
 
     const genreListCopy = [...genreList];
     const findGenreIndex = genreListCopy.findIndex((el) => {
@@ -41,14 +45,14 @@ export default function GenreCard({
     const genreToReplace = genreListCopy[findGenreIndex];
     genreListCopy.splice(findGenreIndex, 1);
 
-    if (!isSelected) {
+    if (!isSelected && !clicked) {
       setIsSelected(true);
       setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
       setGenreIdToSearch(genreId);
 
       genreListCopy.splice(selectedGenres.length, 0, genreToReplace);
       setGenreList(genreListCopy);
-    } else {
+    } else if (isSelected && !clicked) {
       setIsSelected(false);
       const selectedGenresCopy = [...selectedGenres];
       const indexToRemove = selectedGenresCopy.findIndex((el) => {
@@ -60,6 +64,10 @@ export default function GenreCard({
       genreListCopy.splice(selectedGenres.length - 1, 0, genreToReplace);
       setGenreList(genreListCopy);
     }
+
+    setTimeout(() => {
+      setClicked(false);
+    }, 800);
   }
 
   return (
