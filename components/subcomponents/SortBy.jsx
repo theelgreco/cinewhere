@@ -9,19 +9,26 @@ export default function SortBy({
   order,
   setOrder,
 }) {
+  const [selected, setSelected] = useState(false);
+
   function handleSelect(e) {
     if (e.target.id === "sort_by") {
       setSort(e.target.value);
       !order ? setOrder("desc") : null;
     }
-    if (e.target.id === "order") setOrder(e.target.value);
+    if (e.target.id === "order") {
+      setOrder(e.target.value);
+    }
+
+    setSelected(true);
   }
 
   useEffect(() => {
-    if (sort && order) {
+    if (sort && order && selected) {
       setOptions({ sort_by: `${sort}.${order}` });
+      setSelected(false);
     }
-  }, [sort, order]);
+  }, [selected]);
 
   useEffect(() => {
     console.log(options);
