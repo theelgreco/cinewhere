@@ -63,6 +63,7 @@ export default function GenreCard({
 
       genreListCopy.splice(selectedGenres.length - 1, 0, genreToReplace);
       setGenreList(genreListCopy);
+      setGenreIdToSearch(null);
     }
 
     setTimeout(() => {

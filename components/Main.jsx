@@ -42,7 +42,6 @@ export default function Main({
   const [mouseDown, setMouseDown] = useState(false);
   const [mouseX, setMouseX] = useState(null);
   const [mouseMoving, setMouseMoving] = useState(false);
-  const [atBottom, setAtBottom] = useState(false);
   const [genreIdToSearch, setGenreIdToSearch] = useState(null);
 
   useEffect(() => {
@@ -129,8 +128,6 @@ export default function Main({
       <Type isMobile={isMobile} />
       <Movies
         isMobile={isMobile}
-        atBottom={atBottom}
-        setAtBottom={setAtBottom}
         setSelectedServices={setSelectedServices}
         selectedServices={selectedServices}
         data={data}
