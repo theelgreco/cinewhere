@@ -1,15 +1,47 @@
 import styles from "@/styles/SearchBar.module.css";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function SearchBar({ handleChange, expandSearch, focus, refs }) {
   const search = useRef();
+  const submit = useRef();
+  const [pressed, setPressed] = useState(false);
 
   useEffect(() => {
     if (focus) search.current.focus();
     if (refs) {
       search.current.value = refs.search.current;
-    } 
+    }
   }, []);
+
+  useEffect(() => {
+    if (pressed) {
+      submit.current
+        .animate(
+          {
+            // backgroundColor: "rgb(51, 44, 99)",
+            boxShadow: "inset 0px 0px 3px 2px rgba(0, 0, 0, 0.5)",
+          },
+          { duration: 200 }
+        )
+        .finished.then(() => {
+          setPressed(false);
+          search.current.blur();
+          submit.current.blur();
+        });
+    }
+  }, [pressed]);
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      setPressed(true);
+    }
+  }
+
+  function handleClick(e) {
+    if (e.button === 0) {
+      setPressed(true);
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -18,9 +50,11 @@ export default function SearchBar({ handleChange, expandSearch, focus, refs }) {
         placeholder="Search by title"
         onChange={handleChange}
         onClick={expandSearch}
+        onFocus={expandSearch}
+        onKeyDown={handleKeyDown}
         ref={search}
       />
-      <button>
+      <button ref={submit} onMouseDown={handleClick} onKeyDown={handleKeyDown}>
         <svg
           viewBox="0 0 24 24"
           preserveAspectRatio="xMidYMid meet"

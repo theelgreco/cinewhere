@@ -122,7 +122,7 @@ export default function Main({
         genreList={genreList}
         setGenreList={setGenreList}
       />
-      <Type isMobile={isMobile} options={options} setOptions={setOptions} />
+      <Type isMobile={isMobile} />
       <Movies
         isMobile={isMobile}
         atBottom={atBottom}
@@ -141,6 +141,7 @@ export default function Main({
         refs={refs}
         setRefs={setRefs}
         options={options}
+        setOptions={setOptions}
       />
     </main>
   );

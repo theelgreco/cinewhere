@@ -16,6 +16,8 @@
 }
 
 .Movies {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   overflow: hidden;
   overflow-y: scroll;
@@ -67,6 +69,7 @@
   flex-flow: row nowrap;
   gap: 1%;
   margin: 17px;
+  padding-left: 0.3vw;
   width: 100%;
   overflow-x: scroll;
   height: fit-content;

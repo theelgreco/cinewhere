@@ -27,6 +27,12 @@
   box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
 }
 
+.container > input:focus {
+  border-left: 1px solid rgb(75 60 167);
+  border-top: 1px solid rgb(75 60 167);
+  border-bottom: 1px solid rgb(75 60 167);
+}
+
 .container > input::placeholder {
   font-family: "Lexend";
   color: rgb(165, 154, 228);
@@ -51,6 +57,11 @@
   background-color: rgb(74, 59, 167);
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
   color: rgb(223, 219, 245);
+}
+
+.pressed {
+  background-color: rgb(25, 18, 69);
+  box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
 }
 
 .container::after {

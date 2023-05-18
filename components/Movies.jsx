@@ -1,5 +1,6 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
+import SortBy from "./subcomponents/SortBy";
 import { getFilmsTmdb, searchMovies } from "api";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -21,9 +22,10 @@ export default function Movies({
   country,
   refs,
   options,
+  setOptions,
 }) {
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
-  const preload = [{}, {}, {}, {}, {}, {}, {}];
+  const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -203,8 +205,13 @@ export default function Movies({
           className={styles.Movies}
           onScroll={handleScroll}
           ref={refs.sectionRef}>
+          {data.length ? (
+            <SortBy options={options} setOptions={setOptions} />
+          ) : (
+            <></>
+          )}
           <div className={styles.moviesFlex}>
-            {data ? (
+            {data.length ? (
               data.map((film, index) => {
                 return (
                   <MovieCard
@@ -217,7 +224,17 @@ export default function Movies({
                 );
               })
             ) : (
-              <></>
+              <>
+                {selectedServices.length ? (
+                  <div className={styles.moviesFlex}>
+                    {preload.map((temp) => {
+                      return <MovieCard film={temp} />;
+                    })}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
             )}
           </div>
         </section>

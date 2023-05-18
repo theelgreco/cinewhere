@@ -51,8 +51,8 @@ export default function MovieCard({
                   return (
                     //prettier-ignore
                     <React.Fragment key={`${service.provider_name}${index}${film.title}`}>
-                  <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} />
-                </React.Fragment>
+                      <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} />
+                    </React.Fragment>
                   );
                 })
               ) : (

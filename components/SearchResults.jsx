@@ -3,7 +3,7 @@ import MovieCard from "./subcomponents/MovieCard";
 import SearchBar from "./subcomponents/SearchBar";
 import clsx from "clsx";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function SearchResults({
   setFilmClicked,
@@ -20,6 +20,7 @@ export default function SearchResults({
   setSearchText,
 }) {
   const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+  const close = useRef();
 
   useEffect(() => {
     if (expand && searchClosed) {
@@ -103,7 +104,7 @@ export default function SearchResults({
         [styles.SearchResultsExpand]: !searchClosed,
       })}
       ref={refs.expandedSearch}>
-      <button onClick={closeSearch} className={styles.closeBtn}>
+      <button onClick={closeSearch} className={styles.closeBtn} ref={close}>
         X
       </button>
       <div className={styles.searchBar}>

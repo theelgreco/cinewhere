@@ -51,7 +51,9 @@ export default function MovieInfo({ country, isMobile }) {
             <Link to={"/"}>
               <button className={styles.backButton}>BACK</button>
             </Link>
-            <h1>{film.title}</h1>
+            <h1>
+              {film.title} ({film.release_date})
+            </h1>
             <img
               className={styles.poster}
               src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
@@ -92,15 +94,18 @@ export default function MovieInfo({ country, isMobile }) {
             </section>
             <p className={styles.overview}>{film.overview}</p>
           </div>
-
           <div className={styles.videoContainer}>
-            <iframe
-              id="video"
-              className={styles.video}
-              src={`https://www.youtube.com/embed/${film.videos.results[0].key}?loop=1&modestbranding=1`}
-              title="YouTube video player"
-              frameBorder={0}
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
+            {film.videos.results.length ? (
+              <iframe
+                id="video"
+                className={styles.video}
+                src={`https://www.youtube.com/embed/${film.videos.results[0].key}?loop=1&modestbranding=1`}
+                title="YouTube video player"
+                frameBorder={0}
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
