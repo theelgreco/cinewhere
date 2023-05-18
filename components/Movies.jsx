@@ -235,7 +235,7 @@ export default function Movies({
               data.map((film, index) => {
                 return (
                   <MovieCard
-                    key={index}
+                    key={`${index}${film.id}${film.title}`}
                     film={film}
                     setFilmClicked={setFilmClicked}
                     data={data}
@@ -247,8 +247,10 @@ export default function Movies({
               <>
                 {selectedServices.length ? (
                   <div className={styles.moviesFlex}>
-                    {preload.map((temp) => {
-                      return <MovieCard film={temp} />;
+                    {preload.map((temp, index) => {
+                      return (
+                        <MovieCard film={temp} key={`${index}servicetemp`} />
+                      );
                     })}
                   </div>
                 ) : (
@@ -266,7 +268,9 @@ export default function Movies({
           onScroll={handleScroll}>
           {selectedGenres.map((genre) => {
             return (
-              <div key={genre.id} className={styles.individualGenreContainer}>
+              <div
+                key={`${genre.id}data`}
+                className={styles.individualGenreContainer}>
                 <div className={styles.genreName}>
                   <p>{genre.genre}</p>
                 </div>
@@ -290,8 +294,10 @@ export default function Movies({
                       })
                     ) : (
                       <>
-                        {preload.map((temp) => {
-                          return <MovieCard film={temp} />;
+                        {preload.map((temp, index) => {
+                          return (
+                            <MovieCard film={temp} key={`${index}genretemp`} />
+                          );
                         })}
                       </>
                     )}

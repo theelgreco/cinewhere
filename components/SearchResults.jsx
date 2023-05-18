@@ -123,6 +123,7 @@ export default function SearchResults({
           focus={true}
           refs={refs}
           handleBlur={handleBlur}
+          closeSearch={closeSearch}
           searchText={searchText}
         />
       </div>
@@ -131,6 +132,7 @@ export default function SearchResults({
           {searchResultsData.map((film) => {
             return (
               <MovieCard
+                key={`${film.title}${film.id}search`}
                 setFilmClicked={setFilmClicked}
                 film={film}
                 data={searchResultsData}
@@ -142,8 +144,8 @@ export default function SearchResults({
         <>
           {searchText && !noResults ? (
             <div className={styles.flexContainer}>
-              {preload.map((temp) => {
-                return <MovieCard film={temp} />;
+              {preload.map((temp, index) => {
+                return <MovieCard film={temp} key={`${index}tempsearch`} />;
               })}
             </div>
           ) : (

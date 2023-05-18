@@ -8,6 +8,7 @@ export default function SearchBar({
   refs,
   handleBlur,
   searchText,
+  closeSearch,
 }) {
   const search = useRef();
   const submit = useRef();
@@ -42,6 +43,10 @@ export default function SearchBar({
     if (e.key === "Enter") {
       if (!searchText) return;
       setPressed(true);
+    } else if (e.key === "Escape") {
+      if (!searchText) {
+        closeSearch();
+      }
     }
   }
 
