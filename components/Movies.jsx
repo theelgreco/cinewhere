@@ -23,6 +23,10 @@ export default function Movies({
   refs,
   options,
   setOptions,
+  sort,
+  setSort,
+  order,
+  setOrder,
 }) {
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
   const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
@@ -67,8 +71,10 @@ export default function Movies({
         }
       });
 
-      selectedGenres.forEach((genre) => {
-        const genreDataCopy = [...selectedGenres];
+      const genreDataCopy = [...selectedGenres];
+      genreDataCopy.forEach((genre) => {
+        genre.movies = [];
+        setSelectedGenres(genreDataCopy);
         let params = {
           page: 1,
           watch_region: "GB",
@@ -86,6 +92,13 @@ export default function Movies({
           setSelectedGenres(genreDataCopy);
         });
       });
+    } else if (
+      !selectedServices.length &&
+      selectedGenres.length &&
+      !filmClicked
+    ) {
+      setData([]);
+      setSelectedGenres([]);
     } else if (!filmClicked) {
       setData([]);
       if (Object.keys(refs).length) {
@@ -205,8 +218,15 @@ export default function Movies({
           className={styles.Movies}
           onScroll={handleScroll}
           ref={refs.sectionRef}>
-          {data.length ? (
-            <SortBy options={options} setOptions={setOptions} />
+          {selectedServices.length ? (
+            <SortBy
+              options={options}
+              setOptions={setOptions}
+              sort={sort}
+              setSort={setSort}
+              order={order}
+              setOrder={setOrder}
+            />
           ) : (
             <></>
           )}
@@ -256,24 +276,28 @@ export default function Movies({
                     onScroll={handleGenreScroll}
                     id={genre.id}
                     ref={refs[genre.id]}>
-                    {genre.movies.map((film) => {
-                      return (
-                        <MovieCard
-                          key={`${film.id}${genre.genre}`}
-                          film={film}
-                          setFilmClicked={setFilmClicked}
-                          genre={true}
-                          country={country}
-                        />
-                      );
-                    })}
+                    {genre.movies.length ? (
+                      genre.movies.map((film) => {
+                        return (
+                          <MovieCard
+                            key={`${film.id}${genre.genre}`}
+                            film={film}
+                            setFilmClicked={setFilmClicked}
+                            genre={true}
+                            country={country}
+                          />
+                        );
+                      })
+                    ) : (
+                      <>
+                        {preload.map((temp) => {
+                          return <MovieCard film={temp} />;
+                        })}
+                      </>
+                    )}
                   </div>
                 ) : (
-                  <div className={styles.genreMovies}>
-                    {preload.map((temp) => {
-                      return <MovieCard film={temp} />;
-                    })}
-                  </div>
+                  <></>
                 )}
               </div>
             );

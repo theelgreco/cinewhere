@@ -17,8 +17,6 @@ export default function MovieCard({
   const [serviceIcons, setServiceIcons] = useState([]);
 
   useEffect(() => {
-    console.log(film);
-
     if (Object.keys(film).length) {
       getFilmServicesTmdb(film.id, film.media_type).then((res) => {
         if (res) {

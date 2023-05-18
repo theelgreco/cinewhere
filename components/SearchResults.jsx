@@ -59,7 +59,7 @@ export default function SearchResults({
   }, [expand]);
 
   function closeSearch(e) {
-    e.target.style.display = "none";
+    close.current.style.display = "none";
     setSearchResultsData([]);
     setSearchText("");
     refs.search.current = "";
@@ -97,6 +97,12 @@ export default function SearchResults({
       });
   }
 
+  function handleBlur() {
+    if (!searchText) {
+      closeSearch();
+    }
+  }
+
   return (
     <div
       className={clsx({
@@ -104,11 +110,21 @@ export default function SearchResults({
         [styles.SearchResultsExpand]: !searchClosed,
       })}
       ref={refs.expandedSearch}>
-      <button onClick={closeSearch} className={styles.closeBtn} ref={close}>
+      <button
+        onClick={closeSearch}
+        className={styles.closeBtn}
+        ref={close}
+        id="closeBtn">
         X
       </button>
       <div className={styles.searchBar}>
-        <SearchBar handleChange={handleChange} focus={true} refs={refs} />
+        <SearchBar
+          handleChange={handleChange}
+          focus={true}
+          refs={refs}
+          handleBlur={handleBlur}
+          searchText={searchText}
+        />
       </div>
       {searchResultsData.length ? (
         <div className={styles.flexContainer}>

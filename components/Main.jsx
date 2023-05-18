@@ -33,6 +33,10 @@ export default function Main({
   setSearchClosed,
   options,
   setOptions,
+  sort,
+  setSort,
+  order,
+  setOrder,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -142,6 +146,10 @@ export default function Main({
         setRefs={setRefs}
         options={options}
         setOptions={setOptions}
+        sort={sort}
+        setSort={setSort}
+        order={order}
+        setOrder={setOrder}
       />
     </main>
   );

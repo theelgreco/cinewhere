@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react";
 import styles from "@/styles/SortBy.module.css";
 
-export default function SortBy({ options, setOptions }) {
-  const [sort, setSort] = useState("");
-  const [order, setOrder] = useState("");
-
+export default function SortBy({
+  options,
+  setOptions,
+  sort,
+  setSort,
+  order,
+  setOrder,
+}) {
   function handleSelect(e) {
-    if (e.target.id === "sort_by") setSort(e.target.value);
+    if (e.target.id === "sort_by") {
+      setSort(e.target.value);
+      !order ? setOrder("desc") : null;
+    }
     if (e.target.id === "order") setOrder(e.target.value);
   }
 

@@ -1,7 +1,14 @@
 import styles from "@/styles/SearchBar.module.css";
 import { useState, useEffect, useRef } from "react";
 
-export default function SearchBar({ handleChange, expandSearch, focus, refs }) {
+export default function SearchBar({
+  handleChange,
+  expandSearch,
+  focus,
+  refs,
+  handleBlur,
+  searchText,
+}) {
   const search = useRef();
   const submit = useRef();
   const [pressed, setPressed] = useState(false);
@@ -33,6 +40,7 @@ export default function SearchBar({ handleChange, expandSearch, focus, refs }) {
 
   function handleKeyDown(e) {
     if (e.key === "Enter") {
+      if (!searchText) return;
       setPressed(true);
     }
   }
@@ -51,6 +59,7 @@ export default function SearchBar({ handleChange, expandSearch, focus, refs }) {
         onChange={handleChange}
         onClick={expandSearch}
         onFocus={expandSearch}
+        onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         ref={search}
       />

@@ -22,6 +22,8 @@ export default function Home() {
   const [expand, setExpand] = useState(false);
   const [searchClosed, setSearchClosed] = useState(true);
   const [refs, setRefs] = useState({});
+  const [sort, setSort] = useState("");
+  const [order, setOrder] = useState("");
   const [options, setOptions] = useState({});
 
   useEffect(() => {
@@ -82,6 +84,10 @@ export default function Home() {
               setSearchClosed={setSearchClosed}
               options={options}
               setOptions={setOptions}
+              sort={sort}
+              setSort={setSort}
+              order={order}
+              setOrder={setOrder}
             />
           }
         />
