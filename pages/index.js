@@ -14,7 +14,6 @@ export default function Home() {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [data, setData] = useState([]);
   const [searchResultsData, setSearchResultsData] = useState([]);
-  const [genreData, setGenreData] = useState([]);
   const [filmClicked, setFilmClicked] = useState(false);
   const [country, setCountry] = useState("gb");
   const [servicesList, setServicesList] = useState([...servicesArray]);
@@ -65,8 +64,6 @@ export default function Home() {
               setData={setData}
               filmClicked={filmClicked}
               setFilmClicked={setFilmClicked}
-              genreData={genreData}
-              setGenreData={setGenreData}
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
               country={country}

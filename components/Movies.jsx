@@ -7,12 +7,9 @@ import React from "react";
 
 export default function Movies({
   isMobile,
-  setSelectedServices,
   selectedServices,
   data,
   setData,
-  genreData,
-  setGenreData,
   filmClicked,
   setFilmClicked,
   genreIdToSearch,
@@ -47,141 +44,6 @@ export default function Movies({
       }
     });
   }, []);
-
-  // useEffect(() => {
-  //   if (!filmClicked) {
-  //     if (selectedServices.length && !selectedGenres.length) {
-  //       setData([]);
-  //       refs.sectionRef.current.scrollTop = 0;
-  //       refs.page.current = 1;
-  //       let params = {
-  //         page: 1,
-  //         watch_region: "GB",
-  //         with_watch_monetization_types: "flatrate",
-  //         with_watch_providers: selectedServices.join("|"),
-  //         ...options,
-  //       };
-  //       getFilmsTmdb(params).then((res) => {
-  //         setData(res);
-  //         refs.page.current++;
-  //       });
-  //     } else if (selectedServices.length && selectedGenres.length) {
-  //       selectedGenres.forEach((genre) => {
-  //         if (refs[genre.id].current) {
-  //           refs[genre.id].current.scrollLeft = 0;
-  //         }
-  //       });
-
-  //       const genreDataCopy = [...selectedGenres];
-  //       genreDataCopy.forEach((genre) => {
-  //         genre.movies = [];
-  //         setSelectedGenres(genreDataCopy);
-  //         let params = {
-  //           page: 1,
-  //           watch_region: "GB",
-  //           with_watch_monetization_types: "flatrate",
-  //           with_watch_providers: selectedServices.join("|"),
-  //           with_genres: genre.id,
-  //           ...options,
-  //         };
-  //         getFilmsTmdb(params).then((res) => {
-  //           const indexOfGenre = genreDataCopy.findIndex(
-  //             (el) => el.id === genre.id
-  //           );
-  //           genreDataCopy[indexOfGenre].movies = res;
-  //           genreDataCopy[indexOfGenre].page = 1;
-  //           setSelectedGenres(genreDataCopy);
-  //         });
-  //       });
-  //     } else if (!selectedServices.length && !selectedGenres.length) {
-  //       setData([]);
-  //       setSelectedGenres([]);
-  //     }
-
-  //     // else if (!selectedServices.length && selectedGenres.length) {
-  //     //   const genreDataCopy = [...selectedGenres];
-  //     //   genreDataCopy.forEach((genre) => {
-  //     //     genre.movies = [];
-  //     //     setSelectedGenres(genreDataCopy);
-  //     //     let params = {
-  //     //       page: 1,
-  //     //       watch_region: "GB",
-  //     //       with_watch_monetization_types: "flatrate",
-  //     //       with_genres: genre.id,
-  //     //       ...options,
-  //     //     };
-  //     //     getFilmsTmdb(params).then((res) => {
-  //     //       const indexOfGenre = genreDataCopy.findIndex(
-  //     //         (el) => el.id === genre.id
-  //     //       );
-  //     //       genreDataCopy[indexOfGenre].movies = res;
-  //     //       genreDataCopy[indexOfGenre].page = 1;
-  //     //       setSelectedGenres(genreDataCopy);
-  //     //     });
-  //     //   });
-  //     // }
-  //   }
-  //   setFilmClicked(false);
-  // }, [selectedServices, options]);
-
-  // useEffect(() => {
-  //   if (!filmClicked) {
-  //     if (genreIdToSearch && selectedServices.length) {
-  //       let params = {
-  //         page: 1,
-  //         watch_region: "GB",
-  //         with_watch_monetization_types: "flatrate",
-  //         with_watch_providers: selectedServices.join("|"),
-  //         with_genres: genreIdToSearch,
-  //         ...options,
-  //       };
-  //       getFilmsTmdb(params).then((res) => {
-  //         const genreDataCopy = [...selectedGenres];
-  //         const indexOfGenre = genreDataCopy.findIndex(
-  //           (el) => el.id === genreIdToSearch
-  //         );
-  //         genreDataCopy[indexOfGenre].movies = res;
-  //         genreDataCopy[indexOfGenre].page = 1;
-  //         setSelectedGenres(genreDataCopy);
-  //         setGenreIdToSearch(null);
-  //       });
-  //     } else if (!genreIdToSearch && selectedServices.length) {
-  //       setData([]);
-  //       refs.page.current = 1;
-  //       let params = {
-  //         page: 1,
-  //         watch_region: "GB",
-  //         with_watch_monetization_types: "flatrate",
-  //         with_watch_providers: selectedServices.join("|"),
-  //         ...options,
-  //       };
-  //       getFilmsTmdb(params).then((res) => {
-  //         setData(res);
-  //         refs.page.current++;
-  //       });
-  //     }
-  //   }
-  //   setFilmClicked(false);
-  // }, [genreIdToSearch, options]);
-
-  /*  
-      possibilities:
-
-      - click on add or remove service:
-        - with no genres selected - return a search with service(s) and set data !!!!!!!!
-        - with no more services selected and no genres selected - set data to empty !!!!!!!!
-        - with genres selected - return a search for each genre with service(s) and set genre data !!!!!!!!
-        - with no more services selected and genres selected - return a search for each genre with all services and set genre data !!!!!!!!
-
-      - click on add genre:
-        - with service(s) already selected - return a search for genre with service(s) and add to end of genre data !!!!!!!!
-        - with no services selected - return a search for genre no services + genre and add to genre data !!!!!!!!
-
-      - click on remove genre:
-        - with no other genres selected and services selected - return a search with services and set data !!!!!!!!
-        - with no other genres selected and no services selected - set data to nothing !!!!!!!!
-        - with other genres selected - remove genre from genre data  !!!!!!!
-  */
 
   useEffect(() => {
     //prettier-ignore
@@ -324,7 +186,7 @@ export default function Movies({
     }
 
     setFilmClicked(false);
-  }, [genreIdToSearch, serviceIdToSearch, options]);
+  }, [genreIdToSearch, serviceIdToSearch]);
 
   useEffect(() => {
     //prettier-ignore
@@ -346,6 +208,69 @@ export default function Movies({
         });
         setServiceIdToSearch({})
         setGenreIdToSearch({})
+    }
+
+    //prettier-ignore
+    //only execute if options are updated and there are genres selected but no services selected
+    if(Object.keys(options) && !selectedServices.length && selectedGenres.length && !filmClicked){
+      selectedGenres.forEach((genre) => {
+        if (refs[genre.id].current) {
+          refs[genre.id].current.scrollLeft = 0;
+        }
+      });
+
+      const genreDataCopy = [...selectedGenres];
+      genreDataCopy.forEach((genre) => {
+        genre.movies = [];
+        setSelectedGenres(genreDataCopy);
+        let params = {
+          page: 1,
+          watch_region: "GB",
+          with_watch_monetization_types: "flatrate",
+          with_genres: genre.id,
+          ...options,
+        };
+        getFilmsTmdb(params).then((res) => {
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genre.id
+          );
+          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].page = 1;
+          setSelectedGenres(genreDataCopy);
+        });
+      });
+    }
+
+    //prettier-ignore
+    //only execute if options are updated and there are both genres and services selected
+    if(Object.keys(options) && selectedServices.length && selectedGenres.length && !filmClicked){
+      selectedGenres.forEach((genre) => {
+        if (refs[genre.id].current) {
+          refs[genre.id].current.scrollLeft = 0;
+        }
+      });
+
+      const genreDataCopy = [...selectedGenres];
+      genreDataCopy.forEach((genre) => {
+        genre.movies = [];
+        setSelectedGenres(genreDataCopy);
+        let params = {
+          page: 1,
+          watch_region: "GB",
+          with_watch_monetization_types: "flatrate",
+          with_watch_providers: selectedServices.join("|"),
+          with_genres: genre.id,
+          ...options,
+        };
+        getFilmsTmdb(params).then((res) => {
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genre.id
+          );
+          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].page = 1;
+          setSelectedGenres(genreDataCopy);
+        });
+      });
     }
   }, [options]);
 

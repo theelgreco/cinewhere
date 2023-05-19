@@ -14,8 +14,6 @@ export default function Main({
   setSelectedServices,
   data,
   setData,
-  genreData,
-  setGenreData,
   filmClicked,
   setFilmClicked,
   selectedGenres,
@@ -132,12 +130,9 @@ export default function Main({
       <Type isMobile={isMobile} />
       <Movies
         isMobile={isMobile}
-        setSelectedServices={setSelectedServices}
         selectedServices={selectedServices}
         data={data}
         setData={setData}
-        genreData={genreData}
-        setGenreData={setGenreData}
         filmClicked={filmClicked}
         setFilmClicked={setFilmClicked}
         selectedGenres={selectedGenres}

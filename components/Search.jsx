@@ -20,43 +20,35 @@ export default function Search({
   const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
-    if (!finishedTyping) {
-      setFinishedTyping(false);
+    setFinishedTyping(false);
 
-      setTimeout(() => {
-        setFinishedTyping(true);
-      }, 500);
-    }
+    setTimeout(() => {
+      setFinishedTyping(true);
+    }, 1200);
   }, [searchText]);
 
   useEffect(() => {
     if (finishedTyping && searchText) {
       setSearchResultsData([]);
-      console.log("yepppp");
       refs.searchResultsPage.current = 1;
       let params = {
         query: searchText,
         page: refs.searchResultsPage.current,
       };
       searchMovies(params).then((res) => {
-        console.log(res);
-        if (!res.length) {
-          setNoResults(true);
-          setSearchResultsData([]);
-        } else {
-          setSearchResultsData(res);
-        }
+        if (!res.length) setNoResults(true);
+        setSearchResultsData(res);
         setFinishedTyping(false);
         // refs.page.current++;
       });
     } else if (finishedTyping && !searchText) {
-      console.log("naa brudda");
       setSearchResultsData([]);
       setFinishedTyping(false);
     }
   }, [finishedTyping]);
 
   function handleChange(e) {
+    setSearchResultsData([]);
     if (noResults) setNoResults(false);
     expand ? setSearchText(e.target.value) : (e.target.value = "");
     refs.search.current = e.target.value;
