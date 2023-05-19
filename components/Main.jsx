@@ -44,6 +44,7 @@ export default function Main({
   const [mouseMoving, setMouseMoving] = useState(false);
   const [genreIdToSearch, setGenreIdToSearch] = useState({});
   const [serviceIdToSearch, setServiceIdToSearch] = useState({});
+  const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
@@ -112,6 +113,8 @@ export default function Main({
         servicesList={servicesList}
         setServicesList={setServicesList}
         setServiceIdToSearch={setServiceIdToSearch}
+        clicked={clicked}
+        setClicked={setClicked}
       />
       <Genres
         isMobile={isMobile}
@@ -126,6 +129,8 @@ export default function Main({
         setSelectedGenres={setSelectedGenres}
         genreList={genreList}
         setGenreList={setGenreList}
+        clicked={clicked}
+        setClicked={setClicked}
       />
       <Type isMobile={isMobile} />
       <Movies
@@ -150,6 +155,8 @@ export default function Main({
         setSort={setSort}
         order={order}
         setOrder={setOrder}
+        clicked={clicked}
+        setClicked={setClicked}
       />
     </main>
   );

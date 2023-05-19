@@ -65,10 +65,6 @@ export default function ServiceCard({
       serviceListCopy.splice(selectedServices.length - 1, 0, serviceToReplace);
       setServicesList(serviceListCopy);
     }
-
-    setTimeout(() => {
-      setClicked(false);
-    }, 800);
   }
 
   return (

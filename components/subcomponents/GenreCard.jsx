@@ -36,8 +36,6 @@ export default function GenreCard({
       return;
     }
 
-    setClicked(true);
-
     const genreListCopy = [...genreList];
     const findGenreIndex = genreListCopy.findIndex((el) => {
       return el.genre === genre;
@@ -46,6 +44,7 @@ export default function GenreCard({
     genreListCopy.splice(findGenreIndex, 1);
 
     if (!isSelected && !clicked) {
+      setClicked(true);
       setIsSelected(true);
       setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
       setGenreIdToSearch({ id: genreId, add: true });
@@ -65,10 +64,6 @@ export default function GenreCard({
       setGenreList(genreListCopy);
       setGenreIdToSearch({ id: genreId, add: false });
     }
-
-    setTimeout(() => {
-      setClicked(false);
-    }, 800);
   }
 
   return (

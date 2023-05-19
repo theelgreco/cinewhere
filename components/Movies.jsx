@@ -26,6 +26,7 @@ export default function Movies({
   setSort,
   order,
   setOrder,
+  setClicked,
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
@@ -62,6 +63,7 @@ export default function Movies({
         getFilmsTmdb(params).then((res) => {
           setData(res);
           refs.page.current++;
+          setClicked(false)
         });
         setServiceIdToSearch({})
         setGenreIdToSearch({})
@@ -77,7 +79,7 @@ export default function Movies({
       });
 
       const genreDataCopy = [...selectedGenres];
-      genreDataCopy.forEach((genre) => {
+      genreDataCopy.forEach((genre, index) => {
         genre.movies = [];
         setSelectedGenres(genreDataCopy);
         let params = {
@@ -96,6 +98,7 @@ export default function Movies({
           genreDataCopy[indexOfGenre].page = 1;
           setSelectedGenres(genreDataCopy);
         });
+        if(index === genreDataCopy.length - 1) setClicked(false)
       });
       setServiceIdToSearch({})
     }
@@ -110,7 +113,7 @@ export default function Movies({
       });
 
       const genreDataCopy = [...selectedGenres];
-      genreDataCopy.forEach((genre) => {
+      genreDataCopy.forEach((genre, index) => {
         genre.movies = [];
         setSelectedGenres(genreDataCopy);
         let params = {
@@ -127,6 +130,7 @@ export default function Movies({
           genreDataCopy[indexOfGenre].movies = res;
           genreDataCopy[indexOfGenre].page = 1;
           setSelectedGenres(genreDataCopy);
+          if(index === genreDataCopy.length - 1) setClicked(false)
         });
       });
       setServiceIdToSearch({})
@@ -138,6 +142,7 @@ export default function Movies({
       setData([])
       setServiceIdToSearch({})
       setGenreIdToSearch({})
+      setClicked(false)
     }
 
     //prettier-ignore
@@ -159,6 +164,7 @@ export default function Movies({
         genreDataCopy[indexOfGenre].movies = res;
         genreDataCopy[indexOfGenre].page = 1;
         setSelectedGenres(genreDataCopy);
+        setClicked(false)
       });
       setGenreIdToSearch({});
     }
@@ -181,6 +187,7 @@ export default function Movies({
         genreDataCopy[indexOfGenre].movies = res;
         genreDataCopy[indexOfGenre].page = 1;
         setSelectedGenres(genreDataCopy);
+        setClicked(false)
       });
       setGenreIdToSearch({});
     }
