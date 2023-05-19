@@ -16,6 +16,7 @@ export default function ServiceCard({
   provider_id,
   clicked,
   setClicked,
+  setServiceIdToSearch,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
@@ -48,6 +49,7 @@ export default function ServiceCard({
 
     if (!isSelected && !clicked) {
       setSelectedServices([...selectedServices, provider_id]);
+      setServiceIdToSearch({ id: provider_id, add: true });
       setIsSelected(true);
       setNoneSelected(false);
 
@@ -57,6 +59,7 @@ export default function ServiceCard({
       const servicesCopy = [...selectedServices];
       servicesCopy.splice(servicesCopy.indexOf(provider_id), 1);
       setSelectedServices(servicesCopy);
+      setServiceIdToSearch({ id: provider_id, add: false });
       setIsSelected(false);
 
       serviceListCopy.splice(selectedServices.length - 1, 0, serviceToReplace);

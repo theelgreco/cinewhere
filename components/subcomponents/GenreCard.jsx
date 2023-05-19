@@ -27,7 +27,7 @@ export default function GenreCard({
 
     if (!selectedGenres.length) {
       setIsSelected(false);
-      setGenreIdToSearch(null);
+      setGenreIdToSearch({});
     }
   }, [selectedGenres]);
 
@@ -48,7 +48,7 @@ export default function GenreCard({
     if (!isSelected && !clicked) {
       setIsSelected(true);
       setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
-      setGenreIdToSearch(genreId);
+      setGenreIdToSearch({ id: genreId, add: true });
 
       genreListCopy.splice(selectedGenres.length, 0, genreToReplace);
       setGenreList(genreListCopy);
@@ -63,7 +63,7 @@ export default function GenreCard({
 
       genreListCopy.splice(selectedGenres.length - 1, 0, genreToReplace);
       setGenreList(genreListCopy);
-      setGenreIdToSearch(null);
+      setGenreIdToSearch({ id: genreId, add: false });
     }
 
     setTimeout(() => {

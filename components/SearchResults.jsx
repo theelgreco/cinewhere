@@ -129,10 +129,10 @@ export default function SearchResults({
       </div>
       {searchResultsData.length ? (
         <div className={styles.flexContainer}>
-          {searchResultsData.map((film) => {
+          {searchResultsData.map((film, index) => {
             return (
               <MovieCard
-                key={`${film.title}${film.id}search`}
+                key={`${film.title}${film.id}${index}search`}
                 setFilmClicked={setFilmClicked}
                 film={film}
                 data={searchResultsData}

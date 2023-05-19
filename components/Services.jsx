@@ -14,6 +14,7 @@ export default function Services({
   setSelectedServices,
   servicesList,
   setServicesList,
+  setServiceIdToSearch,
 }) {
   const [noneSelected, setNoneSelected] = useState(true);
   const [clicked, setClicked] = useState(false);
@@ -53,6 +54,7 @@ export default function Services({
                 setServicesList={setServicesList}
                 clicked={clicked}
                 setClicked={setClicked}
+                setServiceIdToSearch={setServiceIdToSearch}
               />
             );
           })

@@ -20,7 +20,7 @@ export default function Search({
   const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
-    if (!searchResultsData.length) {
+    if (!finishedTyping) {
       setFinishedTyping(false);
 
       setTimeout(() => {
@@ -31,6 +31,7 @@ export default function Search({
 
   useEffect(() => {
     if (finishedTyping && searchText) {
+      setSearchResultsData([]);
       console.log("yepppp");
       refs.searchResultsPage.current = 1;
       let params = {
@@ -38,13 +39,18 @@ export default function Search({
         page: refs.searchResultsPage.current,
       };
       searchMovies(params).then((res) => {
-        if (!res.length) setNoResults(true);
-        setSearchResultsData(res);
+        console.log(res);
+        if (!res.length) {
+          setNoResults(true);
+          setSearchResultsData([]);
+        } else {
+          setSearchResultsData(res);
+        }
         setFinishedTyping(false);
         // refs.page.current++;
       });
     } else if (finishedTyping && !searchText) {
-      console.log("yepppp");
+      console.log("naa brudda");
       setSearchResultsData([]);
       setFinishedTyping(false);
     }
@@ -52,7 +58,6 @@ export default function Search({
 
   function handleChange(e) {
     if (noResults) setNoResults(false);
-    setSearchResultsData([]);
     expand ? setSearchText(e.target.value) : (e.target.value = "");
     refs.search.current = e.target.value;
   }
