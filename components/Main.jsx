@@ -42,7 +42,9 @@ export default function Main({
   const [mouseDown, setMouseDown] = useState(false);
   const [mouseX, setMouseX] = useState(null);
   const [mouseMoving, setMouseMoving] = useState(false);
-  const [genreIdToSearch, setGenreIdToSearch] = useState(null);
+  const [genreIdToSearch, setGenreIdToSearch] = useState({});
+  const [serviceIdToSearch, setServiceIdToSearch] = useState({});
+  const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
@@ -110,6 +112,9 @@ export default function Main({
         setSelectedServices={setSelectedServices}
         servicesList={servicesList}
         setServicesList={setServicesList}
+        setServiceIdToSearch={setServiceIdToSearch}
+        clicked={clicked}
+        setClicked={setClicked}
       />
       <Genres
         isMobile={isMobile}
@@ -124,11 +129,12 @@ export default function Main({
         setSelectedGenres={setSelectedGenres}
         genreList={genreList}
         setGenreList={setGenreList}
+        clicked={clicked}
+        setClicked={setClicked}
       />
       <Type isMobile={isMobile} />
       <Movies
         isMobile={isMobile}
-        setSelectedServices={setSelectedServices}
         selectedServices={selectedServices}
         data={data}
         setData={setData}
@@ -137,6 +143,8 @@ export default function Main({
         selectedGenres={selectedGenres}
         setGenreIdToSearch={setGenreIdToSearch}
         genreIdToSearch={genreIdToSearch}
+        serviceIdToSearch={serviceIdToSearch}
+        setServiceIdToSearch={setServiceIdToSearch}
         setSelectedGenres={setSelectedGenres}
         country={country}
         refs={refs}
@@ -147,6 +155,8 @@ export default function Main({
         setSort={setSort}
         order={order}
         setOrder={setOrder}
+        clicked={clicked}
+        setClicked={setClicked}
       />
     </main>
   );

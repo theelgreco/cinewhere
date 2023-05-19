@@ -20,18 +20,16 @@ export default function Search({
   const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
-    if (!searchResultsData.length) {
-      setFinishedTyping(false);
+    setFinishedTyping(false);
 
-      setTimeout(() => {
-        setFinishedTyping(true);
-      }, 500);
-    }
+    setTimeout(() => {
+      setFinishedTyping(true);
+    }, 1200);
   }, [searchText]);
 
   useEffect(() => {
     if (finishedTyping && searchText) {
-      console.log("yepppp");
+      setSearchResultsData([]);
       refs.searchResultsPage.current = 1;
       let params = {
         query: searchText,
@@ -44,15 +42,14 @@ export default function Search({
         // refs.page.current++;
       });
     } else if (finishedTyping && !searchText) {
-      console.log("yepppp");
       setSearchResultsData([]);
       setFinishedTyping(false);
     }
   }, [finishedTyping]);
 
   function handleChange(e) {
-    if (noResults) setNoResults(false);
     setSearchResultsData([]);
+    if (noResults) setNoResults(false);
     expand ? setSearchText(e.target.value) : (e.target.value = "");
     refs.search.current = e.target.value;
   }

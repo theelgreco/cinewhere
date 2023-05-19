@@ -27,7 +27,7 @@ export default function GenreCard({
 
     if (!selectedGenres.length) {
       setIsSelected(false);
-      setGenreIdToSearch(null);
+      setGenreIdToSearch({});
     }
   }, [selectedGenres]);
 
@@ -35,8 +35,6 @@ export default function GenreCard({
     if (mouseMoving || clicked) {
       return;
     }
-
-    setClicked(true);
 
     const genreListCopy = [...genreList];
     const findGenreIndex = genreListCopy.findIndex((el) => {
@@ -46,9 +44,10 @@ export default function GenreCard({
     genreListCopy.splice(findGenreIndex, 1);
 
     if (!isSelected && !clicked) {
+      setClicked(true);
       setIsSelected(true);
       setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
-      setGenreIdToSearch(genreId);
+      setGenreIdToSearch({ id: genreId, add: true });
 
       genreListCopy.splice(selectedGenres.length, 0, genreToReplace);
       setGenreList(genreListCopy);
@@ -63,12 +62,8 @@ export default function GenreCard({
 
       genreListCopy.splice(selectedGenres.length - 1, 0, genreToReplace);
       setGenreList(genreListCopy);
-      setGenreIdToSearch(null);
+      setGenreIdToSearch({ id: genreId, add: false });
     }
-
-    setTimeout(() => {
-      setClicked(false);
-    }, 800);
   }
 
   return (

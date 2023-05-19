@@ -7,16 +7,17 @@ import React from "react";
 
 export default function Movies({
   isMobile,
-  setSelectedServices,
   selectedServices,
   data,
   setData,
   filmClicked,
   setFilmClicked,
   genreIdToSearch,
+  setGenreIdToSearch,
+  serviceIdToSearch,
+  setServiceIdToSearch,
   selectedGenres,
   setSelectedGenres,
-  setGenreIdToSearch,
   country,
   refs,
   options,
@@ -25,6 +26,7 @@ export default function Movies({
   setSort,
   order,
   setOrder,
+  setClicked,
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
@@ -45,8 +47,9 @@ export default function Movies({
   }, []);
 
   useEffect(() => {
-    if (!filmClicked) {
-      if (selectedServices.length && !selectedGenres.length) {
+    //prettier-ignore
+    // only execute if a service has been clicked with at least one service selected and no genres selected or if the last genre has been removed with services still selected
+    if ((Object.keys(serviceIdToSearch).length || (Object.keys(genreIdToSearch).length && !genreIdToSearch.add)) && (selectedServices.length && !selectedGenres.length && !filmClicked)) {
         setData([]);
         refs.sectionRef.current.scrollTop = 0;
         refs.page.current = 1;
@@ -60,89 +63,144 @@ export default function Movies({
         getFilmsTmdb(params).then((res) => {
           setData(res);
           refs.page.current++;
+          setClicked(false)
         });
-      } else if (selectedServices.length && selectedGenres.length) {
-        selectedGenres.forEach((genre) => {
-          if (refs[genre.id].current) {
-            refs[genre.id].current.scrollLeft = 0;
-          }
-        });
-
-        const genreDataCopy = [...selectedGenres];
-        genreDataCopy.forEach((genre) => {
-          genre.movies = [];
-          setSelectedGenres(genreDataCopy);
-          let params = {
-            page: 1,
-            watch_region: "GB",
-            with_watch_monetization_types: "flatrate",
-            with_watch_providers: selectedServices.join("|"),
-            with_genres: genre.id,
-            ...options,
-          };
-          getFilmsTmdb(params).then((res) => {
-            const indexOfGenre = genreDataCopy.findIndex(
-              (el) => el.id === genre.id
-            );
-            genreDataCopy[indexOfGenre].movies = res;
-            genreDataCopy[indexOfGenre].page = 1;
-            setSelectedGenres(genreDataCopy);
-          });
-        });
-      } else if (!selectedServices.length && !selectedGenres.length) {
-        setData([]);
-        setSelectedGenres([]);
-      }
-
-      // else if (!selectedServices.length && selectedGenres.length) {
-      //   const genreDataCopy = [...selectedGenres];
-      //   genreDataCopy.forEach((genre) => {
-      //     genre.movies = [];
-      //     setSelectedGenres(genreDataCopy);
-      //     let params = {
-      //       page: 1,
-      //       watch_region: "GB",
-      //       with_watch_monetization_types: "flatrate",
-      //       with_genres: genre.id,
-      //       ...options,
-      //     };
-      //     getFilmsTmdb(params).then((res) => {
-      //       const indexOfGenre = genreDataCopy.findIndex(
-      //         (el) => el.id === genre.id
-      //       );
-      //       genreDataCopy[indexOfGenre].movies = res;
-      //       genreDataCopy[indexOfGenre].page = 1;
-      //       setSelectedGenres(genreDataCopy);
-      //     });
-      //   });
-      // }
+        setServiceIdToSearch({})
+        setGenreIdToSearch({})
     }
-    setFilmClicked(false);
-  }, [selectedServices, options]);
 
-  useEffect(() => {
-    if (!filmClicked) {
-      if (genreIdToSearch && selectedServices.length) {
+    //prettier-ignore
+    // only execute if a service has been clicked with genres selected
+    if (Object.keys(serviceIdToSearch).length && selectedServices.length && selectedGenres.length && !filmClicked) {
+      selectedGenres.forEach((genre) => {
+        if (refs[genre.id].current) {
+          refs[genre.id].current.scrollLeft = 0;
+        }
+      });
+
+      const genreDataCopy = [...selectedGenres];
+      genreDataCopy.forEach((genre, index) => {
+        genre.movies = [];
+        setSelectedGenres(genreDataCopy);
         let params = {
           page: 1,
           watch_region: "GB",
           with_watch_monetization_types: "flatrate",
           with_watch_providers: selectedServices.join("|"),
-          with_genres: genreIdToSearch,
+          with_genres: genre.id,
           ...options,
         };
         getFilmsTmdb(params).then((res) => {
-          const genreDataCopy = [...selectedGenres];
           const indexOfGenre = genreDataCopy.findIndex(
-            (el) => el.id === genreIdToSearch
+            (el) => el.id === genre.id
           );
           genreDataCopy[indexOfGenre].movies = res;
           genreDataCopy[indexOfGenre].page = 1;
           setSelectedGenres(genreDataCopy);
-          setGenreIdToSearch(null);
         });
-      } else if (!genreIdToSearch && selectedServices.length) {
-        setData([]);
+        if(index === genreDataCopy.length - 1) setClicked(false)
+      });
+      setServiceIdToSearch({})
+    }
+
+    //prettier-ignore
+    // only execute if the last service has been removed with genres selected
+    if (Object.keys(serviceIdToSearch).length && !selectedServices.length && selectedGenres.length && !filmClicked){
+      selectedGenres.forEach((genre) => {
+        if (refs[genre.id].current) {
+          refs[genre.id].current.scrollLeft = 0;
+        }
+      });
+
+      const genreDataCopy = [...selectedGenres];
+      genreDataCopy.forEach((genre, index) => {
+        genre.movies = [];
+        setSelectedGenres(genreDataCopy);
+        let params = {
+          page: 1,
+          watch_region: "GB",
+          with_watch_monetization_types: "flatrate",
+          with_genres: genre.id,
+          ...options,
+        };
+        getFilmsTmdb(params).then((res) => {
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genre.id
+          );
+          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].page = 1;
+          setSelectedGenres(genreDataCopy);
+          if(index === genreDataCopy.length - 1) setClicked(false)
+        });
+      });
+      setServiceIdToSearch({})
+    }
+
+    //prettier-ignore
+    // only execute if the last service has been removed with no genres selected or if the last genre has been removed with no services selected
+    if((Object.keys(serviceIdToSearch).length || (Object.keys(genreIdToSearch).length && !genreIdToSearch.add)) && (!selectedServices.length && !selectedGenres.length && !filmClicked)) {
+      setData([])
+      setServiceIdToSearch({})
+      setGenreIdToSearch({})
+      setClicked(false)
+    }
+
+    //prettier-ignore
+    // only execute if a genre has been added with services selected
+    if (Object.keys(genreIdToSearch).length && genreIdToSearch.add && selectedServices.length && !filmClicked) {
+      let params = {
+        page: 1,
+        watch_region: "GB",
+        with_watch_monetization_types: "flatrate",
+        with_watch_providers: selectedServices.join("|"),
+        with_genres: genreIdToSearch.id,
+        ...options,
+      };
+      getFilmsTmdb(params).then((res) => {
+        const genreDataCopy = [...selectedGenres];
+        const indexOfGenre = genreDataCopy.findIndex(
+          (el) => el.id === genreIdToSearch.id
+        );
+        genreDataCopy[indexOfGenre].movies = res;
+        genreDataCopy[indexOfGenre].page = 1;
+        setSelectedGenres(genreDataCopy);
+        setClicked(false)
+      });
+      setGenreIdToSearch({});
+    }
+
+    //prettier-ignore
+    // only execute if a genre has been added with no services selected
+    if (Object.keys(genreIdToSearch).length && genreIdToSearch.add && !selectedServices.length && !filmClicked){
+      let params = {
+        page: 1,
+        watch_region: "GB",
+        with_watch_monetization_types: "flatrate",
+        with_genres: genreIdToSearch.id,
+        ...options,
+      };
+      getFilmsTmdb(params).then((res) => {
+        const genreDataCopy = [...selectedGenres];
+        const indexOfGenre = genreDataCopy.findIndex(
+          (el) => el.id === genreIdToSearch.id
+        );
+        genreDataCopy[indexOfGenre].movies = res;
+        genreDataCopy[indexOfGenre].page = 1;
+        setSelectedGenres(genreDataCopy);
+        setClicked(false)
+      });
+      setGenreIdToSearch({});
+    }
+
+    setFilmClicked(false);
+  }, [genreIdToSearch, serviceIdToSearch]);
+
+  useEffect(() => {
+    //prettier-ignore
+    //only execute if options are updated and there are services selected but no genres selected
+    if(Object.keys(options) && selectedServices.length && !selectedGenres.length && !filmClicked) {
+      setData([]);
+        refs.sectionRef.current.scrollTop = 0;
         refs.page.current = 1;
         let params = {
           page: 1,
@@ -155,10 +213,73 @@ export default function Movies({
           setData(res);
           refs.page.current++;
         });
-      }
+        setServiceIdToSearch({})
+        setGenreIdToSearch({})
     }
-    setFilmClicked(false);
-  }, [genreIdToSearch, options]);
+
+    //prettier-ignore
+    //only execute if options are updated and there are genres selected but no services selected
+    if(Object.keys(options) && !selectedServices.length && selectedGenres.length && !filmClicked){
+      selectedGenres.forEach((genre) => {
+        if (refs[genre.id].current) {
+          refs[genre.id].current.scrollLeft = 0;
+        }
+      });
+
+      const genreDataCopy = [...selectedGenres];
+      genreDataCopy.forEach((genre) => {
+        genre.movies = [];
+        setSelectedGenres(genreDataCopy);
+        let params = {
+          page: 1,
+          watch_region: "GB",
+          with_watch_monetization_types: "flatrate",
+          with_genres: genre.id,
+          ...options,
+        };
+        getFilmsTmdb(params).then((res) => {
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genre.id
+          );
+          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].page = 1;
+          setSelectedGenres(genreDataCopy);
+        });
+      });
+    }
+
+    //prettier-ignore
+    //only execute if options are updated and there are both genres and services selected
+    if(Object.keys(options) && selectedServices.length && selectedGenres.length && !filmClicked){
+      selectedGenres.forEach((genre) => {
+        if (refs[genre.id].current) {
+          refs[genre.id].current.scrollLeft = 0;
+        }
+      });
+
+      const genreDataCopy = [...selectedGenres];
+      genreDataCopy.forEach((genre) => {
+        genre.movies = [];
+        setSelectedGenres(genreDataCopy);
+        let params = {
+          page: 1,
+          watch_region: "GB",
+          with_watch_monetization_types: "flatrate",
+          with_watch_providers: selectedServices.join("|"),
+          with_genres: genre.id,
+          ...options,
+        };
+        getFilmsTmdb(params).then((res) => {
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genre.id
+          );
+          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].page = 1;
+          setSelectedGenres(genreDataCopy);
+        });
+      });
+    }
+  }, [options]);
 
   useEffect(() => {
     if (atBottom) {

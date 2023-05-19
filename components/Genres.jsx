@@ -13,8 +13,9 @@ export default function Genres({
   setSelectedGenres,
   genreList,
   setGenreList,
+  clicked,
+  setClicked
 }) {
-  const [clicked, setClicked] = useState(false);
 
   function handleContext(e) {
     e.preventDefault();
