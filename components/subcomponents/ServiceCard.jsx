@@ -14,6 +14,8 @@ export default function ServiceCard({
   servicesList,
   setServicesList,
   provider_id,
+  clicked,
+  setClicked,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
@@ -23,16 +25,19 @@ export default function ServiceCard({
       setNoneSelected(true);
     }
 
-    if (selectedServices.includes(serviceName)) {
+    if (selectedServices.includes(provider_id)) {
       setIsSelected(true);
+
       noneSelected ? setNoneSelected(false) : null;
     }
   }, [selectedServices]);
 
   function handleClick(e) {
-    if (mouseMoving) {
+    if (mouseMoving || clicked) {
       return;
     }
+
+    setClicked(true);
 
     const serviceListCopy = [...servicesList];
     const findServiceIndex = serviceListCopy.findIndex((el) => {
@@ -41,14 +46,14 @@ export default function ServiceCard({
     const serviceToReplace = serviceListCopy[findServiceIndex];
     serviceListCopy.splice(findServiceIndex, 1);
 
-    if (!isSelected) {
+    if (!isSelected && !clicked) {
       setSelectedServices([...selectedServices, provider_id]);
       setIsSelected(true);
       setNoneSelected(false);
 
       serviceListCopy.splice(selectedServices.length, 0, serviceToReplace);
       setServicesList(serviceListCopy);
-    } else {
+    } else if (isSelected && !clicked) {
       const servicesCopy = [...selectedServices];
       servicesCopy.splice(servicesCopy.indexOf(provider_id), 1);
       setSelectedServices(servicesCopy);
@@ -57,6 +62,10 @@ export default function ServiceCard({
       serviceListCopy.splice(selectedServices.length - 1, 0, serviceToReplace);
       setServicesList(serviceListCopy);
     }
+
+    setTimeout(() => {
+      setClicked(false);
+    }, 800);
   }
 
   return (

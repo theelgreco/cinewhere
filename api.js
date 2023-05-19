@@ -10,8 +10,6 @@ const authHeader = {
 };
 
 export const getFilmsTmdb = (params) => {
-  console.log(params);
-
   return tmdb
     .get("/discover/movie", {
       headers: authHeader,
@@ -19,39 +17,63 @@ export const getFilmsTmdb = (params) => {
     })
     .then((res) => {
       const movies = res.data.results;
+      movies.map((movie) => {
+        return (movie.media_type = "movie");
+      });
       return movies;
+    })
+    .catch((err) => {
+      if (err) console.error(err);
     });
 };
 
-export const getFilmServicesTmdb = (movie_id) => {
+export const getFilmServicesTmdb = (movie_id, media) => {
   return tmdb
-    .get(`/movie/${movie_id}/watch/providers`, {
+    .get(`/${media}/${movie_id}/watch/providers`, {
       headers: authHeader,
     })
     .then((res) => {
       return res.data.results.GB;
+    })
+    .catch((err) => {
+      if (err) console.error(err);
     });
 };
 
-export const getFilmByIdTmdb = (movie_id) => {
+export const getFilmByIdTmdb = (movie_id, media) => {
   return tmdb
-    .get(`/movie/${movie_id}`, {
+    .get(`/${media}/${movie_id}`, {
       headers: authHeader,
       params: { append_to_response: "watch/providers,videos,credits" },
     })
     .then((res) => {
       return res.data;
+    })
+    .catch((err) => {
+      if (err) console.error(err);
     });
 };
 
 export const searchMovies = (params) => {
   return tmdb
-    .get("/search/movie", {
+    .get("/search/multi", {
       headers: authHeader,
       params: params,
     })
     .then((res) => {
-      console.log(res);
-      return res.data.results;
+      let movies = [];
+      res.data.results.map((result) => {
+        if (result.media_type === "person") {
+          result.known_for.forEach((element) => {
+            movies.push(element);
+          });
+        } else {
+          movies.push(result);
+        }
+      });
+      return movies;
+    })
+    .catch((err) => {
+      if (err) console.error(err);
     });
 };

@@ -1,32 +1,88 @@
+import SearchBar from "./subcomponents/SearchBar";
+import SearchResults from "./SearchResults";
 import styles from "@/styles/Search.module.css";
+import { searchMovies } from "api";
+import { useState, useEffect } from "react";
+
 export default function Search({
   searchText,
   setSearchText,
-  setShowSearchResults,
+  setFilmClicked,
+  searchResultsData,
+  setSearchResultsData,
+  refs,
+  expand,
+  setExpand,
+  searchClosed,
+  setSearchClosed,
 }) {
-  function handleChange(e) {
-    if (e.target.value) {
-      setSearchText(e.target.value);
+  const [finishedTyping, setFinishedTyping] = useState(false);
+  const [noResults, setNoResults] = useState(false);
+
+  useEffect(() => {
+    if (!searchResultsData.length) {
+      setFinishedTyping(false);
+
+      setTimeout(() => {
+        setFinishedTyping(true);
+      }, 500);
     }
+  }, [searchText]);
+
+  useEffect(() => {
+    if (finishedTyping && searchText) {
+      console.log("yepppp");
+      refs.searchResultsPage.current = 1;
+      let params = {
+        query: searchText,
+        page: refs.searchResultsPage.current,
+      };
+      searchMovies(params).then((res) => {
+        if (!res.length) setNoResults(true);
+        setSearchResultsData(res);
+        setFinishedTyping(false);
+        // refs.page.current++;
+      });
+    } else if (finishedTyping && !searchText) {
+      console.log("yepppp");
+      setSearchResultsData([]);
+      setFinishedTyping(false);
+    }
+  }, [finishedTyping]);
+
+  function handleChange(e) {
+    if (noResults) setNoResults(false);
+    setSearchResultsData([]);
+    expand ? setSearchText(e.target.value) : (e.target.value = "");
+    refs.search.current = e.target.value;
   }
 
-  function handleClick(e) {
-    e.preventDefault();
-    setShowSearchResults({ show: true, text: searchText });
-    e.target.previousSibling.value = "";
-    setSearchText("");
+  function expandSearch(e) {
+    if (!expand) {
+      setExpand(true);
+    }
   }
 
   return (
     <section className={styles.Search}>
-      <div className={styles.container}>
-        <input
-          type="text"
-          placeholder="search by title"
-          onChangeCapture={handleChange}
+      {!expand ? (
+        <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
+      ) : (
+        <SearchResults
+          setFilmClicked={setFilmClicked}
+          searchResultsData={searchResultsData}
+          handleChange={handleChange}
+          refs={refs}
+          setExpand={setExpand}
+          searchClosed={searchClosed}
+          expand={expand}
+          setSearchClosed={setSearchClosed}
+          setSearchResultsData={setSearchResultsData}
+          searchText={searchText}
+          noResults={noResults}
+          setSearchText={setSearchText}
         />
-        <button onClick={handleClick}>Submit</button>
-      </div>
+      )}
     </section>
   );
 }

@@ -25,21 +25,27 @@ export default function Main({
   setServicesList,
   genreList,
   setGenreList,
+  searchResultsData,
+  setSearchResultsData,
+  expand,
+  setExpand,
+  searchClosed,
+  setSearchClosed,
+  options,
+  setOptions,
+  sort,
+  setSort,
+  order,
+  setOrder,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouseX, setMouseX] = useState(null);
   const [mouseMoving, setMouseMoving] = useState(false);
-  const [atBottom, setAtBottom] = useState(false);
   const [genreIdToSearch, setGenreIdToSearch] = useState(null);
-  const [showSearchResults, setShowSearchResults] = useState({
-    show: false,
-    text: "",
-  });
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
-    // getFilmsTmdb();
   }, []);
 
   function handleMouseDown(e) {
@@ -83,7 +89,14 @@ export default function Main({
         searchText={searchText}
         setSearchText={setSearchText}
         isMobile={isMobile}
-        setShowSearchResults={setShowSearchResults}
+        setFilmClicked={setFilmClicked}
+        searchResultsData={searchResultsData}
+        setSearchResultsData={setSearchResultsData}
+        refs={refs}
+        expand={expand}
+        setExpand={setExpand}
+        searchClosed={searchClosed}
+        setSearchClosed={setSearchClosed}
       />
       <Services
         isMobile={isMobile}
@@ -115,8 +128,6 @@ export default function Main({
       <Type isMobile={isMobile} />
       <Movies
         isMobile={isMobile}
-        atBottom={atBottom}
-        setAtBottom={setAtBottom}
         setSelectedServices={setSelectedServices}
         selectedServices={selectedServices}
         data={data}
@@ -130,8 +141,12 @@ export default function Main({
         country={country}
         refs={refs}
         setRefs={setRefs}
-        showSearchResults={showSearchResults}
-        setShowSearchResults={setShowSearchResults}
+        options={options}
+        setOptions={setOptions}
+        sort={sort}
+        setSort={setSort}
+        order={order}
+        setOrder={setOrder}
       />
     </main>
   );

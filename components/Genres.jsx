@@ -1,7 +1,6 @@
 import styles from "@/styles/Genres.module.css";
 import GenreCard from "@/subcomponents/GenreCard";
 import { useEffect, useState } from "react";
-import genres from "../constants/genres";
 
 export default function Genres({
   handleMouseMove,
@@ -15,6 +14,8 @@ export default function Genres({
   genreList,
   setGenreList,
 }) {
+  const [clicked, setClicked] = useState(false);
+
   function handleContext(e) {
     e.preventDefault();
   }
@@ -53,6 +54,8 @@ export default function Genres({
               setSelectedGenres={setSelectedGenres}
               genreList={genreList}
               setGenreList={setGenreList}
+              clicked={clicked}
+              setClicked={setClicked}
             />
           );
         })}
