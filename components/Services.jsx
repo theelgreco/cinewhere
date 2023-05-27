@@ -16,12 +16,12 @@ export default function Services({
   setServicesList,
   setServiceIdToSearch,
   clicked,
-  setClicked
+  setClicked,
 }) {
   const [noneSelected, setNoneSelected] = useState(true);
-  
 
   function handleContext(e) {
+    console.log(servicesList);
     e.preventDefault();
   }
 

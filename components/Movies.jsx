@@ -1,7 +1,7 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
 import SortBy from "./subcomponents/SortBy";
-import { getFilmsTmdb, searchMovies } from "api";
+import { getFilmsTmdb } from "api";
 import { useEffect, useState } from "react";
 import React from "react";
 
@@ -27,6 +27,7 @@ export default function Movies({
   order,
   setOrder,
   setClicked,
+  media_type,
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
@@ -48,19 +49,18 @@ export default function Movies({
 
   useEffect(() => {
     //prettier-ignore
-    // only execute if a service has been clicked with at least one service selected and no genres selected or if the last genre has been removed with services still selected
+    // only execute if a service has been clicked with no genres selected or if the last genre has been removed with services still selected
     if ((Object.keys(serviceIdToSearch).length || (Object.keys(genreIdToSearch).length && !genreIdToSearch.add)) && (selectedServices.length && !selectedGenres.length && !filmClicked)) {
         setData([]);
         refs.sectionRef.current.scrollTop = 0;
         refs.page.current = 1;
         let params = {
           page: 1,
-          watch_region: "GB",
           with_watch_monetization_types: "flatrate",
           with_watch_providers: selectedServices.join("|"),
           ...options,
         };
-        getFilmsTmdb(params).then((res) => {
+        getFilmsTmdb(params, media_type).then((res) => {
           setData(res);
           refs.page.current++;
           setClicked(false)
@@ -84,13 +84,12 @@ export default function Movies({
         setSelectedGenres(genreDataCopy);
         let params = {
           page: 1,
-          watch_region: "GB",
           with_watch_monetization_types: "flatrate",
           with_watch_providers: selectedServices.join("|"),
           with_genres: genre.id,
           ...options,
         };
-        getFilmsTmdb(params).then((res) => {
+        getFilmsTmdb(params, media_type).then((res) => {
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
@@ -118,12 +117,11 @@ export default function Movies({
         setSelectedGenres(genreDataCopy);
         let params = {
           page: 1,
-          watch_region: "GB",
           with_watch_monetization_types: "flatrate",
           with_genres: genre.id,
           ...options,
         };
-        getFilmsTmdb(params).then((res) => {
+        getFilmsTmdb(params, media_type).then((res) => {
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
@@ -150,13 +148,12 @@ export default function Movies({
     if (Object.keys(genreIdToSearch).length && genreIdToSearch.add && selectedServices.length && !filmClicked) {
       let params = {
         page: 1,
-        watch_region: "GB",
         with_watch_monetization_types: "flatrate",
         with_watch_providers: selectedServices.join("|"),
         with_genres: genreIdToSearch.id,
         ...options,
       };
-      getFilmsTmdb(params).then((res) => {
+      getFilmsTmdb(params, media_type).then((res) => {
         const genreDataCopy = [...selectedGenres];
         const indexOfGenre = genreDataCopy.findIndex(
           (el) => el.id === genreIdToSearch.id
@@ -174,12 +171,11 @@ export default function Movies({
     if (Object.keys(genreIdToSearch).length && genreIdToSearch.add && !selectedServices.length && !filmClicked){
       let params = {
         page: 1,
-        watch_region: "GB",
         with_watch_monetization_types: "flatrate",
         with_genres: genreIdToSearch.id,
         ...options,
       };
-      getFilmsTmdb(params).then((res) => {
+      getFilmsTmdb(params, media_type).then((res) => {
         const genreDataCopy = [...selectedGenres];
         const indexOfGenre = genreDataCopy.findIndex(
           (el) => el.id === genreIdToSearch.id
@@ -204,12 +200,11 @@ export default function Movies({
         refs.page.current = 1;
         let params = {
           page: 1,
-          watch_region: "GB",
           with_watch_monetization_types: "flatrate",
           with_watch_providers: selectedServices.join("|"),
           ...options,
         };
-        getFilmsTmdb(params).then((res) => {
+        getFilmsTmdb(params, media_type).then((res) => {
           setData(res);
           refs.page.current++;
         });
@@ -232,12 +227,11 @@ export default function Movies({
         setSelectedGenres(genreDataCopy);
         let params = {
           page: 1,
-          watch_region: "GB",
           with_watch_monetization_types: "flatrate",
           with_genres: genre.id,
           ...options,
         };
-        getFilmsTmdb(params).then((res) => {
+        getFilmsTmdb(params, media_type).then((res) => {
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
@@ -263,13 +257,12 @@ export default function Movies({
         setSelectedGenres(genreDataCopy);
         let params = {
           page: 1,
-          watch_region: "GB",
           with_watch_monetization_types: "flatrate",
           with_watch_providers: selectedServices.join("|"),
           with_genres: genre.id,
           ...options,
         };
-        getFilmsTmdb(params).then((res) => {
+        getFilmsTmdb(params, media_type).then((res) => {
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
@@ -279,7 +272,7 @@ export default function Movies({
         });
       });
     }
-  }, [options]);
+  }, [options, media_type]);
 
   useEffect(() => {
     if (atBottom) {
@@ -290,7 +283,7 @@ export default function Movies({
         with_watch_providers: selectedServices.join("|"),
         ...options,
       };
-      getFilmsTmdb(params).then((res) => {
+      getFilmsTmdb(params, media_type).then((res) => {
         setData([...data, ...res]);
         refs.page.current++;
         setAtBottom(false);
@@ -309,7 +302,7 @@ export default function Movies({
             with_genres: genre.id,
             ...options,
           };
-          getFilmsTmdb(params).then((res) => {
+          getFilmsTmdb(params, media_type).then((res) => {
             const genreDataCopy = [...selectedGenres];
             const indexOfGenre = genreDataCopy.findIndex(
               (el) => el.id === genre.id

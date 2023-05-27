@@ -37,6 +37,8 @@ export default function Main({
   setSort,
   order,
   setOrder,
+  media_type,
+  set_media_type,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -99,6 +101,8 @@ export default function Main({
         setExpand={setExpand}
         searchClosed={searchClosed}
         setSearchClosed={setSearchClosed}
+        options={options}
+        setOptions={setOptions}
       />
       <Services
         isMobile={isMobile}
@@ -132,7 +136,13 @@ export default function Main({
         clicked={clicked}
         setClicked={setClicked}
       />
-      <Type isMobile={isMobile} />
+      <Type
+        isMobile={isMobile}
+        media_type={media_type}
+        set_media_type={set_media_type}
+        options={options}
+        setOptions={setOptions}
+      />
       <Movies
         isMobile={isMobile}
         selectedServices={selectedServices}
@@ -157,6 +167,7 @@ export default function Main({
         setOrder={setOrder}
         clicked={clicked}
         setClicked={setClicked}
+        media_type={media_type}
       />
     </main>
   );

@@ -25,7 +25,7 @@ export default function SortBy({
 
   useEffect(() => {
     if (sort && order && selected) {
-      setOptions({ sort_by: `${sort}.${order}` });
+      setOptions({ ...options, sort_by: `${sort}.${order}` });
       setSelected(false);
     }
   }, [selected]);

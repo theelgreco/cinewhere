@@ -14,7 +14,6 @@ export default function MovieInfo({ country, isMobile }) {
   const watchCostTypes = ["flatrate", "free", "ads", "rent", "buy"];
 
   useEffect(() => {
-    console.log(film);
     getFilmByIdTmdb(imdb_id, media_type).then((res) => {
       setFilm(res);
       setStreamingServices(res["watch/providers"].results.GB);
@@ -53,7 +52,9 @@ export default function MovieInfo({ country, isMobile }) {
               <button className={styles.backButton}>BACK</button>
             </Link>
             <h1>
-              {film.title} ({film.release_date})
+              {media_type === "movie"
+                ? `${film.title} (${film.release_date})`
+                : `${film.name} (${(film.first_air_date)})`}
             </h1>
             <img
               className={styles.poster}

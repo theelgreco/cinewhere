@@ -20,7 +20,14 @@ export default function MovieCard({
     if (Object.keys(film).length) {
       getFilmServicesTmdb(film.id, film.media_type).then((res) => {
         if (res) {
-          if (res.flatrate) setServiceIcons(res.flatrate);
+          let serviceIconsArray = [];
+          if (res.flatrate)
+            serviceIconsArray = [...serviceIconsArray, ...res.flatrate];
+          if (res.free) serviceIconsArray = [...serviceIconsArray, ...res.free];
+          if (res.ads) serviceIconsArray = [...serviceIconsArray, ...res.ads];
+          if (res.rent) serviceIconsArray.push({ provider_name: "Rent", amount: res.rent.length });
+          if (res.buy) serviceIconsArray.push({ provider_name: "Buy", amount: res.buy.length});
+          setServiceIcons(serviceIconsArray);
         } else {
           setServiceIcons([]);
         }
@@ -49,7 +56,13 @@ export default function MovieCard({
                   return (
                     //prettier-ignore
                     <React.Fragment key={`${service.provider_name}${index}${film.title}`}>
-                      <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} />
+                      {service.provider_name === 'Buy' || service.provider_name === 'Rent' 
+                        ? <div>
+                            <p>{service.provider_name}</p>
+                            <p>+{service.amount}</p>
+                          </div>
+                        : <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} /> }
+                      
                     </React.Fragment>
                   );
                 })

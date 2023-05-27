@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css?family=Lexend");
 
 .Type {
+  display: flex;
+  flex-direction: row;
   background: radial-gradient(
     523px at 7.1% 19.3%,
     rgb(147, 15, 255) 2%,
@@ -12,42 +14,32 @@
   border-bottom: 2px solid;
 }
 
-.flex_col {
-  display: flex;
-  flex-direction: column;
-  width: 150px;
-  height: 80%;
-  border-radius: 50px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
 .flex_row {
   display: flex;
   flex-direction: row;
-  height: 50%;
+  width: 150px;
+  height: 80%;
+  border-radius: 50px;
 }
 
-.tv {
+.price {
+  margin-left: 10px;
+  width: 430px;
+}
+
+.buttonChoices {
   display: grid;
   place-items: center;
   width: 50%;
-  border: 1px solid;
-  border-top-left-radius: 50px;
+  border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: 0.1s ease-out;
 }
 
-.movies {
-  display: grid;
-  place-items: center;
-  width: 50%;
-  border: 1px solid;
-  border-top-right-radius: 50px;
-}
-
-.both {
-  display: grid;
-  place-items: center;
-  height: 50%;
-  border: 1px solid;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
+.selected {
+  background-color: black;
+  color: whitesmoke;
+  cursor: auto;
+  transition: 0.1s ease-in;
 }

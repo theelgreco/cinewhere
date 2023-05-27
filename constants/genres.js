@@ -1,11 +1,7 @@
-const genres = [
+export const movieGenres = [
   {
     id: 28,
     genre: "Action",
-  },
-  {
-    id: 7,
-    genre: "Adult",
   },
   {
     id: 12,
@@ -14,10 +10,6 @@ const genres = [
   {
     id: 16,
     genre: "Animation",
-  },
-  {
-    id: 1,
-    genre: "Biography",
   },
   {
     id: 35,
@@ -44,14 +36,6 @@ const genres = [
     genre: "Fantasy",
   },
   {
-    id: 2,
-    genre: "Film Noir",
-  },
-  {
-    id: 3,
-    genre: "Game Show",
-  },
-  {
     id: 36,
     genre: "History",
   },
@@ -64,20 +48,8 @@ const genres = [
     genre: "Music",
   },
   {
-    id: 4,
-    genre: "Musical",
-  },
-  {
     id: 9648,
     genre: "Mystery",
-  },
-  {
-    id: 10763,
-    genre: "News",
-  },
-  {
-    id: 10764,
-    genre: "Reality",
   },
   {
     id: 10749,
@@ -88,16 +60,8 @@ const genres = [
     genre: "Science Fiction",
   },
   {
-    id: 6,
-    genre: "Short",
-  },
-  {
-    id: 5,
-    genre: "Sport",
-  },
-  {
-    id: 10767,
-    genre: "Talk Show",
+    id: 10770,
+    genre: "TV Movie",
   },
   {
     id: 53,
@@ -113,4 +77,74 @@ const genres = [
   },
 ];
 
-export default genres;
+export const tvGenres = [
+  {
+    id: 10759,
+    genre: "Action & Adventure",
+  },
+  {
+    id: 16,
+    genre: "Animation",
+  },
+  {
+    id: 35,
+    genre: "Comedy",
+  },
+  {
+    id: 80,
+    genre: "Crime",
+  },
+  {
+    id: 99,
+    genre: "Documentary",
+  },
+  {
+    id: 18,
+    genre: "Drama",
+  },
+  {
+    id: 10751,
+    genre: "Family",
+  },
+  {
+    id: 10762,
+    genre: "Kids",
+  },
+  {
+    id: 9648,
+    genre: "Mystery",
+  },
+  {
+    id: 10763,
+    genre: "News",
+  },
+  {
+    id: 10764,
+    genre: "Reality",
+  },
+  {
+    id: 10765,
+    genre: "Sci-Fi & Fantasy",
+  },
+  {
+    id: 10766,
+    genre: "Soap",
+  },
+  {
+    id: 10767,
+    genre: "Talk",
+  },
+  {
+    id: 10768,
+    genre: "War & Politics",
+  },
+  {
+    id: 37,
+    genre: "Western",
+  },
+];
+
+export const genreIds = [
+  28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
+  53, 10752, 37, 10759, 10762, 10763, 10764, 10765, 10766, 10767, 10768,
+];

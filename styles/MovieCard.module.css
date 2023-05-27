@@ -116,20 +116,42 @@
   object-fit: cover;
 }
 
+.serviceIcons::-webkit-scrollbar {
+  width: 0px;
+  background-color: transparent;
+}
+
+.serviceIcons::-webkit-scrollbar-thumb {
+  width: 0px;
+  background-color: transparent;
+}
+
 .serviceIcons {
   background: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
   position: absolute;
   top: 0;
   right: 0;
+  max-height: 100%;
   width: 30%;
   max-width: 110px;
   color: white;
+  overflow-y: scroll;
+  z-index: 100;
 }
 
-.serviceIcons img {
+.serviceIcons img,
+.serviceIcons div {
   border-radius: 9999px;
   width: 80%;
   max-width: 80px;
   aspect-ratio: 1;
+}
+
+.serviceIcons div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: black;
+  margin: 0 auto;
 }

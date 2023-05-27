@@ -3,6 +3,7 @@ import SearchResults from "./SearchResults";
 import styles from "@/styles/Search.module.css";
 import { searchMovies } from "api";
 import { useState, useEffect } from "react";
+import { getRegions, getLanguages } from "api";
 
 export default function Search({
   searchText,
@@ -15,9 +16,22 @@ export default function Search({
   setExpand,
   searchClosed,
   setSearchClosed,
+  options,
+  setOptions,
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [regions, setRegions] = useState(null);
+  const [languages, setLanguages] = useState(null);
+
+  useEffect(() => {
+    getRegions().then((res) => {
+      setRegions(res);
+    });
+    getLanguages().then((res) => {
+      setLanguages(res);
+    });
+  }, []);
 
   useEffect(() => {
     setFinishedTyping(false);
@@ -60,10 +74,58 @@ export default function Search({
     }
   }
 
+  function handleSelect(e) {
+    console.log({ [e.target.id]: e.target.value });
+    setOptions({
+      ...options,
+      [e.target.id]: e.target.value,
+    });
+  }
+
   return (
     <section className={styles.Search}>
       {!expand ? (
-        <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
+        <>
+          <div className={styles.selectFlex}>
+            <select
+              id="watch_region"
+              className={styles.regionSelect}
+              onChange={handleSelect}
+              value={options.watch_region}>
+              {regions ? (
+                regions.map((region) => {
+                  return (
+                    <option key={region.iso_3166_1} value={region.iso_3166_1}>
+                      {region.english_name}
+                    </option>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </select>
+            <select
+              id="with_original_language"
+              className={styles.languageSelect}
+              onChange={handleSelect}
+              value={options.with_original_language}>
+              {languages ? (
+                languages.map((lang, index) => {
+                  return (
+                    <option key={lang.iso_639_1} value={lang.iso_639_1}>
+                      {index === 0
+                        ? `${lang.name}`
+                        : `(${lang.iso_639_1.toUpperCase()}) ${lang.name}`}
+                    </option>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </select>
+          </div>
+          <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
+        </>
       ) : (
         <SearchResults
           setFilmClicked={setFilmClicked}

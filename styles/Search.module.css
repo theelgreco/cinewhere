@@ -15,3 +15,18 @@
   );
 }
 
+.selectFlex {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  translate: 0% -50%;
+  max-width: 15vw;
+}
+
+.regionSelect {
+  width: 65%;
+}
+
+.languageSelect {
+  width: 35%;
+}

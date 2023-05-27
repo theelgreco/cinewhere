@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 
 import servicesArray from "constants/services";
-import genres from "constants/genres";
+import { movieGenres, tvGenres, genreIds } from "constants/genres";
 import Main from "@/components/Main";
 import MovieInfo from "@/components/subcomponents/MovieInfo";
 
@@ -17,21 +17,26 @@ export default function Home() {
   const [filmClicked, setFilmClicked] = useState(false);
   const [country, setCountry] = useState("gb");
   const [servicesList, setServicesList] = useState([...servicesArray]);
-  const [genreList, setGenreList] = useState([...genres]);
+  const [genreList, setGenreList] = useState([...movieGenres]);
   const [expand, setExpand] = useState(false);
   const [searchClosed, setSearchClosed] = useState(true);
   const [refs, setRefs] = useState({});
   const [sort, setSort] = useState("");
   const [order, setOrder] = useState("");
-  const [options, setOptions] = useState({});
+  const [options, setOptions] = useState({
+    watch_region: "GB",
+    with_original_language: "en",
+    with_watch_monetization_types: "",
+  });
+  const [media_type, set_media_type] = useState("movie");
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
 
     if (!Object.keys(refs).length) {
       const refsObject = {};
-      genres.forEach((genre) => {
-        refsObject[genre.id] = React.createRef();
+      genreIds.forEach((genre) => {
+        refsObject[genre] = React.createRef();
       });
       refsObject.sectionRefGenre = React.createRef();
       refsObject.scrollHeightGenre = React.createRef();
@@ -85,6 +90,8 @@ export default function Home() {
               setSort={setSort}
               order={order}
               setOrder={setOrder}
+              media_type={media_type}
+              set_media_type={set_media_type}
             />
           }
         />
