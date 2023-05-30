@@ -16,6 +16,10 @@
 }
 
 .circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50%;
   position: absolute;
   width: 5%;
   height: 100%;

@@ -121,7 +121,7 @@ export default function Type({
           <select></select>
           <select></select>
         </div> */}
-        <Slider />
+        <Slider options={options} setOptions={setOptions} setOptionsClicked={setOptionsClicked}/>
       </div>
     </section>
   );
