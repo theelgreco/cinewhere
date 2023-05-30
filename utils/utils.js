@@ -1,10 +1,10 @@
-function placeItemsAtStart(
+export const placeItemsAtStart = (
   list,
   string,
   selectedItems,
   isSelected,
   originalOrder
-) {
+) => {
   const listCopy = [...list];
   const indexOfItem = listCopy.findIndex((el) => {
     return el.genre === string;
@@ -24,6 +24,8 @@ function placeItemsAtStart(
   }
 
   return listCopy;
-}
+};
 
-module.exports = { placeItemsAtStart };
+export const getTodaysDate = () => {
+  return new Date().toISOString().split("T")[0];
+};

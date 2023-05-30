@@ -8,6 +8,8 @@ export default function SortBy({
   setSort,
   order,
   setOrder,
+  optionsClicked,
+  setOptionsClicked,
 }) {
   const [selected, setSelected] = useState(false);
 
@@ -27,6 +29,7 @@ export default function SortBy({
     if (sort && order && selected) {
       setOptions({ ...options, sort_by: `${sort}.${order}` });
       setSelected(false);
+      setOptionsClicked(true);
     }
   }, [selected]);
 

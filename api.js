@@ -105,3 +105,17 @@ export const getLanguages = () => {
       return [{ iso_639_1: "", name: "ALL LANGUAGES" }, ...formattedLanguages];
     });
 };
+
+export const getLowestMovieYear = (params) => {
+  return tmdb
+    .get(`/discover/movie`, {
+      headers: authHeader,
+      params: params,
+    })
+    .then((res) => {
+      return res.data.results[0].release_date.split("-")[0];
+    })
+    .catch((err) => {
+      if (err) console.error(err);
+    });
+};

@@ -28,6 +28,8 @@ export default function Movies({
   setOrder,
   setClicked,
   media_type,
+  optionsClicked,
+  setOptionsClicked,
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
@@ -192,9 +194,24 @@ export default function Movies({
   }, [genreIdToSearch, serviceIdToSearch]);
 
   useEffect(() => {
-    //prettier-ignore
-    //only execute if options are updated and there are services selected but no genres selected
-    if(Object.keys(options) && selectedServices.length && !selectedGenres.length && !filmClicked) {
+    if (optionsClicked) {
+      if (!selectedServices.length && !selectedGenres.length && !filmClicked) {
+        setData([]);
+        refs.sectionRef.current.scrollTop = 0;
+        refs.page.current = 1;
+        let params = {
+          page: 1,
+          ...options,
+        };
+        getFilmsTmdb(params, media_type).then((res) => {
+          setData(res);
+          refs.page.current++;
+        });
+      }
+
+      //prettier-ignore
+      //only execute if options are updated and there are services selected but no genres selected
+      if(selectedServices.length && !selectedGenres.length && !filmClicked) {
       setData([]);
         refs.sectionRef.current.scrollTop = 0;
         refs.page.current = 1;
@@ -210,11 +227,11 @@ export default function Movies({
         });
         setServiceIdToSearch({})
         setGenreIdToSearch({})
-    }
+      }
 
-    //prettier-ignore
-    //only execute if options are updated and there are genres selected but no services selected
-    if(Object.keys(options) && !selectedServices.length && selectedGenres.length && !filmClicked){
+      //prettier-ignore
+      //only execute if options are updated and there are genres selected but no services selected
+      if(!selectedServices.length && selectedGenres.length && !filmClicked){
       selectedGenres.forEach((genre) => {
         if (refs[genre.id].current) {
           refs[genre.id].current.scrollLeft = 0;
@@ -240,11 +257,11 @@ export default function Movies({
           setSelectedGenres(genreDataCopy);
         });
       });
-    }
+      }
 
-    //prettier-ignore
-    //only execute if options are updated and there are both genres and services selected
-    if(Object.keys(options) && selectedServices.length && selectedGenres.length && !filmClicked){
+      //prettier-ignore
+      //only execute if options are updated and there are both genres and services selected
+      if(selectedServices.length && selectedGenres.length && !filmClicked){
       selectedGenres.forEach((genre) => {
         if (refs[genre.id].current) {
           refs[genre.id].current.scrollLeft = 0;
@@ -271,8 +288,11 @@ export default function Movies({
           setSelectedGenres(genreDataCopy);
         });
       });
+      }
+
+      setOptionsClicked(false);
     }
-  }, [options, media_type]);
+  }, [optionsClicked]);
 
   useEffect(() => {
     if (atBottom) {
@@ -352,6 +372,25 @@ export default function Movies({
     });
   }
 
+  function handleClick(e) {
+    setData([]);
+    refs.sectionRef.current.scrollTop = 0;
+    refs.page.current = 1;
+    let params = {
+      page: 1,
+      with_watch_monetization_types: "flatrate",
+      with_watch_providers: selectedServices.join("|"),
+      ...options,
+    };
+    getFilmsTmdb(params, media_type).then((res) => {
+      setData(res);
+      refs.page.current++;
+      setClicked(false);
+    });
+    setServiceIdToSearch({});
+    setGenreIdToSearch({});
+  }
+
   return (
     <>
       {!selectedGenres.length ? (
@@ -360,7 +399,7 @@ export default function Movies({
           className={styles.Movies}
           onScroll={handleScroll}
           ref={refs.sectionRef}>
-          {selectedServices.length ? (
+          {data.length ? (
             <SortBy
               options={options}
               setOptions={setOptions}
@@ -368,6 +407,8 @@ export default function Movies({
               setSort={setSort}
               order={order}
               setOrder={setOrder}
+              optionsClicked={optionsClicked}
+              setOptionsClicked={setOptionsClicked}
             />
           ) : (
             <></>
@@ -396,7 +437,11 @@ export default function Movies({
                     })}
                   </div>
                 ) : (
-                  <></>
+                  <>
+                    <button className={styles.searchAll} onClick={handleClick}>
+                      Search All
+                    </button>
+                  </>
                 )}
               </>
             )}
@@ -415,6 +460,8 @@ export default function Movies({
             setSort={setSort}
             order={order}
             setOrder={setOrder}
+            optionsClicked={optionsClicked}
+            setOptionsClicked={setOptionsClicked}
           />
           {selectedGenres.map((genre) => {
             return (

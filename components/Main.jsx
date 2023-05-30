@@ -47,6 +47,7 @@ export default function Main({
   const [genreIdToSearch, setGenreIdToSearch] = useState({});
   const [serviceIdToSearch, setServiceIdToSearch] = useState({});
   const [clicked, setClicked] = useState(false);
+  const [optionsClicked, setOptionsClicked] = useState(false);
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
@@ -56,7 +57,7 @@ export default function Main({
     setMouseDown(true);
     setMouseX(e.clientX);
 
-    if (e.target.id === "Services" || e.target.id === "Services") {
+    if (e.target.id === "Services") {
       setDivToScroll(e.target.parentElement);
     } else {
       setDivToScroll(e.target.parentElement.parentElement);
@@ -103,6 +104,8 @@ export default function Main({
         setSearchClosed={setSearchClosed}
         options={options}
         setOptions={setOptions}
+        optionsClicked={optionsClicked}
+        setOptionsClicked={setOptionsClicked}
       />
       <Services
         isMobile={isMobile}
@@ -142,6 +145,8 @@ export default function Main({
         set_media_type={set_media_type}
         options={options}
         setOptions={setOptions}
+        optionsClicked={optionsClicked}
+        setOptionsClicked={setOptionsClicked}
       />
       <Movies
         isMobile={isMobile}
@@ -168,6 +173,8 @@ export default function Main({
         clicked={clicked}
         setClicked={setClicked}
         media_type={media_type}
+        optionsClicked={optionsClicked}
+        setOptionsClicked={setOptionsClicked}
       />
     </main>
   );

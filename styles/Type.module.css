@@ -22,9 +22,19 @@
   border-radius: 50px;
 }
 
+.flex_col {
+  display: flex;
+  flex-direction: column;
+}
+
 .price {
   margin-left: 10px;
   width: 430px;
+}
+
+.year select {
+  width: 50%;
+  border-radius: 20px;
 }
 
 .buttonChoices {
@@ -43,3 +53,10 @@
   cursor: auto;
   transition: 0.1s ease-in;
 }
+
+.range {
+  margin-left: 2vw;
+  justify-content: center;
+}
+
+

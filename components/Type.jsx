@@ -1,14 +1,18 @@
 import styles from "@/styles/Type.module.css";
 import clsx from "clsx";
+import Slider from "./subcomponents/Slider";
 
 export default function Type({
   media_type,
   set_media_type,
   options,
   setOptions,
+  optionsClicked,
+  setOptionsClicked,
 }) {
   function handleClick(e) {
     set_media_type(e.target.id);
+    setOptionsClicked(true);
   }
 
   function handlePriceClick(e) {
@@ -20,13 +24,23 @@ export default function Type({
     } else if (currentWatchMonetizationTypes.includes(e.target.id)) {
       const indexToRemove = currentWatchMonetizationTypes.indexOf(e.target.id);
       currentWatchMonetizationTypes.splice(indexToRemove, 1);
-      const updatedWatchMonetizationTypes = currentWatchMonetizationTypes.join('|');
-      setOptions({ ...options, with_watch_monetization_types: updatedWatchMonetizationTypes });
+      const updatedWatchMonetizationTypes =
+        currentWatchMonetizationTypes.join("|");
+      setOptions({
+        ...options,
+        with_watch_monetization_types: updatedWatchMonetizationTypes,
+      });
     } else {
-      currentWatchMonetizationTypes.push(e.target.id)
-      const updatedWatchMonetizationTypes = currentWatchMonetizationTypes.join('|');
-      setOptions({ ...options, with_watch_monetization_types: updatedWatchMonetizationTypes });
+      currentWatchMonetizationTypes.push(e.target.id);
+      const updatedWatchMonetizationTypes =
+        currentWatchMonetizationTypes.join("|");
+      setOptions({
+        ...options,
+        with_watch_monetization_types: updatedWatchMonetizationTypes,
+      });
     }
+
+    setOptionsClicked(true);
   }
 
   return (
@@ -100,6 +114,14 @@ export default function Type({
           })}>
           BUY
         </div>
+      </div>
+      <div className={styles.flex_col + " " + styles.range}>
+        {/* <p>Release Year</p>
+        <div className={styles.flex_row + " " + styles.year}>
+          <select></select>
+          <select></select>
+        </div> */}
+        <Slider />
       </div>
     </section>
   );

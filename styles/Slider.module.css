@@ -1,0 +1,41 @@
+.backdropSlider {
+  width: 200px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50px;
+  z-index: 0;
+}
+
+.slider {
+  position: relative;
+  width: 200px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50px;
+  z-index: 1;
+}
+
+.circle {
+  position: absolute;
+  width: 5%;
+  height: 100%;
+  border-radius: 50px;
+  background: violet;
+  /* border: 1px solid black; */
+  outline: 1px solid;
+  z-index: 2;
+}
+
+.minText {
+  position: absolute;
+  left: 0;
+  top: -25px;
+  color: white;
+}
+
+.maxText {
+  position: absolute;
+  right: 0;
+  top: -25px;
+  color: white;
+}

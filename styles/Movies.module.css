@@ -112,3 +112,7 @@
 .Movies::-webkit-scrollbar-thumb {
   background-color: black;
 }
+
+.searchAll {
+  z-index: 1000;
+}
