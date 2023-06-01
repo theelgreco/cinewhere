@@ -1,9 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Abril+Fatface");
 @import url("https://fonts.googleapis.com/css?family=Lexend");
 
+.Type::-webkit-scrollbar {
+  height: 0px;
+}
+
+.Type::-webkit-scrollbar-thumb {
+  height: 0px;
+}
+
 .Type {
-  display: flex;
-  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow-x: scroll;
   background: radial-gradient(
     523px at 7.1% 19.3%,
     rgb(147, 15, 255) 2%,
@@ -17,6 +26,19 @@
 .flex_row {
   display: flex;
   flex-direction: row;
+}
+
+.flex_col {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: fit-content;
+  height: 100%;
+}
+
+.media {
   width: 150px;
   height: 80%;
   border-radius: 50px;
@@ -25,6 +47,13 @@
 .price {
   margin-left: 10px;
   width: 430px;
+  height: 80%;
+  border-radius: 50px;
+}
+
+.year select {
+  width: 50%;
+  border-radius: 20px;
 }
 
 .buttonChoices {
@@ -42,4 +71,9 @@
   color: whitesmoke;
   cursor: auto;
   transition: 0.1s ease-in;
+}
+
+.range {
+  margin-left: 2vw;
+  justify-content: center;
 }

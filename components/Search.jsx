@@ -18,6 +18,8 @@ export default function Search({
   setSearchClosed,
   options,
   setOptions,
+  optionsClicked,
+  setOptionsClicked,
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);
   const [noResults, setNoResults] = useState(false);
@@ -80,6 +82,7 @@ export default function Search({
       ...options,
       [e.target.id]: e.target.value,
     });
+    setOptionsClicked(true)
   }
 
   return (

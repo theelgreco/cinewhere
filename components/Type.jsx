@@ -1,14 +1,21 @@
 import styles from "@/styles/Type.module.css";
 import clsx from "clsx";
+import Slider from "./subcomponents/Slider";
+import { useRef } from "react";
 
 export default function Type({
   media_type,
   set_media_type,
   options,
   setOptions,
+  optionsClicked,
+  setOptionsClicked,
 }) {
+  const type = useRef();
+
   function handleClick(e) {
     set_media_type(e.target.id);
+    setOptionsClicked(true);
   }
 
   function handlePriceClick(e) {
@@ -20,85 +27,111 @@ export default function Type({
     } else if (currentWatchMonetizationTypes.includes(e.target.id)) {
       const indexToRemove = currentWatchMonetizationTypes.indexOf(e.target.id);
       currentWatchMonetizationTypes.splice(indexToRemove, 1);
-      const updatedWatchMonetizationTypes = currentWatchMonetizationTypes.join('|');
-      setOptions({ ...options, with_watch_monetization_types: updatedWatchMonetizationTypes });
+      const updatedWatchMonetizationTypes =
+        currentWatchMonetizationTypes.join("|");
+      setOptions({
+        ...options,
+        with_watch_monetization_types: updatedWatchMonetizationTypes,
+      });
     } else {
-      currentWatchMonetizationTypes.push(e.target.id)
-      const updatedWatchMonetizationTypes = currentWatchMonetizationTypes.join('|');
-      setOptions({ ...options, with_watch_monetization_types: updatedWatchMonetizationTypes });
+      currentWatchMonetizationTypes.push(e.target.id);
+      const updatedWatchMonetizationTypes =
+        currentWatchMonetizationTypes.join("|");
+      setOptions({
+        ...options,
+        with_watch_monetization_types: updatedWatchMonetizationTypes,
+      });
     }
+
+    setOptionsClicked(true);
   }
 
   return (
-    <section className={styles.Type}>
-      <div className={styles.flex_row}>
-        <div
-          id="tv"
-          onClick={handleClick}
-          className={clsx(styles.buttonChoices, {
-            [styles.selected]: media_type === "tv",
-          })}>
-          TV
+    <section className={styles.Type} ref={type}>
+      <div className={styles.flex_row + " " + styles.container}>
+        <div className={styles.flex_row + " " + styles.media}>
+          <div
+            id="tv"
+            onClick={handleClick}
+            className={clsx(styles.buttonChoices, {
+              [styles.selected]: media_type === "tv",
+            })}>
+            TV
+          </div>
+          <div
+            id="movie"
+            onClick={handleClick}
+            className={clsx(styles.buttonChoices, {
+              [styles.selected]: media_type === "movie",
+            })}>
+            MOVIES
+          </div>
         </div>
-        <div
-          id="movie"
-          onClick={handleClick}
-          className={clsx(styles.buttonChoices, {
-            [styles.selected]: media_type === "movie",
-          })}>
-          MOVIES
+        <div className={styles.flex_row + " " + styles.price}>
+          <div
+            id="free"
+            onClick={handlePriceClick}
+            className={clsx(styles.buttonChoices, {
+              [styles.selected]: options.with_watch_monetization_types
+                .split("|")
+                .includes("free"),
+            })}>
+            FREE
+          </div>
+          <div
+            id="ads"
+            onClick={handlePriceClick}
+            className={clsx(styles.buttonChoices, {
+              [styles.selected]: options.with_watch_monetization_types
+                .split("|")
+                .includes("ads"),
+            })}>
+            ADS
+          </div>
+          <div
+            id="flatrate"
+            onClick={handlePriceClick}
+            className={clsx(styles.buttonChoices, {
+              [styles.selected]: options.with_watch_monetization_types
+                .split("|")
+                .includes("flatrate"),
+            })}>
+            FLATRATE
+          </div>
+          <div
+            id="rent"
+            onClick={handlePriceClick}
+            className={clsx(styles.buttonChoices, {
+              [styles.selected]: options.with_watch_monetization_types
+                .split("|")
+                .includes("rent"),
+            })}>
+            RENT
+          </div>
+          <div
+            id="buy"
+            onClick={handlePriceClick}
+            className={clsx(styles.buttonChoices, {
+              [styles.selected]: options.with_watch_monetization_types
+                .split("|")
+                .includes("buy"),
+            })}>
+            BUY
+          </div>
         </div>
-      </div>
-      <div className={styles.flex_row + " " + styles.price}>
-        <div
-          id="free"
-          onClick={handlePriceClick}
-          className={clsx(styles.buttonChoices, {
-            [styles.selected]: options.with_watch_monetization_types
-              .split("|")
-              .includes("free"),
-          })}>
-          FREE
-        </div>
-        <div
-          id="ads"
-          onClick={handlePriceClick}
-          className={clsx(styles.buttonChoices, {
-            [styles.selected]: options.with_watch_monetization_types
-              .split("|")
-              .includes("ads"),
-          })}>
-          ADS
-        </div>
-        <div
-          id="flatrate"
-          onClick={handlePriceClick}
-          className={clsx(styles.buttonChoices, {
-            [styles.selected]: options.with_watch_monetization_types
-              .split("|")
-              .includes("flatrate"),
-          })}>
-          FLATRATE
-        </div>
-        <div
-          id="rent"
-          onClick={handlePriceClick}
-          className={clsx(styles.buttonChoices, {
-            [styles.selected]: options.with_watch_monetization_types
-              .split("|")
-              .includes("rent"),
-          })}>
-          RENT
-        </div>
-        <div
-          id="buy"
-          onClick={handlePriceClick}
-          className={clsx(styles.buttonChoices, {
-            [styles.selected]: options.with_watch_monetization_types
-              .split("|")
-              .includes("buy"),
-          })}>
-          BUY
+        <div className={styles.flex_col + " " + styles.range}>
+          {/* <p>Release Year</p>
+        <div className={styles.flex_row + " " + styles.year}>
+          <select></select>
+          <select></select>
+        </div> */}
+          <Slider
+            options={options}
+            setOptions={setOptions}
+            setOptionsClicked={setOptionsClicked}
+            media_type={media_type}
+            type={type}
+          />
         </div>
       </div>
     </section>
