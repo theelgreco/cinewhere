@@ -11,27 +11,38 @@ export default function MovieCard({
   isMobile,
   setFilmClicked,
   genre,
-  data,
-  country,
+  options
 }) {
   const [serviceIcons, setServiceIcons] = useState([]);
 
   useEffect(() => {
+
     if (Object.keys(film).length) {
-      getFilmServicesTmdb(film.id, film.media_type).then((res) => {
-        if (res) {
-          let serviceIconsArray = [];
-          if (res.flatrate)
-            serviceIconsArray = [...serviceIconsArray, ...res.flatrate];
-          if (res.free) serviceIconsArray = [...serviceIconsArray, ...res.free];
-          if (res.ads) serviceIconsArray = [...serviceIconsArray, ...res.ads];
-          if (res.rent) serviceIconsArray.push({ provider_name: "Rent", amount: res.rent.length });
-          if (res.buy) serviceIconsArray.push({ provider_name: "Buy", amount: res.buy.length});
-          setServiceIcons(serviceIconsArray);
-        } else {
-          setServiceIcons([]);
+      getFilmServicesTmdb(film.id, film.media_type, options.watch_region).then(
+        (res) => {
+          if (res) {
+            let serviceIconsArray = [];
+            if (res.flatrate)
+              serviceIconsArray = [...serviceIconsArray, ...res.flatrate];
+            if (res.free)
+              serviceIconsArray = [...serviceIconsArray, ...res.free];
+            if (res.ads) serviceIconsArray = [...serviceIconsArray, ...res.ads];
+            if (res.rent)
+              serviceIconsArray.push({
+                provider_name: "Rent",
+                amount: res.rent.length,
+              });
+            if (res.buy)
+              serviceIconsArray.push({
+                provider_name: "Buy",
+                amount: res.buy.length,
+              });
+            setServiceIcons(serviceIconsArray);
+          } else {
+            setServiceIcons([]);
+          }
         }
-      });
+      );
     }
   }, [film]);
 

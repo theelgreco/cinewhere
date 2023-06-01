@@ -18,7 +18,6 @@ export default function Main({
   setFilmClicked,
   selectedGenres,
   setSelectedGenres,
-  country,
   refs,
   setRefs,
   servicesList,
@@ -161,7 +160,6 @@ export default function Main({
         serviceIdToSearch={serviceIdToSearch}
         setServiceIdToSearch={setServiceIdToSearch}
         setSelectedGenres={setSelectedGenres}
-        country={country}
         refs={refs}
         setRefs={setRefs}
         options={options}

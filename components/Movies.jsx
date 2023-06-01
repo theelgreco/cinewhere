@@ -18,7 +18,6 @@ export default function Movies({
   setServiceIdToSearch,
   selectedGenres,
   setSelectedGenres,
-  country,
   refs,
   options,
   setOptions,
@@ -421,8 +420,7 @@ export default function Movies({
                     key={`${index}${film.id}${film.title}`}
                     film={film}
                     setFilmClicked={setFilmClicked}
-                    data={data}
-                    country={country}
+                    options={options}
                   />
                 );
               })
@@ -479,14 +477,14 @@ export default function Movies({
                     id={genre.id}
                     ref={refs[genre.id]}>
                     {genre.movies.length ? (
-                      genre.movies.map((film) => {
+                      genre.movies.map((film, index) => {
                         return (
                           <MovieCard
                             key={`${film.id}${genre.genre}`}
                             film={film}
                             setFilmClicked={setFilmClicked}
                             genre={true}
-                            country={country}
+                            options={options}
                           />
                         );
                       })

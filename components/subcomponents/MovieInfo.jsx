@@ -6,7 +6,7 @@ import { getFilmByIdTmdb } from "api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function MovieInfo({ country, isMobile }) {
+export default function MovieInfo({ isMobile }) {
   const { imdb_id, media_type } = useParams();
   const [film, setFilm] = useState(null);
   const [actors, setActors] = useState([]);

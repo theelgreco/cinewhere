@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-
+import { todaysDate } from "utils/utils";
 import servicesArray from "constants/services";
-import { movieGenres, tvGenres, genreIds } from "constants/genres";
+import { movieGenres, genreIds } from "constants/genres";
 import Main from "@/components/Main";
 import MovieInfo from "@/components/subcomponents/MovieInfo";
 
@@ -15,7 +15,6 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [searchResultsData, setSearchResultsData] = useState([]);
   const [filmClicked, setFilmClicked] = useState(false);
-  const [country, setCountry] = useState("gb");
   const [servicesList, setServicesList] = useState([...servicesArray]);
   const [genreList, setGenreList] = useState([...movieGenres]);
   const [expand, setExpand] = useState(false);
@@ -27,6 +26,8 @@ export default function Home() {
     watch_region: "GB",
     with_original_language: "en",
     with_watch_monetization_types: "",
+    "primary_release_date.lte": todaysDate.date,
+    "first_air_date.lte": todaysDate.date,
   });
   const [media_type, set_media_type] = useState("movie");
 
@@ -71,7 +72,6 @@ export default function Home() {
               setFilmClicked={setFilmClicked}
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
-              country={country}
               refs={refs}
               setRefs={setRefs}
               servicesList={servicesList}
@@ -97,7 +97,7 @@ export default function Home() {
         />
         <Route
           path="/:media_type/:imdb_id"
-          element={<MovieInfo country={country} />}
+          element={<MovieInfo />}
         />
       </Routes>
     </BrowserRouter>

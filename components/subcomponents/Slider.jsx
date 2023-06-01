@@ -1,9 +1,15 @@
 import styles from "@/styles/Slider.module.css";
 import { useState, useEffect } from "react";
-import { date } from "utils/utils";
+import { todaysDate } from "utils/utils";
 import React from "react";
 
-export default function Slider({ options, setOptions, setOptionsClicked }) {
+export default function Slider({
+  options,
+  setOptions,
+  setOptionsClicked,
+  media_type,
+  type,
+}) {
   const [sliderRefs, setSliderRefs] = useState({});
   sliderRefs.max = React.createRef();
   sliderRefs.min = React.createRef();
@@ -35,22 +41,25 @@ export default function Slider({ options, setOptions, setOptionsClicked }) {
     const sliderLeft = sliderRefs.slider.current.offsetLeft;
     const thumbWidth = sliderRefs.min.current.offsetWidth;
     const maxLeft = sliderRefs.max.current.offsetLeft;
+    const mouseX = e.clientX + type.current.scrollLeft;
 
     const totalYears = 123;
     const pixelToYearRatio = totalYears / (sliderWidth - thumbWidth);
 
     let circleRadius = thumbWidth / 2;
 
+    console.log(e);
+    console.log(type);
     //prettier-ignore
-    if (e.clientX <= sliderLeft + circleRadius) {
+    if (mouseX <= sliderLeft + circleRadius) {
       sliderRefs.min.current.style.left = "0px";
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
-    } else if (e.clientX >= sliderLeft + maxLeft + circleRadius){
+    } else if (mouseX >= sliderLeft + maxLeft + circleRadius){
       sliderRefs.min.current.style.left = `${maxLeft}px`;
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeft + circleRadius}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
     } else {
-      sliderRefs.min.current.style.left = `${e.clientX - sliderLeft - circleRadius}px`;
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${e.clientX - sliderLeft - 1}px, rgba(0,0,0,1) ${e.clientX - sliderLeft}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
+      sliderRefs.min.current.style.left = `${mouseX - sliderLeft - circleRadius}px`;
+      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
     }
 
     const newPosition = parseInt(sliderRefs.min.current.style.left);
@@ -65,6 +74,7 @@ export default function Slider({ options, setOptions, setOptionsClicked }) {
     const sliderLeft = sliderRefs.slider.current.offsetLeft;
     const minLeft = sliderRefs.min.current.offsetLeft;
     const thumbWidth = sliderRefs.min.current.offsetWidth;
+    const mouseX = e.clientX + type.current.scrollLeft;
 
     const totalYears = 123;
     const pixelToYearRatio = totalYears / (sliderWidth - thumbWidth);
@@ -72,15 +82,15 @@ export default function Slider({ options, setOptions, setOptionsClicked }) {
     let circleRadius = sliderRefs.min.current.offsetWidth / 2;
 
     //prettier-ignore
-    if(e.clientX >= sliderLeft + sliderWidth - circleRadius){
+    if(mouseX >= sliderLeft + sliderWidth - circleRadius){
       sliderRefs.max.current.style.left = `${sliderWidth - (circleRadius * 2)}px`
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
-    } else if(e.clientX <= sliderLeft + minLeft + circleRadius){
+    } else if(mouseX <= sliderLeft + minLeft + circleRadius){
       sliderRefs.max.current.style.left = `${minLeft}px`
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,0) ${minLeft + circleRadius}px)`
     } else {
-      sliderRefs.max.current.style.left = `${e.clientX - sliderLeft - circleRadius}px`
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${e.clientX - sliderLeft - 1}px, rgba(0,0,0,0) ${e.clientX - sliderLeft}px)`
+      sliderRefs.max.current.style.left = `${mouseX - sliderLeft - circleRadius}px`
+      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
     }
 
     const newPosition = parseInt(sliderRefs.max.current.style.left);
@@ -95,18 +105,21 @@ export default function Slider({ options, setOptions, setOptionsClicked }) {
       setOptions({
         ...options,
         "primary_release_date.gte": `${minYear}-01-01`,
+        "first_air_date.gte": `${minYear}-01-01`,
       });
       document.removeEventListener("mousemove", handleMouseMoveMin);
     } else {
-      if (maxYear === Number(date.year)) {
+      if (maxYear === Number(todaysDate.year)) {
         setOptions({
           ...options,
-          "primary_release_date.lte": `${date.date}`,
+          "primary_release_date.lte": `${todaysDate.date}`,
+          "first_air_date.lte": `${todaysDate.date}`,
         });
       } else {
         setOptions({
           ...options,
           "primary_release_date.lte": `${maxYear}-12-31`,
+          "first_air_date.lte": `${maxYear}-12-31`,
         });
       }
       document.removeEventListener("mousemove", handleMouseMoveMax);

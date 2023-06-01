@@ -41,4 +41,4 @@ class TodaysDate {
   }
 }
 
-export const date = new TodaysDate();
+export const todaysDate = new TodaysDate();
