@@ -18,6 +18,7 @@ export default function SearchResults({
   searchText,
   noResults,
   setSearchText,
+  options,
 }) {
   const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   const close = useRef();
@@ -136,6 +137,7 @@ export default function SearchResults({
                 setFilmClicked={setFilmClicked}
                 film={film}
                 data={searchResultsData}
+                options={options}
               />
             );
           })}

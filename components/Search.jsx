@@ -143,6 +143,7 @@ export default function Search({
           searchText={searchText}
           noResults={noResults}
           setSearchText={setSearchText}
+          options={options}
         />
       )}
     </section>

@@ -86,6 +86,7 @@ export const getFilmByIdTmdb = (movie_id, media) => {
 };
 
 export const searchMovies = (params) => {
+  console.log(params);
   return tmdb
     .get("/search/multi", {
       headers: authHeader,
