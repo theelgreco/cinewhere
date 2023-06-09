@@ -13,6 +13,7 @@
     rgb(147, 15, 255) 2%,
     rgb(101, 5, 255) 100.7%
   );
+  cursor: grab;
 }
 
 .genreFlex {

@@ -17,6 +17,7 @@ export default function Services({
   setServiceIdToSearch,
   clicked,
   setClicked,
+  refs,
 }) {
   const [noneSelected, setNoneSelected] = useState(true);
 
@@ -31,7 +32,8 @@ export default function Services({
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      onContextMenu={handleContext}>
+      onContextMenu={handleContext}
+      ref={refs.services}>
       <div
         id="Services"
         className={styles.servicesFlex}

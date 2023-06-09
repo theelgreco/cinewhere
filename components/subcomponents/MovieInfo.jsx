@@ -10,6 +10,7 @@ export default function MovieInfo({ isMobile }) {
   const { imdb_id, media_type } = useParams();
   const [film, setFilm] = useState(null);
   const [actors, setActors] = useState([]);
+  const [trailer, setTrailer] = useState(null);
   const [streamingServices, setStreamingServices] = useState([]);
   const watchCostTypes = ["flatrate", "free", "ads", "rent", "buy"];
 
@@ -18,6 +19,15 @@ export default function MovieInfo({ isMobile }) {
       setFilm(res);
       setStreamingServices(res["watch/providers"].results.GB);
       setActors(res.credits.cast);
+
+      console.log(res);
+      let regex = /Official Trailer/i;
+      let trailer = res.videos.results.find((el) => regex.test(el.name));
+      if (!trailer)
+        trailer = res.videos.results.find((el) => el.type === "Trailer");
+      if (trailer) {
+        setTrailer(`https://yewtu.be/embed/${trailer.key}`);
+      }
     });
   }, []);
 
@@ -54,7 +64,7 @@ export default function MovieInfo({ isMobile }) {
             <h1>
               {media_type === "movie"
                 ? `${film.title} (${film.release_date})`
-                : `${film.name} (${(film.first_air_date)})`}
+                : `${film.name} (${film.first_air_date})`}
             </h1>
             <img
               className={styles.poster}
@@ -97,11 +107,11 @@ export default function MovieInfo({ isMobile }) {
             <p className={styles.overview}>{film.overview}</p>
           </div>
           <div className={styles.videoContainer}>
-            {film.videos.results.length ? (
+            {trailer ? (
               <iframe
-                id="video"
+                // id="ivplayer"
                 className={styles.video}
-                src={`https://www.youtube.com/embed/${film.videos.results[0].key}?loop=1&modestbranding=1`}
+                src={trailer}
                 title="YouTube video player"
                 frameBorder={0}
                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>

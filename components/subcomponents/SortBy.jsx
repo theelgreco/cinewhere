@@ -33,10 +33,6 @@ export default function SortBy({
     }
   }, [selected]);
 
-  useEffect(() => {
-    console.log(options);
-  }, [options]);
-
   return (
     <div className={styles.sort}>
       <select id="sort_by" onChange={handleSelect} value={sort}>

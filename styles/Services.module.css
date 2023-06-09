@@ -3,9 +3,19 @@
   overflow: hidden;
   overflow-x: scroll;
   background: rgb(76, 63, 161);
-  background: linear-gradient(109.6deg, rgba(119, 44, 232, 0.68) 11.5%, rgb(119, 44, 232) 91.2%);
-  background: radial-gradient(523px at 7.1% 19.3%, rgb(147, 15, 255) 2%, rgb(101, 5, 255) 100.7%);
+  background: linear-gradient(
+    109.6deg,
+    rgba(119, 44, 232, 0.68) 11.5%,
+    rgb(119, 44, 232) 91.2%
+  );
+  background: radial-gradient(
+    523px at 7.1% 19.3%,
+    rgb(147, 15, 255) 2%,
+    rgb(101, 5, 255) 100.7%
+  );
+  cursor: grab;
 }
+
 /* .sideText {
   position: relative;
   border: 1px solid;

@@ -56,6 +56,8 @@ export default function Main({
     setMouseDown(true);
     setMouseX(e.clientX);
 
+    console.dir(e.target);
+
     if (e.target.id === "Services") {
       setDivToScroll(e.target.parentElement);
     } else {
@@ -79,6 +81,7 @@ export default function Main({
 
   function handleMouseUp() {
     setMouseDown(false);
+
     setTimeout(() => {
       setMouseMoving(false);
     }, 4);
@@ -121,6 +124,7 @@ export default function Main({
         setServiceIdToSearch={setServiceIdToSearch}
         clicked={clicked}
         setClicked={setClicked}
+        refs={refs}
       />
       <Genres
         isMobile={isMobile}

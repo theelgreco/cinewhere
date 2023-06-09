@@ -17,6 +17,7 @@
   transform: skewX(-3deg);
   overflow: hidden;
   transition: box-shadow 0.5s;
+  cursor: pointer;
 }
 
 .selected,
