@@ -4,11 +4,13 @@ import { todaysDate } from "utils/utils";
 import React from "react";
 
 export default function Slider({
-  options,
-  setOptions,
-  setOptionsClicked,
-  media_type,
-  type,
+  parent,
+  min,
+  max,
+  minValue,
+  maxValue,
+  setMinValue,
+  setMaxValue,
 }) {
   const [sliderRefs, setSliderRefs] = useState({});
   sliderRefs.max = React.createRef();
@@ -17,8 +19,8 @@ export default function Slider({
   sliderRefs.minText = React.createRef();
   sliderRefs.maxText = React.createRef();
   let side;
-  let minYear;
-  let maxYear;
+  let updatedMin = minValue;
+  let updatedMax = maxValue;
 
   function handleMouseDown(e) {
     side = e.target.id;
@@ -41,15 +43,13 @@ export default function Slider({
     const sliderLeft = sliderRefs.slider.current.offsetLeft;
     const thumbWidth = sliderRefs.min.current.offsetWidth;
     const maxLeft = sliderRefs.max.current.offsetLeft;
-    const mouseX = e.clientX + type.current.scrollLeft;
+    const mouseX = e.clientX + parent.current.scrollLeft;
 
-    const totalYears = 123;
-    const pixelToYearRatio = totalYears / (sliderWidth - thumbWidth);
+    const totalValue = max - min;
+    const pixelToYearRatio = totalValue / (sliderWidth - thumbWidth);
 
     let circleRadius = thumbWidth / 2;
 
-    console.log(e);
-    console.log(type);
     //prettier-ignore
     if (mouseX <= sliderLeft + circleRadius) {
       sliderRefs.min.current.style.left = "0px";
@@ -66,7 +66,7 @@ export default function Slider({
     const years = 1900 + Math.round(newPosition * pixelToYearRatio);
 
     sliderRefs.minText.current.innerText = years;
-    minYear = years;
+    updatedMin = years;
   }
 
   function handleMouseMoveMax(e) {
@@ -74,10 +74,10 @@ export default function Slider({
     const sliderLeft = sliderRefs.slider.current.offsetLeft;
     const minLeft = sliderRefs.min.current.offsetLeft;
     const thumbWidth = sliderRefs.min.current.offsetWidth;
-    const mouseX = e.clientX + type.current.scrollLeft;
+    const mouseX = e.clientX + parent.current.scrollLeft;
 
-    const totalYears = 123;
-    const pixelToYearRatio = totalYears / (sliderWidth - thumbWidth);
+    const totalValue = max - min;
+    const pixelToYearRatio = totalValue / (sliderWidth - thumbWidth);
 
     let circleRadius = sliderRefs.min.current.offsetWidth / 2;
 
@@ -97,36 +97,22 @@ export default function Slider({
     const years = 1900 + Math.round(newPosition * pixelToYearRatio);
 
     sliderRefs.maxText.current.innerText = years;
-    maxYear = years;
+    updatedMax = years;
   }
 
   function handleMouseUp(e) {
     if (side === "min") {
-      setOptions({
-        ...options,
-        "primary_release_date.gte": `${minYear}-01-01`,
-        "first_air_date.gte": `${minYear}-01-01`,
-      });
+      //setminvalue
+      setMinValue(updatedMin);
       document.removeEventListener("mousemove", handleMouseMoveMin);
     } else {
-      if (maxYear === Number(todaysDate.year)) {
-        setOptions({
-          ...options,
-          "primary_release_date.lte": `${todaysDate.date}`,
-          "first_air_date.lte": `${todaysDate.date}`,
-        });
-      } else {
-        setOptions({
-          ...options,
-          "primary_release_date.lte": `${maxYear}-12-31`,
-          "first_air_date.lte": `${maxYear}-12-31`,
-        });
-      }
+      //setmaxvalue
+      setMaxValue(updatedMax);
       document.removeEventListener("mousemove", handleMouseMoveMax);
-    }
 
-    setOptionsClicked(true);
-    document.removeEventListener("mouseup", handleMouseUp);
+      // setOptionsClicked(true);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
   }
 
   return (
@@ -139,7 +125,7 @@ export default function Slider({
             "linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) 199px, rgba(0,0,0,0) 200px)",
         }}>
         <p className={styles.minText} ref={sliderRefs.minText}>
-          1900
+          {minValue}
         </p>
         <div
           onMouseDown={handleMouseDown}
@@ -158,7 +144,7 @@ export default function Slider({
           {">"}
         </div>
         <p className={styles.maxText} ref={sliderRefs.maxText}>
-          2023
+          {maxValue}
         </p>
       </div>
     </div>
