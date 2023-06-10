@@ -134,7 +134,6 @@ export default function Type({
             options={options}
             setOptions={setOptions}
             setOptionsClicked={setOptionsClicked}
-            media_type={media_type}
           />
         </div>
       </div>

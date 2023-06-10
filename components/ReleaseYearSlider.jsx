@@ -6,7 +6,6 @@ export default function ReleaseYearSlider({
   options,
   setOptions,
   setOptionsClicked,
-  media_type,
 }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(1900);
