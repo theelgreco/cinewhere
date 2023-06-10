@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Slider from "./subcomponents/Slider";
 import ReleaseYearSlider from "./ReleaseYearSlider";
 import RatingSlider from "./RatingSlider";
+import RunningTimeSlider from "./RunningTimeSlider";
 import { useRef } from "react";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
 
@@ -139,6 +140,13 @@ export default function Type({
         </div>
         <div className={styles.flex_col + " " + styles.range}>
           <RatingSlider
+            options={options}
+            setOptions={setOptions}
+            setOptionsClicked={setOptionsClicked}
+          />
+        </div>
+        <div className={styles.flex_col + " " + styles.range}>
+          <RunningTimeSlider
             options={options}
             setOptions={setOptions}
             setOptionsClicked={setOptionsClicked}

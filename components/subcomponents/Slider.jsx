@@ -102,7 +102,9 @@ export default function Slider({
     //prettier-ignore
     if(mouseX >= sliderLeft + sliderWidth - circleRadius){
       sliderRefs.max.current.style.left = `${sliderWidth - (circleRadius * 2)}px`
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
+      type === 'double' 
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft - 1}px, rgba(0,0,0,1) ${minLeft}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
     } else if(mouseX <= sliderLeft + minLeft + circleRadius){
       sliderRefs.max.current.style.left = `${minLeft}px`
       type === 'double' 
@@ -118,8 +120,15 @@ export default function Slider({
     const newPosition = parseInt(sliderRefs.max.current.style.left);
     const years = min + Math.round(newPosition * pixelToValueRatio);
 
-    sliderRefs.maxText.current.innerText = years;
-    updatedMax = years;
+    console.log(years === max);
+
+    if (type === "single.lte" && years >= max) {
+      updatedMax = "any";
+      sliderRefs.maxText.current.innerText = "any";
+    } else {
+      updatedMax = years;
+      sliderRefs.maxText.current.innerText = years;
+    }
   }
 
   function handleMouseUp(e) {

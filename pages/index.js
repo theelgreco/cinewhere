@@ -28,6 +28,7 @@ export default function Home() {
     with_watch_monetization_types: "",
     "primary_release_date.lte": todaysDate.date,
     "first_air_date.lte": todaysDate.date,
+    "with_runtime.gte": 0,
   });
   const [media_type, set_media_type] = useState("movie");
 
