@@ -118,8 +118,15 @@ export default function Slider({
     const newPosition = parseInt(sliderRefs.max.current.style.left);
     const years = min + Math.round(newPosition * pixelToValueRatio);
 
-    sliderRefs.maxText.current.innerText = years;
-    updatedMax = years;
+    console.log(years === max);
+
+    if (type === "single.lte" && years >= max) {
+      updatedMax = "any";
+      sliderRefs.maxText.current.innerText = "any";
+    } else {
+      updatedMax = years;
+      sliderRefs.maxText.current.innerText = years;
+    }
   }
 
   function handleMouseUp(e) {
