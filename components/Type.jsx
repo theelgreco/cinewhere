@@ -1,6 +1,7 @@
 import styles from "@/styles/Type.module.css";
 import clsx from "clsx";
 import Slider from "./subcomponents/Slider";
+import ReleaseYearSlider from "./ReleaseYearSlider";
 import { useRef } from "react";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
 
@@ -129,17 +130,11 @@ export default function Type({
           </div>
         </div>
         <div className={styles.flex_col + " " + styles.range}>
-          {/* <p>Release Year</p>
-        <div className={styles.flex_row + " " + styles.year}>
-          <select></select>
-          <select></select>
-        </div> */}
-          <Slider
+          <ReleaseYearSlider
             options={options}
             setOptions={setOptions}
             setOptionsClicked={setOptionsClicked}
             media_type={media_type}
-            type={type}
           />
         </div>
       </div>
