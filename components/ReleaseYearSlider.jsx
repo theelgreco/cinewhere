@@ -52,6 +52,7 @@ export default function ReleaseYearSlider({
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
         parent={ReleaseYear}
+        type={"double"}
       />
     </div>
   );

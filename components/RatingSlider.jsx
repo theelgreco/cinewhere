@@ -39,6 +39,7 @@ export default function RatingSlider({
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
         parent={Rating}
+        type={"double"}
       />
     </div>
   );

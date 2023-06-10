@@ -10,6 +10,7 @@ export default function Slider({
   setMinValue,
   setMaxValue,
   parent,
+  type,
 }) {
   const [sliderRefs, setSliderRefs] = useState({});
   sliderRefs.max = React.createRef();
@@ -24,13 +25,17 @@ export default function Slider({
   function handleMouseDown(e) {
     side = e.target.id;
 
-    if (side === "min") {
+    if (side === "min" && type === "double") {
       sliderRefs.min.current.style.zIndex = "3";
       sliderRefs.max.current.style.zIndex = "2";
       document.addEventListener("mousemove", handleMouseMoveMin);
-    } else {
+    } else if (side === "max" && type === "double") {
       sliderRefs.min.current.style.zIndex = "2";
       sliderRefs.max.current.style.zIndex = "3";
+      document.addEventListener("mousemove", handleMouseMoveMax);
+    } else if (type === "single.gte") {
+      document.addEventListener("mousemove", handleMouseMoveMin);
+    } else if (type === "single.lte") {
       document.addEventListener("mousemove", handleMouseMoveMax);
     }
 
@@ -41,13 +46,18 @@ export default function Slider({
     const sliderWidth = sliderRefs.slider.current.offsetWidth;
     const sliderLeft = sliderRefs.slider.current.offsetLeft;
     const thumbWidth = sliderRefs.min.current.offsetWidth;
-    const maxLeft = sliderRefs.max.current.offsetLeft;
     const mouseX = e.clientX + parent.current.scrollLeft;
-
     const totalValue = max - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
+    let maxLeft;
     let circleRadius = thumbWidth / 2;
+
+    if (type === "double") {
+      maxLeft = sliderRefs.max.current.offsetLeft;
+    } else if (type === "single.gte") {
+      maxLeft = sliderWidth - circleRadius * 2;
+    }
 
     //prettier-ignore
     if (mouseX <= sliderLeft + circleRadius) {
@@ -55,10 +65,14 @@ export default function Slider({
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
     } else if (mouseX >= sliderLeft + maxLeft + circleRadius){
       sliderRefs.min.current.style.left = `${maxLeft}px`;
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeft + circleRadius}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
+      type === 'double' 
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeft + circleRadius}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)` 
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeft + circleRadius}px, rgba(0,0,0,1) ${maxLeft + (circleRadius * 2)}px, rgba(0,0,0,0) ${maxLeft + (circleRadius * 2) + 1}px)`
     } else {
       sliderRefs.min.current.style.left = `${mouseX - sliderLeft - circleRadius}px`;
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
+      type === 'double' 
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)` 
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeft + (circleRadius * 2)}px, rgba(0,0,0,0) ${maxLeft + (circleRadius * 2) + 1}px)`
     }
 
     const newPosition = parseInt(sliderRefs.min.current.style.left);
@@ -71,14 +85,19 @@ export default function Slider({
   function handleMouseMoveMax(e) {
     const sliderWidth = sliderRefs.slider.current.offsetWidth;
     const sliderLeft = sliderRefs.slider.current.offsetLeft;
-    const minLeft = sliderRefs.min.current.offsetLeft;
-    const thumbWidth = sliderRefs.min.current.offsetWidth;
+    const thumbWidth = sliderRefs.max.current.offsetWidth;
     const mouseX = e.clientX + parent.current.scrollLeft;
-
     const totalValue = max - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
-    let circleRadius = sliderRefs.min.current.offsetWidth / 2;
+    let minLeft;
+    let circleRadius = sliderRefs.max.current.offsetWidth / 2;
+
+    if (type === "double") {
+      minLeft = sliderRefs.min.current.offsetLeft;
+    } else if (type === "single.lte") {
+      minLeft = 0;
+    }
 
     //prettier-ignore
     if(mouseX >= sliderLeft + sliderWidth - circleRadius){
@@ -86,10 +105,14 @@ export default function Slider({
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
     } else if(mouseX <= sliderLeft + minLeft + circleRadius){
       sliderRefs.max.current.style.left = `${minLeft}px`
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,0) ${minLeft + circleRadius}px)`
+      type === 'double' 
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,0) ${minLeft + circleRadius}px)`
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft - 1}px, rgba(0,0,0,1) ${minLeft}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,0) ${minLeft + circleRadius}px)`
     } else {
       sliderRefs.max.current.style.left = `${mouseX - sliderLeft - circleRadius}px`
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
+      type === 'double' 
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft - 1}px, rgba(0,0,0,1) ${minLeft}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
     }
 
     const newPosition = parseInt(sliderRefs.max.current.style.left);
@@ -114,6 +137,69 @@ export default function Slider({
     }
   }
 
+  function renderSliderType(type) {
+    if (type === "double") {
+      return (
+        <>
+          <p className={styles.minText} ref={sliderRefs.minText}>
+            {minValue}
+          </p>
+          <div
+            onMouseDown={handleMouseDown}
+            id="min"
+            ref={sliderRefs.min}
+            className={styles.circle}
+            style={{ left: "0px" }}>
+            {"<"}
+          </div>
+          <div
+            onMouseDown={handleMouseDown}
+            id="max"
+            ref={sliderRefs.max}
+            className={styles.circle}
+            style={{ right: "0px" }}>
+            {">"}
+          </div>
+          <p className={styles.maxText} ref={sliderRefs.maxText}>
+            {maxValue}
+          </p>
+        </>
+      );
+    } else if (type === "single.gte") {
+      return (
+        <>
+          <p className={styles.minText} ref={sliderRefs.minText}>
+            {minValue}
+          </p>
+          <div
+            onMouseDown={handleMouseDown}
+            id="min"
+            ref={sliderRefs.min}
+            className={styles.circle}
+            style={{ left: "0px" }}>
+            {"<"}
+          </div>
+        </>
+      );
+    } else if (type === "single.lte") {
+      return (
+        <>
+          <div
+            onMouseDown={handleMouseDown}
+            id="max"
+            ref={sliderRefs.max}
+            className={styles.circle}
+            style={{ right: "0px" }}>
+            {">"}
+          </div>
+          <p className={styles.maxText} ref={sliderRefs.maxText}>
+            {maxValue}
+          </p>
+        </>
+      );
+    }
+  }
+
   return (
     <div className={styles.backdropSlider}>
       <div
@@ -121,30 +207,9 @@ export default function Slider({
         ref={sliderRefs.slider}
         style={{
           background:
-            "linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) 199px, rgba(0,0,0,0) 200px)",
+            "linear-gradient(90deg, rgba(0,0,0,0) -1px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 200px, rgba(0,0,0,0) 201px)",
         }}>
-        <p className={styles.minText} ref={sliderRefs.minText}>
-          {minValue}
-        </p>
-        <div
-          onMouseDown={handleMouseDown}
-          id="min"
-          ref={sliderRefs.min}
-          className={styles.circle}
-          style={{ left: "0px" }}>
-          {"<"}
-        </div>
-        <div
-          onMouseDown={handleMouseDown}
-          id="max"
-          ref={sliderRefs.max}
-          className={styles.circle}
-          style={{ right: "0px" }}>
-          {">"}
-        </div>
-        <p className={styles.maxText} ref={sliderRefs.maxText}>
-          {maxValue}
-        </p>
+        {renderSliderType(type)}
       </div>
     </div>
   );
