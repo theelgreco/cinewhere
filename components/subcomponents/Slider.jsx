@@ -1,16 +1,15 @@
 import styles from "@/styles/Slider.module.css";
-import { useState, useEffect } from "react";
-import { todaysDate } from "utils/utils";
+import { useState } from "react";
 import React from "react";
 
 export default function Slider({
-  parent,
   min,
   max,
   minValue,
   maxValue,
   setMinValue,
   setMaxValue,
+  parent,
 }) {
   const [sliderRefs, setSliderRefs] = useState({});
   sliderRefs.max = React.createRef();
@@ -46,7 +45,7 @@ export default function Slider({
     const mouseX = e.clientX + parent.current.scrollLeft;
 
     const totalValue = max - min;
-    const pixelToYearRatio = totalValue / (sliderWidth - thumbWidth);
+    const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
     let circleRadius = thumbWidth / 2;
 
@@ -63,7 +62,7 @@ export default function Slider({
     }
 
     const newPosition = parseInt(sliderRefs.min.current.style.left);
-    const years = 1900 + Math.round(newPosition * pixelToYearRatio);
+    const years = min + Math.round(newPosition * pixelToValueRatio);
 
     sliderRefs.minText.current.innerText = years;
     updatedMin = years;
@@ -77,7 +76,7 @@ export default function Slider({
     const mouseX = e.clientX + parent.current.scrollLeft;
 
     const totalValue = max - min;
-    const pixelToYearRatio = totalValue / (sliderWidth - thumbWidth);
+    const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
     let circleRadius = sliderRefs.min.current.offsetWidth / 2;
 
@@ -94,7 +93,7 @@ export default function Slider({
     }
 
     const newPosition = parseInt(sliderRefs.max.current.style.left);
-    const years = 1900 + Math.round(newPosition * pixelToYearRatio);
+    const years = min + Math.round(newPosition * pixelToValueRatio);
 
     sliderRefs.maxText.current.innerText = years;
     updatedMax = years;
