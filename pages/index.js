@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 import { todaysDate } from "utils/utils";
 import servicesArray from "constants/services";
-import { movieGenres, genreIds } from "constants/genres";
+import { movieGenres, tvGenres, genreIds } from "constants/genres";
 import Main from "@/components/Main";
 import MovieInfo from "@/components/subcomponents/MovieInfo";
 
@@ -33,6 +33,9 @@ export default function Home() {
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+    });
 
     if (!Object.keys(refs).length) {
       const refsObject = {};

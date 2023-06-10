@@ -2,6 +2,7 @@ import styles from "@/styles/Type.module.css";
 import clsx from "clsx";
 import Slider from "./subcomponents/Slider";
 import { useRef } from "react";
+import { movieGenres, tvGenres, genreIds } from "constants/genres";
 
 export default function Type({
   media_type,
@@ -10,11 +11,19 @@ export default function Type({
   setOptions,
   optionsClicked,
   setOptionsClicked,
+  setSelectedGenres,
+  setGenreList,
 }) {
   const type = useRef();
 
   function handleClick(e) {
+    let mediaObj = { movie: movieGenres, tv: tvGenres };
+
     set_media_type(e.target.id);
+
+    setSelectedGenres([]);
+    setGenreList(mediaObj[e.target.id]);
+
     setOptionsClicked(true);
   }
 

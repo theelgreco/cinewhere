@@ -1,6 +1,7 @@
 import styles from "@/styles/Genres.module.css";
 import GenreCard from "@/subcomponents/GenreCard";
 import { useEffect, useState } from "react";
+import { movieGenres, tvGenres, genreIds } from "constants/genres";
 
 export default function Genres({
   handleMouseMove,
@@ -14,14 +15,34 @@ export default function Genres({
   genreList,
   setGenreList,
   clicked,
-  setClicked
+  setClicked,
+  media_type,
 }) {
-
   function handleContext(e) {
     e.preventDefault();
   }
 
+  // useEffect(() => {
+  //   let mediaObj = { movie: movieGenres, tv: tvGenres };
+
+  //   let mediaGenreIds = {};
+
+  //   mediaObj[media_type].forEach((genre) => {
+  //     mediaGenreIds[genre.id] = true;
+  //   });
+
+  //   let filtered = selectedGenres.filter((genre) => {
+  //     if (mediaGenreIds[genre.id]) return genre;
+  //   });
+
+  //   // setGenreList(mediaObj[media_type]);
+  //   setSelectedGenres(filtered);
+  // }, [media_type]);
+
+
   useEffect(() => {
+    let mediaObj = { movie: movieGenres, tv: tvGenres };
+
     const otherGenres = genreList.slice(selectedGenres.length);
     if (otherGenres.length) {
       const sorted = otherGenres.sort((a, b) => {

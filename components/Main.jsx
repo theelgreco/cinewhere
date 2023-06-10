@@ -141,6 +141,7 @@ export default function Main({
         setGenreList={setGenreList}
         clicked={clicked}
         setClicked={setClicked}
+        media_type={media_type}
       />
       <Type
         isMobile={isMobile}
@@ -150,6 +151,8 @@ export default function Main({
         setOptions={setOptions}
         optionsClicked={optionsClicked}
         setOptionsClicked={setOptionsClicked}
+        setSelectedGenres={setSelectedGenres}
+        setGenreList={setGenreList}
       />
       <Movies
         isMobile={isMobile}

@@ -25,6 +25,7 @@
   overflow: hidden;
   z-index: 100;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .MovieCardLink:focus {
@@ -154,4 +155,32 @@
   justify-content: center;
   background-color: black;
   margin: 0 auto;
+}
+
+.noImage {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgb(3, 24, 57);
+  background: radial-gradient(
+    circle at 100%,
+    rgb(3, 24, 57) 0,
+    rgb(16, 49, 102) 0,
+    rgb(3, 24, 57) 100%
+  );
+}
+
+.noImage p {
+  display: grid;
+  place-items: center;
+  font-family: "Abril Fatface";
+  color: rgb(172, 120, 16);
+  font-size: 4vh;
+  font-style: italic;
+  padding: 5px;
+  width: 85%;
+  height: 90%;
+  border: 1px dotted;
+  border-radius: 5px;
 }

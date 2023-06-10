@@ -11,12 +11,11 @@ export default function MovieCard({
   isMobile,
   setFilmClicked,
   genre,
-  options
+  options,
 }) {
   const [serviceIcons, setServiceIcons] = useState([]);
 
   useEffect(() => {
-
     if (Object.keys(film).length) {
       getFilmServicesTmdb(film.id, film.media_type, options.watch_region).then(
         (res) => {
@@ -60,7 +59,17 @@ export default function MovieCard({
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
-            <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} />
+            {film.poster_path ? (
+              <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} />
+            ) : (
+              <div className={styles.noImage}>
+                <p>
+                  ~<br></br>
+                  {film.title ? film.title : film.name}
+                  <br></br>~
+                </p>
+              </div>
+            )}
             <div className={styles.serviceIcons}>
               {serviceIcons.length ? (
                 serviceIcons.map((service, index) => {
