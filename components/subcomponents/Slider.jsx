@@ -124,17 +124,13 @@ export default function Slider({
 
   function handleMouseUp(e) {
     if (side === "min") {
-      //setminvalue
       setMinValue(updatedMin);
       document.removeEventListener("mousemove", handleMouseMoveMin);
     } else {
-      //setmaxvalue
       setMaxValue(updatedMax);
       document.removeEventListener("mousemove", handleMouseMoveMax);
-
-      // setOptionsClicked(true);
-      document.removeEventListener("mouseup", handleMouseUp);
     }
+    document.removeEventListener("mouseup", handleMouseUp);
   }
 
   function renderSliderType(type) {
