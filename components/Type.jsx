@@ -1,10 +1,9 @@
 import styles from "@/styles/Type.module.css";
 import clsx from "clsx";
-import Slider from "./subcomponents/Slider";
 import ReleaseYearSlider from "./ReleaseYearSlider";
 import RatingSlider from "./RatingSlider";
 import RunningTimeSlider from "./RunningTimeSlider";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
 
 export default function Type({
@@ -18,6 +17,48 @@ export default function Type({
   setGenreList,
 }) {
   const type = useRef();
+  const [selectedMenu, setSelectedMenu] = useState("");
+  const [menuParent, setMenuParent] = useState(null);
+  const [menuElements, setMenuElements] = useState([]);
+  const prices = [
+    { free: "free" },
+    { ads: "ads" },
+    { flatrate: "subscription" },
+    { rent: "rent" },
+    { buy: "buy" },
+  ];
+
+  useEffect(() => {
+    if (menuParent) {
+      let temp = [];
+      temp.push(
+        menuParent,
+        ...menuParent.children,
+        ...menuParent.children[1].children
+      );
+      setMenuElements(temp);
+    }
+  }, [menuParent]);
+
+  useEffect(() => {
+    if (menuElements.length) {
+      document.addEventListener("mousedown", handleCloseMenu);
+      return () => {
+        document.removeEventListener("mousedown", handleCloseMenu);
+      };
+    }
+  }, [menuElements]);
+
+  function handleCloseMenu(e) {
+    const clickedElement = e.target;
+    const clickedOutsideMenu = !menuElements.includes(clickedElement);
+
+    if (clickedOutsideMenu) {
+      setSelectedMenu("");
+      setMenuParent(null);
+      setMenuElements([]);
+    }
+  }
 
   function handleClick(e) {
     let mediaObj = { movie: movieGenres, tv: tvGenres };
@@ -31,6 +72,7 @@ export default function Type({
   }
 
   function handlePriceClick(e) {
+    e.stopPropagation();
     const currentWatchMonetizationTypes =
       options.with_watch_monetization_types.split("|");
 
@@ -79,56 +121,55 @@ export default function Type({
             MOVIES
           </div>
         </div>
-        <div className={styles.flex_row + " " + styles.price}>
+        <div
+          className={styles.priceBtn}
+          onClick={(e) => {
+            if (!menuParent) {
+              setSelectedMenu("price");
+              setMenuParent(e.target);
+              setMenuElements([]);
+            } else {
+              setMenuParent(null);
+              setSelectedMenu("");
+              setMenuElements([]);
+            }
+          }}>
+          <p
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!menuParent) {
+                setSelectedMenu("price");
+                setMenuParent(e.target.parentElement);
+              } else {
+                setMenuParent(null);
+                setSelectedMenu("");
+              }
+            }}>
+            Price
+          </p>
           <div
-            id="free"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("free"),
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className={clsx(styles.flex_col + " " + styles.price, {
+              [styles.hidden]: selectedMenu !== "price",
             })}>
-            FREE
-          </div>
-          <div
-            id="ads"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("ads"),
-            })}>
-            ADS
-          </div>
-          <div
-            id="flatrate"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("flatrate"),
-            })}>
-            FLATRATE
-          </div>
-          <div
-            id="rent"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("rent"),
-            })}>
-            RENT
-          </div>
-          <div
-            id="buy"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("buy"),
-            })}>
-            BUY
+            {prices.map((price) => {
+              let key = Object.keys(price)[0];
+              return (
+                <div
+                  id={key}
+                  key={key}
+                  onClick={handlePriceClick}
+                  className={clsx(styles.buttonChoices, {
+                    [styles.selected]: options.with_watch_monetization_types
+                      .split("|")
+                      .includes(key),
+                  })}>
+                  {price[key]}
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className={styles.flex_col + " " + styles.range}>

@@ -31,6 +31,53 @@
   background: rgb(112, 50, 212);
 }
 
+.Movies,
+.genreContainer {
+  display: flex;
+  position: relative;
+  height: calc(100% - 20px);
+  width: 100vw;
+  flex-direction: column;
+  padding-top: 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: radial-gradient(
+    523px at 7.1% 19.3%,
+    rgb(147, 15, 255) 2%,
+    rgb(101, 5, 255) 100.7%
+  );
+  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  top: 0;
+  transition: top 0.5s ease, height 0s ease 0.5s;
+}
+
+.MoviesCollapsed,
+.genreContainerCollapsed {
+  transition: top 0.5s ease;
+  position: relative;
+  display: flex;
+  height: calc(151% - 20px);
+  width: 100vw;
+  flex-direction: column;
+  padding-top: 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: radial-gradient(
+    523px at 7.1% 19.3%,
+    rgb(147, 15, 255) 2%,
+    rgb(101, 5, 255) 100.7%
+  );
+  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  top: -51%;
+}
+
+.genreContainer,
+.genreContainerCollapsed {
+  gap: 10px;
+}
+
 .collapseBtn {
   transition: top 0.5s ease;
   display: flex;
@@ -67,51 +114,6 @@
   z-index: 300;
   border: 1px dotted;
   cursor: pointer;
-}
-
-.Movies,
-.genreContainer {
-  display: flex;
-  position: relative;
-  height: calc(100% - 20px);
-  flex-direction: column;
-  padding-top: 20px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  background: radial-gradient(
-    523px at 7.1% 19.3%,
-    rgb(147, 15, 255) 2%,
-    rgb(101, 5, 255) 100.7%
-  );
-  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
-  z-index: 1;
-  top: 0;
-  transition: top 0.5s ease, height 0s ease 0.5s;
-}
-
-.MoviesCollapsed,
-.genreContainerCollapsed {
-  transition: top 0.5s ease;
-  position: relative;
-  display: flex;
-  height: calc(151% - 20px);
-  flex-direction: column;
-  padding-top: 20px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  background: radial-gradient(
-    523px at 7.1% 19.3%,
-    rgb(147, 15, 255) 2%,
-    rgb(101, 5, 255) 100.7%
-  );
-  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
-  z-index: 1;
-  top: -51%;
-}
-
-.genreContainer,
-.genreContainerCollapsed {
-  gap: 10px;
 }
 
 .moviesFlex {

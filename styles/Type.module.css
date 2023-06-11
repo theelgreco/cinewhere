@@ -12,7 +12,7 @@
 .Type {
   width: 100%;
   height: 100%;
-  overflow-x: scroll;
+  overflow: visible;
   background: radial-gradient(
     523px at 7.1% 19.3%,
     rgb(147, 15, 255) 2%,
@@ -34,6 +34,7 @@
 }
 
 .container {
+  position: relative;
   width: fit-content;
   height: 100%;
 }
@@ -44,26 +45,49 @@
   border-radius: 50px;
 }
 
-.price {
-  margin-left: 10px;
-  width: 430px;
-  height: 80%;
-  border-radius: 50px;
+.priceBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 92%;
+  width: 150px;
+  /* border-top-left-radius: 50px;
+  border-top-right-radius: 50px; */
+  border: 2px solid;
 }
 
-.year select {
-  width: 50%;
-  border-radius: 20px;
+.price {
+  position: absolute;
+  top: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  /* border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px; */
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border: 2px solid;
+  gap: 5px;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
 }
 
 .buttonChoices {
   display: grid;
   place-items: center;
-  width: 50%;
-  border-radius: 50px;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  /* border-radius: 50px; */
+  background-color: white;
   cursor: pointer;
   transition: 0.1s ease-out;
+  /* border: 1px dashed white; */
 }
 
 .selected {
@@ -74,6 +98,6 @@
 }
 
 .range {
-  margin-left: 2vw;
+  margin-left: 10vw;
   justify-content: center;
 }
