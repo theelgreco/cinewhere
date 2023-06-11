@@ -16,13 +16,17 @@
 }
 
 .Movies::-webkit-scrollbar,
-.MoviesCollapsed::-webkit-scrollbar {
+.MoviesCollapsed::-webkit-scrollbar,
+.genreContainer::-webkit-scrollbar,
+.genreContainerCollapsed::-webkit-scrollbar {
   width: 3px;
   background: black;
 }
 
 .Movies::-webkit-scrollbar-thumb,
-.MoviesCollapsed::-webkit-scrollbar-thumb {
+.MoviesCollapsed::-webkit-scrollbar-thumb,
+.genreContainer::-webkit-scrollbar-thumb,
+.genreContainerCollapsed::-webkit-scrollbar-thumb {
   width: 3px;
   background: rgb(112, 50, 212);
 }
@@ -65,13 +69,14 @@
   cursor: pointer;
 }
 
-.Movies {
+.Movies,
+.genreContainer {
   display: flex;
   position: relative;
   height: calc(100% - 20px);
   flex-direction: column;
   padding-top: 20px;
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: scroll;
   background: radial-gradient(
     523px at 7.1% 19.3%,
@@ -84,7 +89,8 @@
   transition: top 0.5s ease, height 0s ease 0.5s;
 }
 
-.MoviesCollapsed {
+.MoviesCollapsed,
+.genreContainerCollapsed {
   transition: top 0.5s ease;
   position: relative;
   display: flex;
@@ -103,6 +109,11 @@
   top: -51%;
 }
 
+.genreContainer,
+.genreContainerCollapsed {
+  gap: 10px;
+}
+
 .moviesFlex {
   position: relative;
   display: flex;
@@ -112,20 +123,6 @@
   width: 100%;
   height: fit-content;
   justify-content: space-evenly;
-}
-
-.genreContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-x: hidden;
-  background: radial-gradient(
-    523px at 7.1% 19.3%,
-    rgb(147, 15, 255) 2%,
-    rgb(101, 5, 255) 100.7%
-  );
-  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
-  z-index: 0;
 }
 
 .individualGenreContainer {

@@ -13,7 +13,8 @@
   }
 }
 
-.MovieCardLink {
+.MovieCardLink,
+.MovieCardLinkPreload {
   position: relative;
   width: 23vh;
   min-width: 18vh;
@@ -23,30 +24,23 @@
   border-radius: 10px;
   overflow: hidden;
   z-index: 100;
+}
+
+.MovieCardLink {
   cursor: pointer;
   text-decoration: none;
+}
+
+.MovieCardLinkPreload {
+  background: linear-gradient(66deg, black, transparent);
+  background-size: 400% 400%;
+  animation: preload 2s ease-in infinite;
 }
 
 .MovieCardLink:focus {
   outline-style: ridge;
   outline-color: rgb(84, 58, 232);
   outline-width: 2px;
-}
-
-.MovieCardLinkPreload {
-  position: relative;
-  width: 30vh;
-  min-height: 45.5vh;
-  max-height: 58.5vh;
-  min-width: 180px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  overflow: hidden;
-  z-index: 100;
-  background: linear-gradient(66deg, black, transparent);
-  background-size: 400% 400%;
-  animation: preload 2s ease-in infinite;
-  /* animation-direction: alternate; */
 }
 
 .MovieCardLink::after,
@@ -58,9 +52,6 @@
   width: 100%;
   height: 100%;
   box-shadow: inset 0px 0px 8px 3px rgba(0, 0, 0, 1);
-  /* background-size: 110% 110%;
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0), transparent);
-  background-position: -100%; */
 }
 
 .MovieCardLink:hover::after,
