@@ -4,6 +4,7 @@ import SortBy from "./subcomponents/SortBy";
 import { getFilmsTmdb } from "api";
 import { useEffect, useState } from "react";
 import React from "react";
+import clsx from "clsx";
 
 export default function Movies({
   isMobile,
@@ -32,7 +33,33 @@ export default function Movies({
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
-  const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+  const [collapsedMenus, setCollapsedMenus] = useState(false);
+  const preload = [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+  ];
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -395,9 +422,24 @@ export default function Movies({
       {!selectedGenres.length ? (
         <section
           id="sectionRef"
-          className={styles.Movies}
+          className={clsx({
+            [styles.Movies]: !collapsedMenus,
+            [styles.MoviesCollapsed]: collapsedMenus,
+          })}
           onScroll={handleScroll}
           ref={refs.sectionRef}>
+          <div
+            className={clsx({
+              [styles.collapseBtn]: !collapsedMenus,
+              [styles.collapseBtnCollapsed]: collapsedMenus,
+            })}
+            onClick={() => {
+              !collapsedMenus
+                ? setCollapsedMenus(true)
+                : setCollapsedMenus(false);
+            }}>
+            =
+          </div>
           {data.length ? (
             <SortBy
               options={options}
@@ -448,7 +490,10 @@ export default function Movies({
       ) : (
         <section
           id="sectionRefGenre"
-          className={styles.genreContainer}
+          className={clsx({
+            [styles.genreContainer]: !collapsedMenus,
+            [styles.genreContainerCollapsed]: collapsedMenus,
+          })}
           ref={refs.sectionRefGenre}
           onScroll={handleScroll}>
           <SortBy
@@ -469,7 +514,18 @@ export default function Movies({
                 <div className={styles.genreName}>
                   <p>{genre.genre}</p>
                 </div>
-
+                <div
+                  className={clsx({
+                    [styles.collapseBtn]: !collapsedMenus,
+                    [styles.collapseBtnCollapsed]: collapsedMenus,
+                  })}
+                  onClick={() => {
+                    !collapsedMenus
+                      ? setCollapsedMenus(true)
+                      : setCollapsedMenus(false);
+                  }}>
+                  =
+                </div>
                 {genre.movies ? (
                   <div
                     className={styles.genreMovies}
