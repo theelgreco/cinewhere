@@ -60,7 +60,10 @@ export default function MovieCard({
           onClick={handleClick}>
           <div className={styles.MovieCard}>
             {film.poster_path ? (
-              <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} />
+              <img
+                className={styles.moviePoster}
+                src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+              />
             ) : (
               <div className={styles.noImage}>
                 <p>

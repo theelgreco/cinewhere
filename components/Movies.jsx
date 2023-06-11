@@ -4,6 +4,7 @@ import SortBy from "./subcomponents/SortBy";
 import { getFilmsTmdb } from "api";
 import { useEffect, useState } from "react";
 import React from "react";
+import clsx from "clsx";
 
 export default function Movies({
   isMobile,
@@ -388,6 +389,10 @@ export default function Movies({
     });
     setServiceIdToSearch({});
     setGenreIdToSearch({});
+  }
+
+  function collapseMenus(){
+    
   }
 
   return (
