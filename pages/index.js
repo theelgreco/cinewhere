@@ -100,7 +100,10 @@ export default function Home() {
             />
           }
         />
-        <Route path="/:media_type/:imdb_id" element={<MovieInfo />} />
+        <Route
+          path="/:media_type/:imdb_id"
+          element={<MovieInfo options={options} />}
+        />
       </Routes>
     </BrowserRouter>
   );

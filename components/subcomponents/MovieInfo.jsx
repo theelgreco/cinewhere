@@ -6,21 +6,23 @@ import { getFilmByIdTmdb } from "api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function MovieInfo({ isMobile }) {
+export default function MovieInfo({ isMobile, options }) {
   const { imdb_id, media_type } = useParams();
   const [film, setFilm] = useState(null);
   const [actors, setActors] = useState([]);
   const [trailer, setTrailer] = useState(null);
-  const [streamingServices, setStreamingServices] = useState([]);
+  const [streamingServices, setStreamingServices] = useState(null);
   const watchCostTypes = ["flatrate", "free", "ads", "rent", "buy"];
 
   useEffect(() => {
     getFilmByIdTmdb(imdb_id, media_type).then((res) => {
       setFilm(res);
-      setStreamingServices(res["watch/providers"].results.GB);
+
+      const tempServices = res["watch/providers"].results[options.watch_region];
+      if (tempServices) setStreamingServices(tempServices);
+
       setActors(res.credits.cast);
 
-      console.log(res);
       let regex = /Official Trailer/i;
       let trailer = res.videos.results.find((el) => regex.test(el.name));
       if (!trailer)
@@ -31,25 +33,28 @@ export default function MovieInfo({ isMobile }) {
     });
   }, []);
 
+  //refactor this!!!
   function streamingServicesDOM(services, costs) {
     let dom = [];
-    costs.forEach((cost) => {
-      if (services[cost]) {
-        let arr = [];
-        services[cost].forEach((service, index) => {
-          arr.push(
-            <div
-              className={styles.service}
-              key={`${service.provider_name}${cost}${index}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/original${service.logo_path}`}
-              />
-            </div>
-          );
-        });
-        dom.push({ price: cost, elements: arr });
-      }
-    });
+    if (services) {
+      costs.forEach((cost) => {
+        if (services[cost]) {
+          let arr = [];
+          services[cost].forEach((service, index) => {
+            arr.push(
+              <div
+                className={styles.service}
+                key={`${service.provider_name}${cost}${index}`}>
+                <img
+                  src={`https://image.tmdb.org/t/p/original${service.logo_path}`}
+                />
+              </div>
+            );
+          });
+          dom.push({ price: cost, elements: arr });
+        }
+      });
+    }
     return dom;
   }
 
