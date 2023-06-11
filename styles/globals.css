@@ -9,4 +9,5 @@ html,
   width: 100vw;
   overscroll-behavior: none;
   user-select: none;
+  overflow: hidden;
 }

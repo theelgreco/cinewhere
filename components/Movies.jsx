@@ -33,6 +33,7 @@ export default function Movies({
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
+  const [collapsedMenus, setCollapsedMenus] = useState(false);
   const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
   useEffect(() => {
@@ -391,18 +392,29 @@ export default function Movies({
     setGenreIdToSearch({});
   }
 
-  function collapseMenus(){
-    
-  }
-
   return (
     <>
       {!selectedGenres.length ? (
         <section
           id="sectionRef"
-          className={styles.Movies}
+          className={clsx({
+            [styles.Movies]: !collapsedMenus,
+            [styles.MoviesCollapsed]: collapsedMenus,
+          })}
           onScroll={handleScroll}
           ref={refs.sectionRef}>
+          <div
+            className={clsx({
+              [styles.collapseBtn]: !collapsedMenus,
+              [styles.collapseBtnCollapsed]: collapsedMenus,
+            })}
+            onClick={() => {
+              !collapsedMenus
+                ? setCollapsedMenus(true)
+                : setCollapsedMenus(false);
+            }}>
+            =
+          </div>
           {data.length ? (
             <SortBy
               options={options}
