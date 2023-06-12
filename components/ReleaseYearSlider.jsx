@@ -6,6 +6,7 @@ export default function ReleaseYearSlider({
   options,
   setOptions,
   setOptionsClicked,
+  menuOpen,
 }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(1900);
@@ -53,6 +54,7 @@ export default function ReleaseYearSlider({
         setMaxValue={setMaxValue}
         parent={ReleaseYear}
         type={"double"}
+        menuOpen={menuOpen}
       />
     </div>
   );

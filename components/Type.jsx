@@ -3,6 +3,8 @@ import clsx from "clsx";
 import ReleaseYearSlider from "./ReleaseYearSlider";
 import RatingSlider from "./RatingSlider";
 import RunningTimeSlider from "./RunningTimeSlider";
+import PriceMenu from "./PriceMenu.jsx";
+import Popup from "./Popup";
 import { useRef, useState, useEffect } from "react";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
 
@@ -20,21 +22,16 @@ export default function Type({
   const [selectedMenu, setSelectedMenu] = useState("");
   const [menuParent, setMenuParent] = useState(null);
   const [menuElements, setMenuElements] = useState([]);
-  const prices = [
-    { free: "free" },
-    { ads: "ads" },
-    { flatrate: "subscription" },
-    { rent: "rent" },
-    { buy: "buy" },
-  ];
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (menuParent) {
       let temp = [];
+      console.dir(menuParent);
       temp.push(
         menuParent,
         ...menuParent.children,
-        ...menuParent.children[1].children
+        ...allDescendants(menuParent.children[1], [])
       );
       setMenuElements(temp);
     }
@@ -54,6 +51,7 @@ export default function Type({
     const clickedOutsideMenu = !menuElements.includes(clickedElement);
 
     if (clickedOutsideMenu) {
+      setMenuOpen(false);
       setSelectedMenu("");
       setMenuParent(null);
       setMenuElements([]);
@@ -71,33 +69,13 @@ export default function Type({
     setOptionsClicked(true);
   }
 
-  function handlePriceClick(e) {
-    e.stopPropagation();
-    const currentWatchMonetizationTypes =
-      options.with_watch_monetization_types.split("|");
-
-    if (!options.with_watch_monetization_types) {
-      setOptions({ ...options, with_watch_monetization_types: e.target.id });
-    } else if (currentWatchMonetizationTypes.includes(e.target.id)) {
-      const indexToRemove = currentWatchMonetizationTypes.indexOf(e.target.id);
-      currentWatchMonetizationTypes.splice(indexToRemove, 1);
-      const updatedWatchMonetizationTypes =
-        currentWatchMonetizationTypes.join("|");
-      setOptions({
-        ...options,
-        with_watch_monetization_types: updatedWatchMonetizationTypes,
-      });
-    } else {
-      currentWatchMonetizationTypes.push(e.target.id);
-      const updatedWatchMonetizationTypes =
-        currentWatchMonetizationTypes.join("|");
-      setOptions({
-        ...options,
-        with_watch_monetization_types: updatedWatchMonetizationTypes,
-      });
+  function allDescendants(node, arr) {
+    for (let i = 0; i < node.children.length; i++) {
+      let child = node.children[i];
+      arr.push(child);
+      allDescendants(child, arr);
     }
-
-    setOptionsClicked(true);
+    return arr;
   }
 
   return (
@@ -121,63 +99,36 @@ export default function Type({
             MOVIES
           </div>
         </div>
-        <div
-          className={styles.priceBtn}
-          onClick={(e) => {
-            if (!menuParent) {
-              setSelectedMenu("price");
-              setMenuParent(e.target);
-              setMenuElements([]);
-            } else {
-              setMenuParent(null);
-              setSelectedMenu("");
-              setMenuElements([]);
-            }
-          }}>
-          <p
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!menuParent) {
-                setSelectedMenu("price");
-                setMenuParent(e.target.parentElement);
-              } else {
-                setMenuParent(null);
-                setSelectedMenu("");
-              }
-            }}>
-            Price
-          </p>
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className={clsx(styles.flex_col + " " + styles.price, {
-              [styles.hidden]: selectedMenu !== "price",
-            })}>
-            {prices.map((price) => {
-              let key = Object.keys(price)[0];
-              return (
-                <div
-                  id={key}
-                  key={key}
-                  onClick={handlePriceClick}
-                  className={clsx(styles.buttonChoices, {
-                    [styles.selected]: options.with_watch_monetization_types
-                      .split("|")
-                      .includes(key),
-                  })}>
-                  {price[key]}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <Popup
+          menuName={"price"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={PriceMenu}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          setMenuOpen={setMenuOpen}
+          menuOpen={menuOpen}
+        />
         <div className={styles.flex_col + " " + styles.range}>
-          <ReleaseYearSlider
+          <Popup
+            menuName={"Release Year"}
+            selectedMenu={selectedMenu}
+            setSelectedMenu={setSelectedMenu}
+            setMenuParent={setMenuParent}
+            menuParent={menuParent}
+            setMenuElements={setMenuElements}
+            ChildComponent={ReleaseYearSlider}
+            childProps={{ options, setOptions, setOptionsClicked }}
+            setMenuOpen={setMenuOpen}
+            menuOpen={menuOpen}
+          />
+          {/* <ReleaseYearSlider
             options={options}
             setOptions={setOptions}
             setOptionsClicked={setOptionsClicked}
-          />
+          /> */}
         </div>
         <div className={styles.flex_col + " " + styles.range}>
           <RatingSlider
