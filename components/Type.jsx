@@ -1,23 +1,64 @@
 import styles from "@/styles/Type.module.css";
-import clsx from "clsx";
-import Slider from "./subcomponents/Slider";
-import ReleaseYearSlider from "./ReleaseYearSlider";
-import RatingSlider from "./RatingSlider";
-import RunningTimeSlider from "./RunningTimeSlider";
-import { useRef } from "react";
-import { movieGenres, tvGenres, genreIds } from "constants/genres";
+import ReleaseYearSlider from "@/subcomponents/ReleaseYearSlider";
+import RatingSlider from "@/subcomponents/RatingSlider";
+import RunningTimeSlider from "@/subcomponents/RunningTimeSlider";
+import PriceMenu from "@/subcomponents/PriceMenu.jsx";
+import ShowType from "@/subcomponents/ShowType";
+import Popup from "@/subcomponents/Popup";
+import { useRef, useState, useEffect } from "react";
+import { movieGenres, tvGenres } from "constants/genres";
+import React from "react";
 
 export default function Type({
   media_type,
   set_media_type,
   options,
   setOptions,
-  optionsClicked,
   setOptionsClicked,
   setSelectedGenres,
   setGenreList,
 }) {
   const type = useRef();
+  const Price = useRef();
+  const ReleaseYear = useRef();
+  const Rating = useRef();
+  const Runtime = useRef();
+  
+  const [selectedMenu, setSelectedMenu] = useState("");
+  const [menuParent, setMenuParent] = useState(null);
+  const [menuElements, setMenuElements] = useState([]);
+
+  useEffect(() => {
+    if (menuParent) {
+      let temp = [];
+      temp.push(
+        menuParent,
+        ...menuParent.children,
+        ...allDescendants(menuParent.children[1], [])
+      );
+      setMenuElements(temp);
+    }
+  }, [menuParent]);
+
+  useEffect(() => {
+    if (menuElements.length) {
+      document.addEventListener("mousedown", handleCloseMenu);
+      return () => {
+        document.removeEventListener("mousedown", handleCloseMenu);
+      };
+    }
+  }, [menuElements]);
+
+  function handleCloseMenu(e) {
+    const clickedElement = e.target;
+    const clickedOutsideMenu = !menuElements.includes(clickedElement);
+
+    if (clickedOutsideMenu) {
+      setSelectedMenu("");
+      setMenuParent(null);
+      setMenuElements([]);
+    }
+  }
 
   function handleClick(e) {
     let mediaObj = { movie: movieGenres, tv: tvGenres };
@@ -30,128 +71,72 @@ export default function Type({
     setOptionsClicked(true);
   }
 
-  function handlePriceClick(e) {
-    const currentWatchMonetizationTypes =
-      options.with_watch_monetization_types.split("|");
-
-    if (!options.with_watch_monetization_types) {
-      setOptions({ ...options, with_watch_monetization_types: e.target.id });
-    } else if (currentWatchMonetizationTypes.includes(e.target.id)) {
-      const indexToRemove = currentWatchMonetizationTypes.indexOf(e.target.id);
-      currentWatchMonetizationTypes.splice(indexToRemove, 1);
-      const updatedWatchMonetizationTypes =
-        currentWatchMonetizationTypes.join("|");
-      setOptions({
-        ...options,
-        with_watch_monetization_types: updatedWatchMonetizationTypes,
-      });
-    } else {
-      currentWatchMonetizationTypes.push(e.target.id);
-      const updatedWatchMonetizationTypes =
-        currentWatchMonetizationTypes.join("|");
-      setOptions({
-        ...options,
-        with_watch_monetization_types: updatedWatchMonetizationTypes,
-      });
+  function allDescendants(node, arr) {
+    for (let i = 0; i < node.children.length; i++) {
+      let child = node.children[i];
+      arr.push(child);
+      allDescendants(child, arr);
     }
-
-    setOptionsClicked(true);
+    return arr;
   }
 
   return (
     <section className={styles.Type} ref={type}>
       <div className={styles.flex_row + " " + styles.container}>
-        <div className={styles.flex_row + " " + styles.media}>
-          <div
-            id="tv"
-            onClick={handleClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: media_type === "tv",
-            })}>
-            TV
-          </div>
-          <div
-            id="movie"
-            onClick={handleClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: media_type === "movie",
-            })}>
-            MOVIES
-          </div>
-        </div>
-        <div className={styles.flex_row + " " + styles.price}>
-          <div
-            id="free"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("free"),
-            })}>
-            FREE
-          </div>
-          <div
-            id="ads"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("ads"),
-            })}>
-            ADS
-          </div>
-          <div
-            id="flatrate"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("flatrate"),
-            })}>
-            FLATRATE
-          </div>
-          <div
-            id="rent"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("rent"),
-            })}>
-            RENT
-          </div>
-          <div
-            id="buy"
-            onClick={handlePriceClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: options.with_watch_monetization_types
-                .split("|")
-                .includes("buy"),
-            })}>
-            BUY
-          </div>
-        </div>
-        <div className={styles.flex_col + " " + styles.range}>
-          <ReleaseYearSlider
-            options={options}
-            setOptions={setOptions}
-            setOptionsClicked={setOptionsClicked}
-          />
-        </div>
-        <div className={styles.flex_col + " " + styles.range}>
-          <RatingSlider
-            options={options}
-            setOptions={setOptions}
-            setOptionsClicked={setOptionsClicked}
-          />
-        </div>
-        <div className={styles.flex_col + " " + styles.range}>
-          <RunningTimeSlider
-            options={options}
-            setOptions={setOptions}
-            setOptionsClicked={setOptionsClicked}
-          />
-        </div>
+        <Popup
+          menuName={"Show type"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={ShowType}
+          childProps={{ handleClick, media_type }}
+        />
+        <Popup
+          menuName={"Price"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={PriceMenu}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          childRef={Price}
+        />
+        <Popup
+          menuName={"Release year"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={ReleaseYearSlider}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          childRef={ReleaseYear}
+        />
+        <Popup
+          menuName={"Rating"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={RatingSlider}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          childRef={Rating}
+        />
+        <Popup
+          menuName={"Runtime"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={RunningTimeSlider}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          childRef={Runtime}
+        />
       </div>
     </section>
   );

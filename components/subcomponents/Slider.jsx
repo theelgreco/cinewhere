@@ -9,7 +9,6 @@ export default function Slider({
   maxValue,
   setMinValue,
   setMaxValue,
-  parent,
   type,
 }) {
   const [sliderRefs, setSliderRefs] = useState({});
@@ -44,35 +43,43 @@ export default function Slider({
 
   function handleMouseMoveMin(e) {
     const sliderWidth = sliderRefs.slider.current.offsetWidth;
-    const sliderLeft = sliderRefs.slider.current.offsetLeft;
+    const sliderLeft = sliderRefs.slider.current.getBoundingClientRect().x;
     const thumbWidth = sliderRefs.min.current.offsetWidth;
-    const mouseX = e.clientX + parent.current.scrollLeft;
+    const mouseX = e.clientX;
     const totalValue = max - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
     let maxLeft;
+    let maxLeftLocal;
     let circleRadius = thumbWidth / 2;
 
     if (type === "double") {
-      maxLeft = sliderRefs.max.current.offsetLeft;
+      // maxLeft = sliderRefs.max.current.offsetLeft;
+      maxLeft = sliderRefs.max.current.getBoundingClientRect().x;
+      maxLeftLocal = maxLeft - sliderLeft;
     } else if (type === "single.gte") {
-      maxLeft = sliderWidth - circleRadius * 2;
+      maxLeft = sliderLeft + sliderWidth - circleRadius * 2;
+      maxLeftLocal = maxLeft - sliderLeft;
     }
+
+    console.log(maxLeftLocal, "px", " <-- local");
+    console.log(maxLeft, "px", " <-- global");
 
     //prettier-ignore
     if (mouseX <= sliderLeft + circleRadius) {
+      console.log('here')
       sliderRefs.min.current.style.left = "0px";
-      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)`
-    } else if (mouseX >= sliderLeft + maxLeft + circleRadius){
-      sliderRefs.min.current.style.left = `${maxLeft}px`;
+      sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeftLocal + circleRadius}px)`
+    } else if (mouseX >= maxLeft + circleRadius){
+      sliderRefs.min.current.style.left = `${sliderRefs.max.current.offsetLeft}px`;
       type === 'double' 
-      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeft + circleRadius}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)` 
-      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeft + circleRadius}px, rgba(0,0,0,1) ${maxLeft + (circleRadius * 2)}px, rgba(0,0,0,0) ${maxLeft + (circleRadius * 2) + 1}px)`
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeftLocal + circleRadius}px)` 
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius}px, rgba(0,0,0,1) ${maxLeftLocal + (circleRadius * 2)}px, rgba(0,0,0,0) ${maxLeftLocal + (circleRadius * 2) + 1}px)`
     } else {
       sliderRefs.min.current.style.left = `${mouseX - sliderLeft - circleRadius}px`;
       type === 'double' 
-      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeft + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeft + circleRadius}px)` 
-      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeft + (circleRadius * 2)}px, rgba(0,0,0,0) ${maxLeft + (circleRadius * 2) + 1}px)`
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeftLocal + circleRadius}px)` 
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeftLocal + (circleRadius * 2)}px, rgba(0,0,0,0) ${maxLeftLocal + (circleRadius * 2) + 1}px)`
     }
 
     const newPosition = parseInt(sliderRefs.min.current.style.left);
@@ -84,43 +91,44 @@ export default function Slider({
 
   function handleMouseMoveMax(e) {
     const sliderWidth = sliderRefs.slider.current.offsetWidth;
-    const sliderLeft = sliderRefs.slider.current.offsetLeft;
+    const sliderLeft = sliderRefs.slider.current.getBoundingClientRect().x;
     const thumbWidth = sliderRefs.max.current.offsetWidth;
-    const mouseX = e.clientX + parent.current.scrollLeft;
+    const mouseX = e.clientX;
     const totalValue = max - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
     let minLeft;
+    let minLeftLocal;
     let circleRadius = sliderRefs.max.current.offsetWidth / 2;
 
     if (type === "double") {
-      minLeft = sliderRefs.min.current.offsetLeft;
+      minLeft = sliderRefs.min.current.getBoundingClientRect().x;
+      minLeftLocal = minLeft - sliderLeft;
     } else if (type === "single.lte") {
-      minLeft = 0;
+      minLeft = sliderLeft;
+      minLeftLocal = 0;
     }
 
     //prettier-ignore
     if(mouseX >= sliderLeft + sliderWidth - circleRadius){
       sliderRefs.max.current.style.left = `${sliderWidth - (circleRadius * 2)}px`
       type === 'double' 
-      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
-      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft - 1}px, rgba(0,0,0,1) ${minLeft}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
-    } else if(mouseX <= sliderLeft + minLeft + circleRadius){
-      sliderRefs.max.current.style.left = `${minLeft}px`
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal - 1}px, rgba(0,0,0,1) ${minLeftLocal}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
+    } else if(mouseX <= minLeft + circleRadius){
+      sliderRefs.max.current.style.left = `${minLeftLocal}px`
       type === 'double' 
-      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,0) ${minLeft + circleRadius}px)`
-      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft - 1}px, rgba(0,0,0,1) ${minLeft}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,0) ${minLeft + circleRadius}px)`
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${minLeftLocal + circleRadius}px)`
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal - 1}px, rgba(0,0,0,1) ${minLeftLocal}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${minLeftLocal + circleRadius}px)`
     } else {
       sliderRefs.max.current.style.left = `${mouseX - sliderLeft - circleRadius}px`
       type === 'double' 
-      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${minLeft + circleRadius - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
-      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeft - 1}px, rgba(0,0,0,1) ${minLeft}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
+      ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
+      : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal - 1}px, rgba(0,0,0,1) ${minLeftLocal}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
     }
 
     const newPosition = parseInt(sliderRefs.max.current.style.left);
     const years = min + Math.round(newPosition * pixelToValueRatio);
-
-    console.log(years === max);
 
     if (type === "single.lte" && years >= max) {
       updatedMax = "any";

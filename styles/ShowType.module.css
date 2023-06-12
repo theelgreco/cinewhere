@@ -1,0 +1,26 @@
+.flex_row {
+  display: flex;
+  flex-direction: row;
+}
+
+.media {
+  width: 150px;
+  height: 80%;
+  border-radius: 50px;
+}
+
+.buttonChoices {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  background-color: white;
+  cursor: pointer;
+  transition: 0.1s ease-out;
+}
+
+.selected {
+  background-color: black;
+  color: whitesmoke;
+  cursor: auto;
+  transition: 0.1s ease-in;
+}

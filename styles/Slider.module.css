@@ -1,4 +1,6 @@
 .backdropSlider {
+  position: relative;
+  left: 0;
   width: 200px;
   height: 10px;
   background: rgba(0, 0, 0, 0.5);
@@ -8,6 +10,7 @@
 
 .slider {
   position: relative;
+  left: 0;
   width: 200px;
   height: 10px;
   background: rgba(0, 0, 0, 0.5);

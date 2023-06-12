@@ -3,7 +3,7 @@ import MovieCard from "./subcomponents/MovieCard";
 import SearchBar from "./subcomponents/SearchBar";
 import clsx from "clsx";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function SearchResults({
   setFilmClicked,

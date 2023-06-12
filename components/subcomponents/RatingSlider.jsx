@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import Slider from "./subcomponents/Slider";
+import { useState, useEffect } from "react";
+import Slider from "@/subcomponents/Slider";
 
 export default function RatingSlider({
   options,
@@ -9,7 +9,6 @@ export default function RatingSlider({
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(10);
-  const Rating = useRef();
 
   useEffect(() => {
     if (!firstLoad) {
@@ -30,7 +29,7 @@ export default function RatingSlider({
   }, [maxValue]);
 
   return (
-    <div ref={Rating}>
+    <div>
       <Slider
         min={0}
         max={10}
@@ -38,7 +37,6 @@ export default function RatingSlider({
         maxValue={maxValue}
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
-        parent={Rating}
         type={"double"}
       />
     </div>
