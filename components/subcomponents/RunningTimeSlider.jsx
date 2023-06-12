@@ -1,5 +1,5 @@
-import Slider from "./subcomponents/Slider";
-import { useState, useEffect, useRef } from "react";
+import Slider from "@/subcomponents/Slider";
+import { useState, useEffect } from "react";
 
 export default function RunningTimeSlider({
   options,
@@ -9,7 +9,6 @@ export default function RunningTimeSlider({
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(1);
   const [maxValue, setMaxValue] = useState("any");
-  const RunningTime = useRef();
 
   useEffect(() => {
     if (!firstLoad) {
@@ -26,7 +25,7 @@ export default function RunningTimeSlider({
   }, [maxValue]);
 
   return (
-    <div ref={RunningTime}>
+    <div>
       <Slider
         min={1}
         max={180}
@@ -34,7 +33,6 @@ export default function RunningTimeSlider({
         maxValue={maxValue}
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
-        parent={RunningTime}
         type={"single.lte"}
       />
     </div>

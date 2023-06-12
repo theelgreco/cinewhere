@@ -18,7 +18,6 @@ export default function Search({
   setSearchClosed,
   options,
   setOptions,
-  optionsClicked,
   setOptionsClicked,
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);

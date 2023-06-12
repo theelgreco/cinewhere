@@ -9,7 +9,6 @@ export default function Slider({
   maxValue,
   setMinValue,
   setMaxValue,
-  parent,
   type,
 }) {
   const [sliderRefs, setSliderRefs] = useState({});

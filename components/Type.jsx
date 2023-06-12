@@ -1,33 +1,36 @@
 import styles from "@/styles/Type.module.css";
-import clsx from "clsx";
-import ReleaseYearSlider from "./ReleaseYearSlider";
-import RatingSlider from "./RatingSlider";
-import RunningTimeSlider from "./RunningTimeSlider";
-import PriceMenu from "./PriceMenu.jsx";
-import Popup from "./Popup";
+import ReleaseYearSlider from "@/subcomponents/ReleaseYearSlider";
+import RatingSlider from "@/subcomponents/RatingSlider";
+import RunningTimeSlider from "@/subcomponents/RunningTimeSlider";
+import PriceMenu from "@/subcomponents/PriceMenu.jsx";
+import ShowType from "@/subcomponents/ShowType";
+import Popup from "@/subcomponents/Popup";
 import { useRef, useState, useEffect } from "react";
-import { movieGenres, tvGenres, genreIds } from "constants/genres";
+import { movieGenres, tvGenres } from "constants/genres";
+import React from "react";
 
 export default function Type({
   media_type,
   set_media_type,
   options,
   setOptions,
-  optionsClicked,
   setOptionsClicked,
   setSelectedGenres,
   setGenreList,
 }) {
   const type = useRef();
+  const Price = useRef();
+  const ReleaseYear = useRef();
+  const Rating = useRef();
+  const Runtime = useRef();
+  
   const [selectedMenu, setSelectedMenu] = useState("");
   const [menuParent, setMenuParent] = useState(null);
   const [menuElements, setMenuElements] = useState([]);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (menuParent) {
       let temp = [];
-      console.dir(menuParent);
       temp.push(
         menuParent,
         ...menuParent.children,
@@ -51,7 +54,6 @@ export default function Type({
     const clickedOutsideMenu = !menuElements.includes(clickedElement);
 
     if (clickedOutsideMenu) {
-      setMenuOpen(false);
       setSelectedMenu("");
       setMenuParent(null);
       setMenuElements([]);
@@ -81,26 +83,18 @@ export default function Type({
   return (
     <section className={styles.Type} ref={type}>
       <div className={styles.flex_row + " " + styles.container}>
-        <div className={styles.flex_row + " " + styles.media}>
-          <div
-            id="tv"
-            onClick={handleClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: media_type === "tv",
-            })}>
-            TV
-          </div>
-          <div
-            id="movie"
-            onClick={handleClick}
-            className={clsx(styles.buttonChoices, {
-              [styles.selected]: media_type === "movie",
-            })}>
-            MOVIES
-          </div>
-        </div>
         <Popup
-          menuName={"price"}
+          menuName={"Show type"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={ShowType}
+          childProps={{ handleClick, media_type }}
+        />
+        <Popup
+          menuName={"Price"}
           selectedMenu={selectedMenu}
           setSelectedMenu={setSelectedMenu}
           setMenuParent={setMenuParent}
@@ -108,42 +102,41 @@ export default function Type({
           setMenuElements={setMenuElements}
           ChildComponent={PriceMenu}
           childProps={{ options, setOptions, setOptionsClicked }}
-          setMenuOpen={setMenuOpen}
-          menuOpen={menuOpen}
+          childRef={Price}
         />
-        <div className={styles.flex_col + " " + styles.range}>
-          <Popup
-            menuName={"Release Year"}
-            selectedMenu={selectedMenu}
-            setSelectedMenu={setSelectedMenu}
-            setMenuParent={setMenuParent}
-            menuParent={menuParent}
-            setMenuElements={setMenuElements}
-            ChildComponent={ReleaseYearSlider}
-            childProps={{ options, setOptions, setOptionsClicked }}
-            setMenuOpen={setMenuOpen}
-            menuOpen={menuOpen}
-          />
-          {/* <ReleaseYearSlider
-            options={options}
-            setOptions={setOptions}
-            setOptionsClicked={setOptionsClicked}
-          /> */}
-        </div>
-        <div className={styles.flex_col + " " + styles.range}>
-          <RatingSlider
-            options={options}
-            setOptions={setOptions}
-            setOptionsClicked={setOptionsClicked}
-          />
-        </div>
-        <div className={styles.flex_col + " " + styles.range}>
-          <RunningTimeSlider
-            options={options}
-            setOptions={setOptions}
-            setOptionsClicked={setOptionsClicked}
-          />
-        </div>
+        <Popup
+          menuName={"Release year"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={ReleaseYearSlider}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          childRef={ReleaseYear}
+        />
+        <Popup
+          menuName={"Rating"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={RatingSlider}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          childRef={Rating}
+        />
+        <Popup
+          menuName={"Runtime"}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setMenuParent={setMenuParent}
+          menuParent={menuParent}
+          setMenuElements={setMenuElements}
+          ChildComponent={RunningTimeSlider}
+          childProps={{ options, setOptions, setOptionsClicked }}
+          childRef={Runtime}
+        />
       </div>
     </section>
   );

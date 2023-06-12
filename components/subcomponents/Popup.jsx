@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "@/styles/Popup.module.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Popup({
   menuName,
@@ -11,10 +11,8 @@ export default function Popup({
   setMenuElements,
   ChildComponent,
   childProps,
-  setMenuOpen,
-  menuOpen
+  childRef,
 }) {
-
   function handleOpenMenu(e, str, menuName) {
     e.stopPropagation();
     let parent;
@@ -25,11 +23,9 @@ export default function Popup({
       setMenuParent(null);
       setSelectedMenu("");
       setMenuElements([]);
-      setMenuOpen(false);
     } else {
       setSelectedMenu(menuName);
       setMenuParent(parent);
-      setMenuOpen(true);
     }
   }
 
@@ -46,13 +42,14 @@ export default function Popup({
         {menuName}
       </p>
       <div
+        ref={childRef}
         onClick={(e) => {
           e.stopPropagation();
         }}
         className={clsx(styles.flex_col + " " + styles.price, {
           [styles.hidden]: selectedMenu !== menuName,
         })}>
-        <ChildComponent {...childProps} menuOpen={menuOpen} />
+        <ChildComponent {...childProps} />
       </div>
     </div>
   );

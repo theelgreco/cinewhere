@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "@/styles/PriceMenu.module.css";
 
-export default function PriceMenu({ options, setOptions, setOptionsClicked }) {
+export default function PriceMenu({ options, setOptions, setOptionsClicked, priceRef }) {
   const prices = [
     { free: "free" },
     { ads: "ads" },

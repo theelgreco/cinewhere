@@ -1,6 +1,6 @@
-import Slider from "./subcomponents/Slider";
+import Slider from "@/subcomponents/Slider";
 import { todaysDate } from "utils/utils";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 export default function ReleaseYearSlider({
   options,
@@ -11,7 +11,6 @@ export default function ReleaseYearSlider({
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(1900);
   const [maxValue, setMaxValue] = useState(2023);
-  const ReleaseYear = useRef();
 
   useEffect(() => {
     if (!firstLoad) {
@@ -44,7 +43,7 @@ export default function ReleaseYearSlider({
   }, [maxValue]);
 
   return (
-    <div ref={ReleaseYear}>
+    <div>
       <Slider
         min={1900}
         max={2023}
@@ -52,9 +51,7 @@ export default function ReleaseYearSlider({
         maxValue={maxValue}
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
-        parent={ReleaseYear}
         type={"double"}
-        menuOpen={menuOpen}
       />
     </div>
   );

@@ -56,8 +56,6 @@ export default function Main({
     setMouseDown(true);
     setMouseX(e.clientX);
 
-    console.dir(e.target);
-
     if (e.target.id === "Services") {
       setDivToScroll(e.target.parentElement);
     } else {
@@ -106,7 +104,6 @@ export default function Main({
         setSearchClosed={setSearchClosed}
         options={options}
         setOptions={setOptions}
-        optionsClicked={optionsClicked}
         setOptionsClicked={setOptionsClicked}
       />
       <Services
@@ -149,7 +146,6 @@ export default function Main({
         set_media_type={set_media_type}
         options={options}
         setOptions={setOptions}
-        optionsClicked={optionsClicked}
         setOptionsClicked={setOptionsClicked}
         setSelectedGenres={setSelectedGenres}
         setGenreList={setGenreList}
