@@ -30,6 +30,7 @@ export default function Movies({
   media_type,
   optionsClicked,
   setOptionsClicked,
+  settings,
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
@@ -464,6 +465,7 @@ export default function Movies({
                     film={film}
                     setFilmClicked={setFilmClicked}
                     options={options}
+                    settings={settings}
                   />
                 );
               })
@@ -543,6 +545,7 @@ export default function Movies({
                             setFilmClicked={setFilmClicked}
                             genre={true}
                             options={options}
+                            settings={settings}
                           />
                         );
                       })

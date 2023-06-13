@@ -120,11 +120,17 @@
   position: relative;
   display: flex;
   margin-top: 1vh;
-  gap: 3px;
+  gap: 0px;
   flex-flow: row wrap;
   width: 100%;
   height: fit-content;
   justify-content: space-evenly;
+}
+
+.moviesFlexExpanded {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 125%;
 }
 
 .individualGenreContainer {
@@ -179,4 +185,3 @@
 .searchAll {
   z-index: 1000;
 }
-

@@ -27,7 +27,6 @@ export default function Search({
   const [noResults, setNoResults] = useState(false);
   const [regions, setRegions] = useState(null);
   const [languages, setLanguages] = useState(null);
-  const [expandSettings, setExpandSettings] = useState(false);
 
   useEffect(() => {
     getRegions().then((res) => {
@@ -88,10 +87,6 @@ export default function Search({
     setOptionsClicked(true);
   }
 
-  function toggleSettings() {
-    expandSettings ? setExpandSettings(false) : setExpandSettings(true);
-  }
-
   return (
     <section className={styles.Search}>
       {!expand ? (
@@ -135,12 +130,7 @@ export default function Search({
             </select>
           </div>
           <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
-          <Settings
-            toggleSettings={toggleSettings}
-            expandSettings={expandSettings}
-            settings={settings}
-            setSettings={setSettings}
-          />
+          <Settings settings={settings} setSettings={setSettings} />
         </>
       ) : (
         <SearchResults

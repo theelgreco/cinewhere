@@ -1,17 +1,50 @@
 import styles from "@/styles/Settings.module.css";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
+import React from "react";
 
-import { useEffect } from "react";
+export default function Settings({ settings, setSettings }) {
+  const [expandSettings, setExpandSettings] = useState(false);
+  let settingsRefs = { autoplay: React.createRef() };
 
-export default function Settings({
-  toggleSettings,
-  expandSettings,
-  settings,
-  setSettings,
-}) {
+  useEffect(() => {
+    const storedAutoplay = localStorage.getItem("autoplay");
+    if (storedAutoplay) {
+      let checkedState = storedAutoplay === "true";
+      setSettings({ ...settings, autoplay: checkedState });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (expandSettings) {
+      for (let key in settingsRefs) {
+        if (settings[key]) {
+          settingsRefs[key].current.checked = settings[key];
+        }
+      }
+    }
+  }, [expandSettings]);
+
+  useEffect(() => {
+    console.log(settings);
+  }, [settings]);
+
+  function toggleSettings() {
+    if (expandSettings) {
+      setExpandSettings(false);
+    } else {
+      setExpandSettings(true);
+    }
+  }
+
   function handleChange(e) {
+    const { id, checked } = e.target;
+
+    // Update the checkbox state in local storage
+    localStorage.setItem(id, checked);
+
     const settingsCopy = { ...settings };
-    settingsCopy[e.target.id] = e.target.checked;
+    settingsCopy[id] = checked;
     setSettings(settingsCopy);
   }
 
@@ -26,9 +59,7 @@ export default function Settings({
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
+        strokeWidth="2">
         <circle cx="12" cy="12" r="3"></circle>
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
       </svg>
@@ -37,8 +68,13 @@ export default function Settings({
           <fieldset className={styles.fieldset} onChange={handleChange}>
             <legend>SETTINGS</legend>
             <div className={styles.options}>
-              <input id="autoplay" name="autoplay" type="checkbox" />
-              <label for="autoplay">Autoplay trailers on hover</label>
+              <input
+                ref={settingsRefs.autoplay}
+                id="autoplay"
+                name="autoplay"
+                type="checkbox"
+              />
+              <label htmlFor="autoplay">Autoplay trailers on hover</label>
             </div>
           </fieldset>
         </div>

@@ -12,6 +12,7 @@ export default function MovieCard({
   setFilmClicked,
   genre,
   options,
+  settings,
 }) {
   const [serviceIcons, setServiceIcons] = useState([]);
   const [trailer, setTrailer] = useState(null);
@@ -52,7 +53,7 @@ export default function MovieCard({
   }, [film]);
 
   useEffect(() => {
-    if (cardFocused && !isMobile) {
+    if (cardFocused && settings.autoplay && !isMobile) {
       let counter = 3;
       setCount(counter);
       setTimer(
@@ -116,7 +117,6 @@ export default function MovieCard({
               setCount(null);
               clearInterval(timer);
             }
-            // if (trailerPlaying) setTrailerPlaying(false);
           }}
           to={`/${film.media_type}/${film.id}`}
           className={clsx(styles.MovieCardLink, {
