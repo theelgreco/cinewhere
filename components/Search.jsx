@@ -1,5 +1,6 @@
 import SearchBar from "./subcomponents/SearchBar";
 import SearchResults from "./SearchResults";
+import Settings from "./Settings";
 import styles from "@/styles/Search.module.css";
 import { searchMovies } from "api";
 import { useState, useEffect } from "react";
@@ -19,11 +20,14 @@ export default function Search({
   options,
   setOptions,
   setOptionsClicked,
+  settings,
+  setSettings,
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const [regions, setRegions] = useState(null);
   const [languages, setLanguages] = useState(null);
+  const [expandSettings, setExpandSettings] = useState(false);
 
   useEffect(() => {
     getRegions().then((res) => {
@@ -81,7 +85,11 @@ export default function Search({
       ...options,
       [e.target.id]: e.target.value,
     });
-    setOptionsClicked(true)
+    setOptionsClicked(true);
+  }
+
+  function toggleSettings() {
+    expandSettings ? setExpandSettings(false) : setExpandSettings(true);
   }
 
   return (
@@ -127,6 +135,12 @@ export default function Search({
             </select>
           </div>
           <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
+          <Settings
+            toggleSettings={toggleSettings}
+            expandSettings={expandSettings}
+            settings={settings}
+            setSettings={setSettings}
+          />
         </>
       ) : (
         <SearchResults

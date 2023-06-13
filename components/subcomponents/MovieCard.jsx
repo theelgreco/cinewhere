@@ -1,24 +1,25 @@
 import styles from "@/styles/MovieCard.module.css";
-import servicesArray from "constants/services";
 import { getFilmServicesTmdb, getFilmByIdTmdb } from "api";
 import { getOfficialTrailer } from "utils/utils";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { clsx } from "clsx";
 import { Link } from "react-router-dom";
 
 export default function MovieCard({
-  film,
   isMobile,
+  film,
   setFilmClicked,
   genre,
   options,
 }) {
   const [serviceIcons, setServiceIcons] = useState([]);
   const [trailer, setTrailer] = useState(null);
+  const [trailerPlaying, setTrailerPlaying] = useState(false);
   const [cardFocused, setCardFocused] = useState(false);
   const [count, setCount] = useState(null);
   const [timer, setTimer] = useState(null);
+  const Card = useRef();
 
   useEffect(() => {
     if (Object.keys(film).length) {
@@ -51,7 +52,7 @@ export default function MovieCard({
   }, [film]);
 
   useEffect(() => {
-    if (cardFocused) {
+    if (cardFocused && !isMobile) {
       let counter = 3;
       setCount(counter);
       setTimer(
@@ -73,10 +74,29 @@ export default function MovieCard({
 
       getFilmByIdTmdb(film.id, film.media_type).then((res) => {
         setTrailer(getOfficialTrailer(res));
+        setTrailerPlaying(true);
         console.log("trailer fetched");
       });
     }
   }, [count]);
+
+  useEffect(() => {
+    if (trailerPlaying) {
+      document.addEventListener("mousedown", closeTrailer);
+
+      return () => {
+        document.removeEventListener("mousedown", closeTrailer);
+      };
+    }
+  }, [trailerPlaying]);
+
+  function closeTrailer(e) {
+    console.log("clicky");
+    if (e.target !== Card) {
+      setTrailerPlaying(false);
+      setCardFocused(false);
+    }
+  }
 
   function handleClick(e) {
     setFilmClicked(true);
@@ -86,8 +106,9 @@ export default function MovieCard({
     <>
       {Object.keys(film).length ? (
         <Link
+          ref={Card}
           onMouseEnter={() => {
-            setCardFocused(true);
+            if (!isMobile) setCardFocused(true);
           }}
           onMouseOut={() => {
             if (count > 0) {
@@ -95,10 +116,12 @@ export default function MovieCard({
               setCount(null);
               clearInterval(timer);
             }
+            // if (trailerPlaying) setTrailerPlaying(false);
           }}
           to={`/${film.media_type}/${film.id}`}
           className={clsx(styles.MovieCardLink, {
             [styles.genre]: genre,
+            [styles.trailer]: trailerPlaying && trailer,
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
@@ -109,7 +132,20 @@ export default function MovieCard({
             ) : (
               <></>
             )}
-            {film.poster_path ? (
+            {trailerPlaying && trailer ? (
+              <>
+                <div onMouseDown={closeTrailer} className={styles.closeBtn}>
+                  <p>X</p>
+                </div>
+                <iframe
+                  // id="ivplayer"
+                  className={styles.video}
+                  src={trailer}
+                  title="YouTube video player"
+                  frameBorder={0}
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen; autoplay"></iframe>
+              </>
+            ) : film.poster_path ? (
               <img
                 className={styles.moviePoster}
                 src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}

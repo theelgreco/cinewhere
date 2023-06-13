@@ -459,6 +459,7 @@ export default function Movies({
               data.map((film, index) => {
                 return (
                   <MovieCard
+                    isMobile={isMobile}
                     key={`${index}${film.id}${film.title}`}
                     film={film}
                     setFilmClicked={setFilmClicked}
@@ -536,6 +537,7 @@ export default function Movies({
                       genre.movies.map((film, index) => {
                         return (
                           <MovieCard
+                            isMobile={isMobile}
                             key={`${film.id}${genre.genre}`}
                             film={film}
                             setFilmClicked={setFilmClicked}

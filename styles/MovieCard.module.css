@@ -17,7 +17,8 @@
 .MovieCardLinkPreload {
   position: relative;
   width: 23vh;
-  min-width: 18vh;
+  min-width: max(18vh, 125px);
+  max-width: max(30%, 170px);
   aspect-ratio: 9/13;
   margin-top: 1vh;
   margin-bottom: 12px;
@@ -200,7 +201,39 @@
   width: 50px;
   height: 50px;
   background: black;
-  border: 1px solid ;
+  border: 1px solid;
   border-radius: 50px;
   z-index: 1;
+}
+
+.trailer {
+  position: relative;
+  transition: 0.1s;
+  width: 500px;
+  max-width: 60vw;
+  aspect-ratio: 2/1;
+  z-index: 500;
+}
+
+.video {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: relative;
+  min-width: 127%;
+  min-height: 150%;
+  aspect-ratio: 1/1;
+  z-index: 500;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 2%;
+  left: 1%;
+  border-radius: 9999px;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.5);
+  z-index: 501;
 }

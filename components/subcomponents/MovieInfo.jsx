@@ -1,5 +1,4 @@
 import styles from "@/styles/MovieInfo.module.css";
-import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 import { getFilmByIdTmdb } from "api";

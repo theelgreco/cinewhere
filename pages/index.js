@@ -31,6 +31,7 @@ export default function Home() {
     "with_runtime.gte": 0,
   });
   const [media_type, set_media_type] = useState("movie");
+  const [settings, setSettings] = useState({ autoplay: false });
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
@@ -97,6 +98,8 @@ export default function Home() {
               setOrder={setOrder}
               media_type={media_type}
               set_media_type={set_media_type}
+              settings={settings}
+              setSettings={setSettings}
             />
           }
         />

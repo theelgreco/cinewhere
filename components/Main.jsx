@@ -38,6 +38,8 @@ export default function Main({
   setOrder,
   media_type,
   set_media_type,
+  settings,
+  setSettings,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -105,6 +107,8 @@ export default function Main({
         options={options}
         setOptions={setOptions}
         setOptionsClicked={setOptionsClicked}
+        setSettings={setSettings}
+        settings={settings}
       />
       <Services
         isMobile={isMobile}
@@ -176,6 +180,7 @@ export default function Main({
         media_type={media_type}
         optionsClicked={optionsClicked}
         setOptionsClicked={setOptionsClicked}
+        settings={settings}
       />
     </main>
   );
