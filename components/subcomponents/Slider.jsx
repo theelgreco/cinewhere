@@ -1,8 +1,9 @@
 import styles from "@/styles/Slider.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 
 export default function Slider({
+  isMobile,
   min,
   max,
   minValue,
@@ -12,40 +13,92 @@ export default function Slider({
   type,
 }) {
   const [sliderRefs, setSliderRefs] = useState({});
-  sliderRefs.max = React.createRef();
-  sliderRefs.min = React.createRef();
-  sliderRefs.slider = React.createRef();
-  sliderRefs.minText = React.createRef();
-  sliderRefs.maxText = React.createRef();
   let side;
   let updatedMin = minValue;
   let updatedMax = maxValue;
 
+  useEffect(() => {
+    const refs = {};
+    refs.max = React.createRef();
+    refs.min = React.createRef();
+    refs.slider = React.createRef();
+    refs.minText = React.createRef();
+    refs.maxText = React.createRef();
+    setSliderRefs(refs);
+  }, []);
+
+  useEffect(() => {
+    if (sliderRefs.min?.current && isMobile) {
+      sliderRefs.min.current.addEventListener("touchstart", handleMouseDown, {
+        passive: false,
+      });
+    }
+
+    if (sliderRefs.max?.current && isMobile) {
+      sliderRefs.max.current.addEventListener("touchstart", handleMouseDown, {
+        passive: false,
+      });
+    }
+
+    if (sliderRefs.min?.current && !isMobile) {
+      sliderRefs.min.current.addEventListener("mousedown", handleMouseDown, {
+        passive: false,
+      });
+    }
+
+    if (sliderRefs.max?.current && !isMobile) {
+      sliderRefs.max.current.addEventListener("mousdown", handleMouseDown, {
+        passive: false,
+      });
+    }
+  }, [sliderRefs]);
+
   function handleMouseDown(e) {
+    e.preventDefault();
     side = e.target.id;
 
     if (side === "min" && type === "double") {
       sliderRefs.min.current.style.zIndex = "3";
       sliderRefs.max.current.style.zIndex = "2";
-      document.addEventListener("mousemove", handleMouseMoveMin);
+      !e.touches
+        ? document.addEventListener("mousemove", handleMouseMoveMin)
+        : document.addEventListener("touchmove", handleMouseMoveMin, {
+            passive: false,
+          });
     } else if (side === "max" && type === "double") {
       sliderRefs.min.current.style.zIndex = "2";
       sliderRefs.max.current.style.zIndex = "3";
-      document.addEventListener("mousemove", handleMouseMoveMax);
+      !e.touches
+        ? document.addEventListener("mousemove", handleMouseMoveMax)
+        : document.addEventListener("touchmove", handleMouseMoveMax, {
+            passive: false,
+          });
     } else if (type === "single.gte") {
-      document.addEventListener("mousemove", handleMouseMoveMin);
+      !e.touches
+        ? document.addEventListener("mousemove", handleMouseMoveMin)
+        : document.addEventListener("touchmove", handleMouseMoveMin, {
+            passive: false,
+          });
     } else if (type === "single.lte") {
-      document.addEventListener("mousemove", handleMouseMoveMax);
+      !e.touches
+        ? document.addEventListener("mousemove", handleMouseMoveMax)
+        : document.addEventListener("touchmove", handleMouseMoveMax, {
+            passive: false,
+          });
     }
 
-    document.addEventListener("mouseup", handleMouseUp);
+    !e.touches
+      ? document.addEventListener("mouseup", handleMouseUp)
+      : document.addEventListener("touchend", handleMouseUp);
   }
 
   function handleMouseMoveMin(e) {
+    e.preventDefault();
     const sliderWidth = sliderRefs.slider.current.offsetWidth;
     const sliderLeft = sliderRefs.slider.current.getBoundingClientRect().x;
     const thumbWidth = sliderRefs.min.current.offsetWidth;
-    const mouseX = e.clientX;
+    let mouseX;
+    !e.touches ? (mouseX = e.clientX) : (mouseX = e.touches[0].clientX);
     const totalValue = max - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
@@ -62,12 +115,8 @@ export default function Slider({
       maxLeftLocal = maxLeft - sliderLeft;
     }
 
-    console.log(maxLeftLocal, "px", " <-- local");
-    console.log(maxLeft, "px", " <-- global");
-
     //prettier-ignore
     if (mouseX <= sliderLeft + circleRadius) {
-      console.log('here')
       sliderRefs.min.current.style.left = "0px";
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeftLocal + circleRadius}px)`
     } else if (mouseX >= maxLeft + circleRadius){
@@ -90,10 +139,12 @@ export default function Slider({
   }
 
   function handleMouseMoveMax(e) {
+    e.preventDefault();
     const sliderWidth = sliderRefs.slider.current.offsetWidth;
     const sliderLeft = sliderRefs.slider.current.getBoundingClientRect().x;
     const thumbWidth = sliderRefs.max.current.offsetWidth;
-    const mouseX = e.clientX;
+    let mouseX;
+    !e.touches ? (mouseX = e.clientX) : (mouseX = e.touches[0].clientX);
     const totalValue = max - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
@@ -142,12 +193,22 @@ export default function Slider({
   function handleMouseUp(e) {
     if (side === "min") {
       setMinValue(updatedMin);
-      document.removeEventListener("mousemove", handleMouseMoveMin);
+      !e.touches
+        ? document.removeEventListener("mousemove", handleMouseMoveMin)
+        : document.removeEventListener("touchmove", handleMouseMoveMin, {
+            passive: false,
+          });
     } else {
       setMaxValue(updatedMax);
-      document.removeEventListener("mousemove", handleMouseMoveMax);
+      !e.touches
+        ? document.removeEventListener("mousemove", handleMouseMoveMax)
+        : document.removeEventListener("touchmove", handleMouseMoveMax, {
+            passive: false,
+          });
     }
-    document.removeEventListener("mouseup", handleMouseUp);
+    !e.touches
+      ? document.removeEventListener("mouseup", handleMouseUp)
+      : document.removeEventListener("touchend", handleMouseUp);
   }
 
   function renderSliderType(type) {
@@ -158,7 +219,6 @@ export default function Slider({
             {minValue}
           </p>
           <div
-            onMouseDown={handleMouseDown}
             id="min"
             ref={sliderRefs.min}
             className={styles.circle}
@@ -166,7 +226,6 @@ export default function Slider({
             {"<"}
           </div>
           <div
-            onMouseDown={handleMouseDown}
             id="max"
             ref={sliderRefs.max}
             className={styles.circle}
@@ -185,7 +244,6 @@ export default function Slider({
             {minValue}
           </p>
           <div
-            onMouseDown={handleMouseDown}
             id="min"
             ref={sliderRefs.min}
             className={styles.circle}
@@ -198,7 +256,14 @@ export default function Slider({
       return (
         <>
           <div
-            onMouseDown={handleMouseDown}
+            id="max"
+            ref={sliderRefs.max}
+            className={styles.circle}
+            style={{ right: "0px" }}>
+            {">"}
+          </div>
+
+          <div
             id="max"
             ref={sliderRefs.max}
             className={styles.circle}

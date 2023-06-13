@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Slider from "@/subcomponents/Slider";
 
 export default function RatingSlider({
+  isMobile,
   options,
   setOptions,
   setOptionsClicked,
@@ -31,6 +32,7 @@ export default function RatingSlider({
   return (
     <div>
       <Slider
+        isMobile={isMobile}
         min={0}
         max={10}
         minValue={minValue}
