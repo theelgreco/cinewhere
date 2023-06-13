@@ -1,6 +1,7 @@
 import styles from "@/styles/MovieCard.module.css";
 import servicesArray from "constants/services";
-import { getFilmServicesTmdb } from "api";
+import { getFilmServicesTmdb, getFilmByIdTmdb } from "api";
+import { getOfficialTrailer } from "utils/utils";
 import React from "react";
 import { useEffect, useState } from "react";
 import { clsx } from "clsx";
@@ -14,6 +15,10 @@ export default function MovieCard({
   options,
 }) {
   const [serviceIcons, setServiceIcons] = useState([]);
+  const [trailer, setTrailer] = useState(null);
+  const [cardFocused, setCardFocused] = useState(false);
+  const [count, setCount] = useState(null);
+  const [timer, setTimer] = useState(null);
 
   useEffect(() => {
     if (Object.keys(film).length) {
@@ -45,6 +50,34 @@ export default function MovieCard({
     }
   }, [film]);
 
+  useEffect(() => {
+    if (cardFocused) {
+      let counter = 3;
+      setCount(counter);
+      setTimer(
+        setInterval(() => {
+          counter--;
+          setCount(counter);
+        }, 1000)
+      );
+    }
+  }, [cardFocused]);
+
+  useEffect(() => {
+    if (count === 0) {
+      setCardFocused(false);
+      setCount(null);
+      clearInterval(timer);
+
+      console.log("finished");
+
+      getFilmByIdTmdb(film.id, film.media_type).then((res) => {
+        setTrailer(getOfficialTrailer(res));
+        console.log("trailer fetched");
+      });
+    }
+  }, [count]);
+
   function handleClick(e) {
     setFilmClicked(true);
   }
@@ -53,12 +86,29 @@ export default function MovieCard({
     <>
       {Object.keys(film).length ? (
         <Link
+          onMouseEnter={() => {
+            setCardFocused(true);
+          }}
+          onMouseOut={() => {
+            if (count > 0) {
+              setCardFocused(false);
+              setCount(null);
+              clearInterval(timer);
+            }
+          }}
           to={`/${film.media_type}/${film.id}`}
           className={clsx(styles.MovieCardLink, {
             [styles.genre]: genre,
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
+            {count !== null && count < 4 ? (
+              <div className={styles.countdownContainer}>
+                <p className={styles.countdownText}>{count}</p>
+              </div>
+            ) : (
+              <></>
+            )}
             {film.poster_path ? (
               <img
                 className={styles.moviePoster}

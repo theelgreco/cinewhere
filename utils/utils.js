@@ -32,6 +32,17 @@ export const getTodaysDate = () => {
   return date;
 };
 
+export const getOfficialTrailer = (res) => {
+  let regex = /Official Trailer/i;
+  let trail = res.videos.results.find((el) => regex.test(el.name));
+  if (!trail) trail = res.videos.results.find((el) => el.type === "Trailer");
+  if (trail) {
+    return `https://yewtu.be/embed/${trail.key}`;
+  }
+
+  return undefined;
+};
+
 class TodaysDate {
   constructor() {
     this.date = new Date().toISOString().split("T")[0];
