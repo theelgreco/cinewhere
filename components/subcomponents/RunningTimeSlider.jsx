@@ -28,9 +28,10 @@ export default function RunningTimeSlider({
   return (
     <div>
       <Slider
-      isMobile={isMobile}
+        isMobile={isMobile}
         min={1}
         max={180}
+        step={1}
         minValue={minValue}
         maxValue={maxValue}
         setMinValue={setMinValue}

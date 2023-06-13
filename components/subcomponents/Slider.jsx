@@ -6,6 +6,7 @@ export default function Slider({
   isMobile,
   min,
   max,
+  step,
   minValue,
   maxValue,
   setMinValue,
@@ -18,36 +19,32 @@ export default function Slider({
   let updatedMax = maxValue;
 
   useEffect(() => {
-    const refs = {};
-    refs.max = React.createRef();
-    refs.min = React.createRef();
-    refs.slider = React.createRef();
-    refs.minText = React.createRef();
-    refs.maxText = React.createRef();
+    const refs = {
+      max: React.createRef(),
+      min: React.createRef(),
+      slider: React.createRef(),
+      minText: React.createRef(),
+      maxText: React.createRef(),
+    };
+
     setSliderRefs(refs);
   }, []);
 
   useEffect(() => {
-    if (sliderRefs.min?.current && isMobile) {
+    if (sliderRefs.min?.current && sliderRefs.max?.current && isMobile) {
       sliderRefs.min.current.addEventListener("touchstart", handleMouseDown, {
         passive: false,
       });
-    }
-
-    if (sliderRefs.max?.current && isMobile) {
       sliderRefs.max.current.addEventListener("touchstart", handleMouseDown, {
         passive: false,
       });
     }
 
-    if (sliderRefs.min?.current && !isMobile) {
+    if (sliderRefs.min?.current && sliderRefs.max?.current && !isMobile) {
       sliderRefs.min.current.addEventListener("mousedown", handleMouseDown, {
         passive: false,
       });
-    }
-
-    if (sliderRefs.max?.current && !isMobile) {
-      sliderRefs.max.current.addEventListener("mousdown", handleMouseDown, {
+      sliderRefs.max.current.addEventListener("mousedown", handleMouseDown, {
         passive: false,
       });
     }
@@ -99,7 +96,8 @@ export default function Slider({
     const thumbWidth = sliderRefs.min.current.offsetWidth;
     let mouseX;
     !e.touches ? (mouseX = e.clientX) : (mouseX = e.touches[0].clientX);
-    const totalValue = max - min;
+    let increment = 1 / step;
+    const totalValue = max * increment - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
     let maxLeft;
@@ -132,7 +130,8 @@ export default function Slider({
     }
 
     const newPosition = parseInt(sliderRefs.min.current.style.left);
-    const years = min + Math.round(newPosition * pixelToValueRatio);
+    const years =
+      (min + Math.round(newPosition * pixelToValueRatio)) / increment;
 
     sliderRefs.minText.current.innerText = years;
     updatedMin = years;

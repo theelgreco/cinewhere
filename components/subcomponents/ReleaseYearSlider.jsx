@@ -49,6 +49,7 @@ export default function ReleaseYearSlider({
         isMobile={isMobile}
         min={1900}
         max={2023}
+        step={1}
         minValue={minValue}
         maxValue={maxValue}
         setMinValue={setMinValue}
