@@ -4,9 +4,9 @@
 .mobileSelected,
 .noneSelected {
   position: relative;
-  width: 30vw;
-  max-width: 200px;
-  height: 90%;
+  width: 150px;
+  aspect-ratio: 16/9;
+  max-height: 11vh;
   color: rgb(223, 219, 245);
   border: 0px solid;
   border-radius: 10px;

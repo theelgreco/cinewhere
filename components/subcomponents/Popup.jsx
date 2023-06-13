@@ -31,11 +31,14 @@ export default function Popup({
 
   return (
     <div
-      className={styles.priceBtn}
+      className={clsx(styles.priceBtn)}
       onClick={(e) => {
         handleOpenMenu(e, "parent", menuName);
       }}>
       <p
+        className={clsx(styles.label, {
+          [styles.selected]: selectedMenu === menuName,
+        })}
         onClick={(e) => {
           handleOpenMenu(e, "child", menuName);
         }}>
@@ -46,9 +49,16 @@ export default function Popup({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className={clsx(styles.flex_col + " " + styles.price, {
-          [styles.hidden]: selectedMenu !== menuName,
-        })}>
+        className={clsx(
+          styles.flex_col +
+            " " +
+            styles.price +
+            " " +
+            styles[menuName.split(" ").join("")],
+          {
+            [styles.hidden]: selectedMenu !== menuName,
+          }
+        )}>
         <ChildComponent {...childProps} />
       </div>
     </div>

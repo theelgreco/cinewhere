@@ -1,6 +1,6 @@
 .Home {
   display: grid;
-  grid-template-rows: 8% 15% 8% 8%;
+  grid-template-rows: 8% 12% 8% 8%;
   text-align: center;
   box-sizing: border-box;
   height: 100vh;

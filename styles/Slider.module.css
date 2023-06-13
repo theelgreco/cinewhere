@@ -24,8 +24,9 @@
   align-items: center;
   font-size: 50%;
   position: absolute;
-  width: 5%;
-  height: 100%;
+  width: 10%;
+  height: 200%;
+  transform: translateY(-25%);
   border-radius: 50px;
   background: violet;
   /* border: 1px solid black; */

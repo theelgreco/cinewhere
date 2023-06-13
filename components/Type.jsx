@@ -23,7 +23,7 @@ export default function Type({
   const ReleaseYear = useRef();
   const Rating = useRef();
   const Runtime = useRef();
-  
+
   const [selectedMenu, setSelectedMenu] = useState("");
   const [menuParent, setMenuParent] = useState(null);
   const [menuElements, setMenuElements] = useState([]);

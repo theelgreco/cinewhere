@@ -70,7 +70,7 @@
   );
   box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
   z-index: 1;
-  top: -51%;
+  top: -28vh;
 }
 
 .genreContainer,
@@ -86,13 +86,13 @@
   width: 15px;
   height: 15px;
   position: fixed;
-  top: 39vh;
+  top: 36vh;
   left: 50%;
   translate: -50% -50%;
   background-color: violet;
   border-radius: 50%;
   font-size: 80%;
-  z-index: 300;
+  z-index: 1;
   border: 1px dotted;
   cursor: pointer;
 }
@@ -111,7 +111,7 @@
   background-color: violet;
   border-radius: 50%;
   font-size: 80%;
-  z-index: 300;
+  z-index: 1;
   border: 1px dotted;
   cursor: pointer;
 }
@@ -179,3 +179,4 @@
 .searchAll {
   z-index: 1000;
 }
+
