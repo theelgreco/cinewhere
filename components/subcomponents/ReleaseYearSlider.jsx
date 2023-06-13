@@ -3,6 +3,7 @@ import { todaysDate } from "utils/utils";
 import { useState, useEffect } from "react";
 
 export default function ReleaseYearSlider({
+  isMobile,
   options,
   setOptions,
   setOptionsClicked,
@@ -45,8 +46,10 @@ export default function ReleaseYearSlider({
   return (
     <div>
       <Slider
+        isMobile={isMobile}
         min={1900}
         max={2023}
+        step={1}
         minValue={minValue}
         maxValue={maxValue}
         setMinValue={setMinValue}

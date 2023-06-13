@@ -2,6 +2,7 @@ import Slider from "@/subcomponents/Slider";
 import { useState, useEffect } from "react";
 
 export default function RunningTimeSlider({
+  isMobile,
   options,
   setOptions,
   setOptionsClicked,
@@ -27,8 +28,10 @@ export default function RunningTimeSlider({
   return (
     <div>
       <Slider
+        isMobile={isMobile}
         min={1}
         max={180}
+        step={1}
         minValue={minValue}
         maxValue={maxValue}
         setMinValue={setMinValue}

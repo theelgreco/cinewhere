@@ -10,6 +10,7 @@ import { movieGenres, tvGenres } from "constants/genres";
 import React from "react";
 
 export default function Type({
+  isMobile,
   media_type,
   set_media_type,
   options,
@@ -112,7 +113,7 @@ export default function Type({
           menuParent={menuParent}
           setMenuElements={setMenuElements}
           ChildComponent={ReleaseYearSlider}
-          childProps={{ options, setOptions, setOptionsClicked }}
+          childProps={{ options, setOptions, setOptionsClicked, isMobile }}
           childRef={ReleaseYear}
         />
         <Popup
@@ -123,7 +124,7 @@ export default function Type({
           menuParent={menuParent}
           setMenuElements={setMenuElements}
           ChildComponent={RatingSlider}
-          childProps={{ options, setOptions, setOptionsClicked }}
+          childProps={{ options, setOptions, setOptionsClicked, isMobile }}
           childRef={Rating}
         />
         <Popup
@@ -134,7 +135,7 @@ export default function Type({
           menuParent={menuParent}
           setMenuElements={setMenuElements}
           ChildComponent={RunningTimeSlider}
-          childProps={{ options, setOptions, setOptionsClicked }}
+          childProps={{ options, setOptions, setOptionsClicked, isMobile }}
           childRef={Runtime}
         />
       </div>
