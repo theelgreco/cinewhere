@@ -58,7 +58,6 @@ export default function MovieCard({
   }, [film]);
 
   useEffect(() => {
-    console.log(cardFocused);
     if (cardFocused && settings?.autoplay && !isMobile) {
       setTimeout(() => {
         setStartTimer(true);
@@ -69,7 +68,6 @@ export default function MovieCard({
   }, [cardFocused]);
 
   useEffect(() => {
-    console.log(startTimer);
     if (startTimer && cardFocused) {
       let counter = 3;
       setCount(counter);
@@ -120,7 +118,6 @@ export default function MovieCard({
 
   useEffect(() => {
     if (rowsObject) {
-      console.log(rowsObject);
       setCurrentRow(rowsObject[film.id]);
     }
   }, [rowsObject]);

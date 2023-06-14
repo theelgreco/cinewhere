@@ -13,36 +13,6 @@
   }
 }
 
-.genre,
-.MovieCardLinkPreload:has(.genre) {
-  position: relative;
-  width: 23vh;
-  min-width: max(18vh, 125px);
-  max-width: max(30%, 170px);
-  aspect-ratio: 9/13;
-  margin-top: 1vh;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  overflow: hidden;
-  z-index: 100;
-}
-
-.row {
-  flex-basis: 14%;
-  height: fit-content;
-}
-
-.trailer {
-  position: relative;
-  aspect-ratio: 2/1;
-  z-index: 500;
-  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
-  margin: 4px;
-  flex: 1 0 30%;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
 .MovieCardLink {
   cursor: pointer;
   text-decoration: none;
@@ -252,6 +222,41 @@
   flex-shrink: 1;
 }
 
+.trailer:not(.genre) {
+  position: relative;
+  aspect-ratio: 2/1;
+  z-index: 500;
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+  margin: 4px;
+  flex: 1 0 30%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.genre,
+.MovieCardLinkPreload:has(.genre) {
+  position: relative;
+  min-width: max(19vh, 125px);
+  max-width: 0px;
+  aspect-ratio: 9/13;
+  margin-top: 1vh;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.genre.trailer {
+  position: relative;
+  aspect-ratio: 2/1;
+  z-index: 500;
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+  margin: 4px;
+  flex: 1 0 min(80%, 450px);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
 .row {
   position: relative;
   aspect-ratio: 9/13;
@@ -261,6 +266,7 @@
   border-radius: 10px;
   overflow: hidden;
   z-index: 100;
+  flex-basis: 14%;
   flex-grow: 0;
   flex-shrink: 1;
   height: fit-content;
@@ -272,11 +278,6 @@
     flex-basis: 13%;
   }
 
-  .trailer {
-    aspect-ratio: 2/1;
-    /* torn between this and 3/1 */
-  }
-
   .row {
     flex-basis: 10.5%;
   }
@@ -286,10 +287,6 @@
   .MovieCardLink:not(.genre, .trailer, .row),
   .MovieCardLinkPreload:not(.genre) {
     flex-basis: 15%;
-  }
-
-  .trailer {
-    aspect-ratio: 2/1;
   }
 
   .row {
@@ -318,10 +315,6 @@
     flex-basis: 23%;
   }
 
-  .trailer {
-    aspect-ratio: 2/1;
-  }
-
   .row {
     flex-basis: 15.5%;
   }
@@ -333,10 +326,6 @@
     flex-basis: 30%;
   }
 
-  .trailer {
-    aspect-ratio: 2/1;
-  }
-
   .row {
     flex-basis: 18.5%;
   }
@@ -346,10 +335,6 @@
   .MovieCardLink:not(.genre, .trailer, .row),
   .MovieCardLinkPreload:not(.genre) {
     flex-basis: 45%;
-  }
-
-  .trailer {
-    aspect-ratio: 2/1;
   }
 
   .row {
