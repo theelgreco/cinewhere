@@ -31,19 +31,25 @@ export default function Slider({
   }, []);
 
   useEffect(() => {
-    if (sliderRefs.min?.current && sliderRefs.max?.current && isMobile) {
+    if (sliderRefs.min?.current && isMobile) {
       sliderRefs.min.current.addEventListener("touchstart", handleMouseDown, {
         passive: false,
       });
+    }
+
+    if (sliderRefs.max?.current && isMobile) {
       sliderRefs.max.current.addEventListener("touchstart", handleMouseDown, {
         passive: false,
       });
     }
 
-    if (sliderRefs.min?.current && sliderRefs.max?.current && !isMobile) {
+    if (sliderRefs.min?.current && !isMobile) {
       sliderRefs.min.current.addEventListener("mousedown", handleMouseDown, {
         passive: false,
       });
+    }
+
+    if (sliderRefs.max?.current && !isMobile) {
       sliderRefs.max.current.addEventListener("mousedown", handleMouseDown, {
         passive: false,
       });
@@ -144,7 +150,8 @@ export default function Slider({
     const thumbWidth = sliderRefs.max.current.offsetWidth;
     let mouseX;
     !e.touches ? (mouseX = e.clientX) : (mouseX = e.touches[0].clientX);
-    const totalValue = max - min;
+    let increment = 1 / step;
+    const totalValue = max * increment - min;
     const pixelToValueRatio = totalValue / (sliderWidth - thumbWidth);
 
     let minLeft;
@@ -178,7 +185,8 @@ export default function Slider({
     }
 
     const newPosition = parseInt(sliderRefs.max.current.style.left);
-    const years = min + Math.round(newPosition * pixelToValueRatio);
+    const years =
+      (min + Math.round(newPosition * pixelToValueRatio)) / increment;
 
     if (type === "single.lte" && years >= max) {
       updatedMax = "any";
@@ -254,14 +262,6 @@ export default function Slider({
     } else if (type === "single.lte") {
       return (
         <>
-          <div
-            id="max"
-            ref={sliderRefs.max}
-            className={styles.circle}
-            style={{ right: "0px" }}>
-            {">"}
-          </div>
-
           <div
             id="max"
             ref={sliderRefs.max}

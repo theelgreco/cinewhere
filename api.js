@@ -28,35 +28,6 @@ export const getFilmsTmdb = (params, media_type) => {
     });
 };
 
-// export async function getFilmsTmdb(params, media_type) {
-//   try {
-//     // console.log(params, media_type);
-//     const res = await tmdb.get(`/discover/${media_type}`, {
-//       headers: authHeader,
-//       params: params,
-//     });
-//     const movies = await res.data.results;
-//     movies.map((movie) => {
-//       return (movie.media_type = media_type);
-//     });
-//     const filteredMovies = [];
-
-//     for (const movie of movies) {
-//       const services = await getFilmServicesTmdb(movie.id, media_type, params.watch_region);
-//       if (services) {
-//         // console.log(services);
-//         filteredMovies.push(movie);
-//       }
-//     }
-
-//     // console.log(filteredMovies);
-//     return filteredMovies;
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   }
-// }
-
 export const getFilmServicesTmdb = (movie_id, media, country) => {
   return tmdb
     .get(`/${media}/${movie_id}/watch/providers`, {
@@ -77,7 +48,6 @@ export const getFilmByIdTmdb = (movie_id, media) => {
       params: { append_to_response: "watch/providers,videos,credits" },
     })
     .then((res) => {
-      console.log(res.data);
       return res.data;
     })
     .catch((err) => {

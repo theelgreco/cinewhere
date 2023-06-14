@@ -1,19 +1,31 @@
 import styles from "@/styles/MovieCard.module.css";
-import servicesArray from "constants/services";
-import { getFilmServicesTmdb } from "api";
+import { getFilmServicesTmdb, getFilmByIdTmdb } from "api";
+import { getOfficialTrailer } from "utils/utils";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { clsx } from "clsx";
 import { Link } from "react-router-dom";
 
 export default function MovieCard({
-  film,
   isMobile,
+  film,
   setFilmClicked,
   genre,
   options,
+  settings,
+  rowsObject,
+  trailerRow,
+  setTrailerRow,
 }) {
   const [serviceIcons, setServiceIcons] = useState([]);
+  const [trailer, setTrailer] = useState(null);
+  const [trailerPlaying, setTrailerPlaying] = useState(false);
+  const [cardFocused, setCardFocused] = useState(false);
+  const [count, setCount] = useState(null);
+  const [timer, setTimer] = useState(null);
+  const [startTimer, setStartTimer] = useState(null);
+  const [currentRow, setCurrentRow] = useState(null);
+  const Card = useRef();
 
   useEffect(() => {
     if (Object.keys(film).length) {
@@ -45,6 +57,80 @@ export default function MovieCard({
     }
   }, [film]);
 
+  useEffect(() => {
+    if (cardFocused && settings?.autoplay && !isMobile) {
+      setTimeout(() => {
+        setStartTimer(true);
+      }, 2000);
+    } else {
+      setStartTimer(null);
+    }
+  }, [cardFocused]);
+
+  useEffect(() => {
+    if (startTimer && cardFocused) {
+      let counter = 3;
+      setCount(counter);
+      setTimer(
+        setInterval(() => {
+          counter--;
+          setCount(counter);
+        }, 1000)
+      );
+    }
+  }, [startTimer]);
+
+  useEffect(() => {
+    if (count === 0) {
+      setCardFocused(false);
+      setCount(null);
+      clearInterval(timer);
+
+      if (!trailer) {
+        getFilmByIdTmdb(film.id, film.media_type).then((res) => {
+          const getTrailer = getOfficialTrailer(res);
+
+          if (getTrailer) {
+            setTrailer(getOfficialTrailer(res));
+            setTrailerPlaying(true);
+          } else {
+            return;
+          }
+
+          if (!genre) setTrailerRow(rowsObject[film.id]);
+        });
+      } else {
+        setTrailerPlaying(true);
+        if (!genre) setTrailerRow(rowsObject[film.id]);
+      }
+    }
+  }, [count]);
+
+  useEffect(() => {
+    if (trailerPlaying) {
+      document.addEventListener("mousedown", closeTrailer);
+
+      return () => {
+        document.removeEventListener("mousedown", closeTrailer);
+      };
+    }
+  }, [trailerPlaying]);
+
+  useEffect(() => {
+    if (rowsObject) {
+      setCurrentRow(rowsObject[film.id]);
+    }
+  }, [rowsObject]);
+
+  function closeTrailer(e) {
+    console.log("clicky");
+    if (e.target !== Card) {
+      setTrailerPlaying(false);
+      setCardFocused(false);
+      if(!genre)setTrailerRow(null);
+    }
+  }
+
   function handleClick(e) {
     setFilmClicked(true);
   }
@@ -53,13 +139,44 @@ export default function MovieCard({
     <>
       {Object.keys(film).length ? (
         <Link
+          ref={Card}
+          onMouseEnter={() => {
+            if (!isMobile) setCardFocused(true);
+          }}
+          onMouseOut={() => {
+            setCardFocused(false);
+            setCount(null);
+            clearInterval(timer);
+          }}
           to={`/${film.media_type}/${film.id}`}
           className={clsx(styles.MovieCardLink, {
             [styles.genre]: genre,
+            [styles.trailer]: trailerPlaying && trailer,
+            [styles.row]:
+              trailerRow === currentRow && currentRow && !trailerPlaying,
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
-            {film.poster_path ? (
+            {count !== null && count < 4 ? (
+              <div className={styles.countdownContainer}>
+                <p className={styles.countdownText}>{count}</p>
+              </div>
+            ) : (
+              <></>
+            )}
+            {trailerPlaying && trailer ? (
+              <>
+                <div onMouseDown={closeTrailer} className={styles.closeBtn}>
+                  <p>X</p>
+                </div>
+                <iframe
+                  className={styles.video}
+                  src={trailer}
+                  title="YouTube video player"
+                  frameBorder={0}
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen; autoplay"></iframe>
+              </>
+            ) : film.poster_path ? (
               <img
                 className={styles.moviePoster}
                 src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}

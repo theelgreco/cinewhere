@@ -1,0 +1,60 @@
+.Settings {
+  position: absolute;
+  top: 0;
+  right: 1%;
+  z-index: 501;
+  width: 50px;
+  height: 50px;
+}
+
+.expanded {
+  height: fit-content;
+  width: 450px;
+  z-index: 500;
+  background-color: white;
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: 2vw;
+  padding: 30px;
+}
+
+.container {
+  position: relative;
+  left: 50%;
+  transform: translateX(-53%);
+  width: 90%;
+}
+
+.fieldset {
+  display: flex;
+  gap: 10px;
+  border-radius: 1vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.options {
+  width: max-content;
+}
+
+.settingsIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 9999px;
+  padding: 10px;
+  color: slateblue;
+  cursor: pointer;
+  transition: 0.1s ease;
+  z-index: 501;
+}
+
+.settingsIcon:hover {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  transition: 0.1s ease;
+}

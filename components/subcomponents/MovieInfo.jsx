@@ -1,8 +1,8 @@
 import styles from "@/styles/MovieInfo.module.css";
-import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 import { getFilmByIdTmdb } from "api";
+import { getOfficialTrailer } from "utils/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -22,14 +22,7 @@ export default function MovieInfo({ isMobile, options }) {
       if (tempServices) setStreamingServices(tempServices);
 
       setActors(res.credits.cast);
-
-      let regex = /Official Trailer/i;
-      let trailer = res.videos.results.find((el) => regex.test(el.name));
-      if (!trailer)
-        trailer = res.videos.results.find((el) => el.type === "Trailer");
-      if (trailer) {
-        setTrailer(`https://yewtu.be/embed/${trailer.key}`);
-      }
+      setTrailer(getOfficialTrailer(res));
     });
   }, []);
 
