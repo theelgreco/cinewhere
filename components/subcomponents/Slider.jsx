@@ -58,7 +58,6 @@ export default function Slider({
 
   function handleMouseDown(e) {
     e.preventDefault();
-    console.log(e);
     side = e.target.id;
 
     if (side === "min" && type === "double") {
