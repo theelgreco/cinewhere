@@ -99,11 +99,11 @@ export default function MovieCard({
             return;
           }
 
-          setTrailerRow(rowsObject[film.id]);
+          if (!genre) setTrailerRow(rowsObject[film.id]);
         });
       } else {
         setTrailerPlaying(true);
-        setTrailerRow(rowsObject[film.id]);
+        if (!genre) setTrailerRow(rowsObject[film.id]);
       }
     }
   }, [count]);
@@ -130,7 +130,7 @@ export default function MovieCard({
     if (e.target !== Card) {
       setTrailerPlaying(false);
       setCardFocused(false);
-      setTrailerRow(null);
+      if(!genre)setTrailerRow(null);
     }
   }
 
