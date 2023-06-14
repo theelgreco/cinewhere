@@ -24,6 +24,7 @@ export default function MovieCard({
   const [count, setCount] = useState(null);
   const [timer, setTimer] = useState(null);
   const [startTimer, setStartTimer] = useState(null);
+  const [currentRow, setCurrentRow] = useState(null);
   const Card = useRef();
 
   useEffect(() => {
@@ -98,11 +99,11 @@ export default function MovieCard({
             return;
           }
 
-          if (rowsObject?.[film.id]) setTrailerRow(rowsObject[film.id]);
+          setTrailerRow(rowsObject[film.id]);
         });
       } else {
         setTrailerPlaying(true);
-        if (rowsObject?.[film.id]) setTrailerRow(rowsObject[film.id]);
+        setTrailerRow(rowsObject[film.id]);
       }
     }
   }, [count]);
@@ -116,6 +117,13 @@ export default function MovieCard({
       };
     }
   }, [trailerPlaying]);
+
+  useEffect(() => {
+    if (rowsObject) {
+      console.log(rowsObject);
+      setCurrentRow(rowsObject[film.id]);
+    }
+  }, [rowsObject]);
 
   function closeTrailer(e) {
     console.log("clicky");
@@ -148,7 +156,7 @@ export default function MovieCard({
             [styles.genre]: genre,
             [styles.trailer]: trailerPlaying && trailer,
             [styles.row]:
-              trailerRow === rowsObject?.[film.id] && !trailerPlaying,
+              trailerRow === currentRow && currentRow && !trailerPlaying,
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>

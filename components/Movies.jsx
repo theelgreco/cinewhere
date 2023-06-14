@@ -31,6 +31,7 @@ export default function Movies({
   optionsClicked,
   setOptionsClicked,
   settings,
+  rowSize,
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
@@ -62,8 +63,7 @@ export default function Movies({
     {},
   ];
   const [trailerRow, setTrailerRow] = useState(null);
-  const rowsObject = {};
-  let row = 0;
+  const [rowsObject, setRowsObject] = useState({});
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -368,6 +368,13 @@ export default function Movies({
     }
   }, [atBottom, genreScroll]);
 
+  useEffect(() => {
+    if (data.length) {
+      let rowsObjectCopy = { ...rowsObject };
+      setRowsObject(updateRows(data, rowSize, rowsObjectCopy));
+    }
+  }, [rowSize, data]);
+
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;
     const scrollHeight = e.target.scrollHeight;
@@ -421,6 +428,18 @@ export default function Movies({
     setGenreIdToSearch({});
   }
 
+  function updateRows(filmArray, number, rowObj) {
+    let row = 0;
+    filmArray.forEach((film, index) => {
+      if (index % number === 0) {
+        row++;
+      }
+
+      rowObj[film.id] = row;
+    });
+    return rowObj;
+  }
+
   return (
     <>
       {!selectedGenres.length ? (
@@ -461,12 +480,11 @@ export default function Movies({
           <div className={styles.moviesFlex}>
             {data.length ? (
               data.map((film, index) => {
-                let position;
-                if (index % 1 === 0) {
-                  row++;
-                }
+                // if (index % 1 === 0) {
+                //   row++;
+                // }
 
-                rowsObject[film.id] = row;
+                // rowsObject[film.id] = row;
 
                 return (
                   <MovieCard
@@ -476,7 +494,6 @@ export default function Movies({
                     setFilmClicked={setFilmClicked}
                     options={options}
                     settings={settings}
-                    position={position}
                     rowsObject={rowsObject}
                     trailerRow={trailerRow}
                     setTrailerRow={setTrailerRow}
@@ -550,11 +567,7 @@ export default function Movies({
                     id={genre.id}
                     ref={refs[genre.id]}>
                     {genre.movies.length ? (
-                      genre.movies.map((film, index) => {
-                        let position;
-                        if (index % 5 === 0) position = "start";
-                        else if (index % 5 === 4) position = "end";
-
+                      genre.movies.map((film) => {
                         return (
                           <MovieCard
                             isMobile={isMobile}
@@ -564,7 +577,6 @@ export default function Movies({
                             genre={true}
                             options={options}
                             settings={settings}
-                            position={position}
                           />
                         );
                       })

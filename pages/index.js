@@ -32,10 +32,9 @@ export default function Home() {
   });
   const [media_type, set_media_type] = useState("movie");
   const [settings, setSettings] = useState({ autoplay: false });
+  const [rowSize, setRowSize] = useState(returnRowSize(window.innerWidth));
 
   useEffect(() => {
-    console.log(window);
-
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
     window.addEventListener("beforeunload", (e) => {
       e.preventDefault();
@@ -64,9 +63,19 @@ export default function Home() {
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      console.log(window.innerWidth);
+      setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
     });
   }, []);
+
+  function returnRowSize(width) {
+    if (width > 1499) return 7;
+    else if (width > 1149) return 6;
+    else if (width > 899) return 5;
+    else if (width > 599) return 4;
+    else if (width > 449) return 3;
+    else if (width > 229) return 2;
+    else return 1;
+  }
 
   return (
     <BrowserRouter>
@@ -108,6 +117,7 @@ export default function Home() {
               set_media_type={set_media_type}
               settings={settings}
               setSettings={setSettings}
+              rowSize={rowSize}
             />
           }
         />

@@ -40,6 +40,7 @@ export default function Main({
   set_media_type,
   settings,
   setSettings,
+  rowSize,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -181,6 +182,7 @@ export default function Main({
         optionsClicked={optionsClicked}
         setOptionsClicked={setOptionsClicked}
         settings={settings}
+        rowSize={rowSize}
       />
     </main>
   );
