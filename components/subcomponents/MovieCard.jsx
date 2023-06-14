@@ -13,6 +13,9 @@ export default function MovieCard({
   genre,
   options,
   settings,
+  rowsObject,
+  trailerRow,
+  setTrailerRow,
 }) {
   const [serviceIcons, setServiceIcons] = useState([]);
   const [trailer, setTrailer] = useState(null);
@@ -20,6 +23,7 @@ export default function MovieCard({
   const [cardFocused, setCardFocused] = useState(false);
   const [count, setCount] = useState(null);
   const [timer, setTimer] = useState(null);
+  const [startTimer, setStartTimer] = useState(null);
   const Card = useRef();
 
   useEffect(() => {
@@ -53,7 +57,19 @@ export default function MovieCard({
   }, [film]);
 
   useEffect(() => {
-    if (cardFocused && settings.autoplay && !isMobile) {
+    console.log(cardFocused);
+    if (cardFocused && settings?.autoplay && !isMobile) {
+      setTimeout(() => {
+        setStartTimer(true);
+      }, 2000);
+    } else {
+      setStartTimer(null);
+    }
+  }, [cardFocused]);
+
+  useEffect(() => {
+    console.log(startTimer);
+    if (startTimer && cardFocused) {
       let counter = 3;
       setCount(counter);
       setTimer(
@@ -63,7 +79,7 @@ export default function MovieCard({
         }, 1000)
       );
     }
-  }, [cardFocused]);
+  }, [startTimer]);
 
   useEffect(() => {
     if (count === 0) {
@@ -71,13 +87,23 @@ export default function MovieCard({
       setCount(null);
       clearInterval(timer);
 
-      console.log("finished");
+      if (!trailer) {
+        getFilmByIdTmdb(film.id, film.media_type).then((res) => {
+          const getTrailer = getOfficialTrailer(res);
 
-      getFilmByIdTmdb(film.id, film.media_type).then((res) => {
-        setTrailer(getOfficialTrailer(res));
+          if (getTrailer) {
+            setTrailer(getOfficialTrailer(res));
+            setTrailerPlaying(true);
+          } else {
+            return;
+          }
+
+          if (rowsObject?.[film.id]) setTrailerRow(rowsObject[film.id]);
+        });
+      } else {
         setTrailerPlaying(true);
-        console.log("trailer fetched");
-      });
+        if (rowsObject?.[film.id]) setTrailerRow(rowsObject[film.id]);
+      }
     }
   }, [count]);
 
@@ -96,6 +122,7 @@ export default function MovieCard({
     if (e.target !== Card) {
       setTrailerPlaying(false);
       setCardFocused(false);
+      setTrailerRow(null);
     }
   }
 
@@ -112,16 +139,16 @@ export default function MovieCard({
             if (!isMobile) setCardFocused(true);
           }}
           onMouseOut={() => {
-            if (count > 0) {
-              setCardFocused(false);
-              setCount(null);
-              clearInterval(timer);
-            }
+            setCardFocused(false);
+            setCount(null);
+            clearInterval(timer);
           }}
           to={`/${film.media_type}/${film.id}`}
           className={clsx(styles.MovieCardLink, {
             [styles.genre]: genre,
             [styles.trailer]: trailerPlaying && trailer,
+            [styles.row]:
+              trailerRow === rowsObject?.[film.id] && !trailerPlaying,
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
@@ -138,7 +165,6 @@ export default function MovieCard({
                   <p>X</p>
                 </div>
                 <iframe
-                  // id="ivplayer"
                   className={styles.video}
                   src={trailer}
                   title="YouTube video player"

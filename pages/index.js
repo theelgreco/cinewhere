@@ -34,6 +34,8 @@ export default function Home() {
   const [settings, setSettings] = useState({ autoplay: false });
 
   useEffect(() => {
+    console.log(window);
+
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
     window.addEventListener("beforeunload", (e) => {
       e.preventDefault();
@@ -58,6 +60,12 @@ export default function Home() {
 
       setRefs(refsObject);
     }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      console.log(window.innerWidth);
+    });
   }, []);
 
   return (

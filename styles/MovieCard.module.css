@@ -13,8 +13,8 @@
   }
 }
 
-.MovieCardLink,
-.MovieCardLinkPreload {
+.genre,
+.MovieCardLinkPreload:has(.genre) {
   position: relative;
   width: 23vh;
   min-width: max(18vh, 125px);
@@ -25,6 +25,22 @@
   border-radius: 10px;
   overflow: hidden;
   z-index: 100;
+}
+
+.row {
+  flex-basis: 14%;
+  height: fit-content;
+}
+
+.trailer {
+  position: relative;
+  aspect-ratio: 2/1;
+  z-index: 500;
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+  margin: 4px;
+  flex: 1 0 30%;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 .MovieCardLink {
@@ -198,17 +214,6 @@
   z-index: 1;
 }
 
-.trailer {
-  position: relative;
-  transition: 0.1s;
-  width: 500px;
-  max-width: 60vw;
-  aspect-ratio: 2/1;
-  z-index: 500;
-  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
-  margin: 4px;
-}
-
 .video {
   top: 50%;
   left: 50%;
@@ -230,4 +235,132 @@
   background: rgba(0, 0, 0, 0.5);
   color: rgba(255, 255, 255, 0.5);
   z-index: 501;
+}
+
+.MovieCardLink:not(.genre, .trailer, .row),
+.MovieCardLinkPreload:not(.genre) {
+  position: relative;
+  aspect-ratio: 9/13;
+  margin: 5px;
+  margin-top: 1vh;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 100;
+  flex-basis: 18%;
+  flex-grow: 0;
+  flex-shrink: 1;
+}
+
+.row {
+  position: relative;
+  aspect-ratio: 9/13;
+  margin: 5px;
+  margin-top: 1vh;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 100;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 14%;
+  height: fit-content;
+}
+
+@media screen and (width >= 1500px) {
+  .MovieCardLink:not(.genre, .trailer, .row),
+  .MovieCardLinkPreload:not(.genre) {
+    flex-basis: 13%;
+  }
+
+  .trailer {
+    aspect-ratio: 2/1;
+    /* torn between this and 3/1 */
+  }
+
+  .row {
+    flex-basis: 10.5%;
+  }
+}
+
+@media screen and (width < 1500px) {
+  .MovieCardLink:not(.genre, .trailer, .row),
+  .MovieCardLinkPreload:not(.genre) {
+    flex-basis: 15%;
+  }
+
+  .trailer {
+    aspect-ratio: 2/1;
+  }
+
+  .row {
+    flex-basis: 12%;
+  }
+}
+
+@media screen and (width < 1150px) {
+  .MovieCardLink:not(.genre, .trailer, .row),
+  .MovieCardLinkPreload:not(.genre) {
+    flex-basis: 18%;
+  }
+
+  .trailer {
+    aspect-ratio: 2/1;
+  }
+
+  .row {
+    flex-basis: 13.5%;
+  }
+}
+
+@media screen and (width < 900px) {
+  .MovieCardLink:not(.genre, .trailer, .row),
+  .MovieCardLinkPreload:not(.genre) {
+    flex-basis: 23%;
+  }
+
+  .trailer {
+    aspect-ratio: 2/1;
+  }
+
+  .row {
+    flex-basis: 15.5%;
+  }
+}
+
+@media screen and (width < 600px) {
+  .MovieCardLink:not(.genre, .trailer, .row),
+  .MovieCardLinkPreload:not(.genre) {
+    flex-basis: 30%;
+  }
+
+  .trailer {
+    aspect-ratio: 2/1;
+  }
+
+  .row {
+    flex-basis: 18.5%;
+  }
+}
+
+@media screen and (width < 450px) {
+  .MovieCardLink:not(.genre, .trailer, .row),
+  .MovieCardLinkPreload:not(.genre) {
+    flex-basis: 45%;
+  }
+
+  .trailer {
+    aspect-ratio: 2/1;
+  }
+
+  .row {
+    flex-basis: 23.5%;
+  }
+}
+
+@media screen and (width < 230px) {
+  .MovieCardLink:not(.genre, .trailer, .row),
+  .MovieCardLinkPreload:not(.genre) {
+    flex-basis: 90%;
+  }
 }

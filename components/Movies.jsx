@@ -61,6 +61,9 @@ export default function Movies({
     {},
     {},
   ];
+  const [trailerRow, setTrailerRow] = useState(null);
+  const rowsObject = {};
+  let row = 0;
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -458,6 +461,13 @@ export default function Movies({
           <div className={styles.moviesFlex}>
             {data.length ? (
               data.map((film, index) => {
+                let position;
+                if (index % 1 === 0) {
+                  row++;
+                }
+
+                rowsObject[film.id] = row;
+
                 return (
                   <MovieCard
                     isMobile={isMobile}
@@ -466,6 +476,10 @@ export default function Movies({
                     setFilmClicked={setFilmClicked}
                     options={options}
                     settings={settings}
+                    position={position}
+                    rowsObject={rowsObject}
+                    trailerRow={trailerRow}
+                    setTrailerRow={setTrailerRow}
                   />
                 );
               })
@@ -537,6 +551,10 @@ export default function Movies({
                     ref={refs[genre.id]}>
                     {genre.movies.length ? (
                       genre.movies.map((film, index) => {
+                        let position;
+                        if (index % 5 === 0) position = "start";
+                        else if (index % 5 === 4) position = "end";
+
                         return (
                           <MovieCard
                             isMobile={isMobile}
@@ -546,6 +564,7 @@ export default function Movies({
                             genre={true}
                             options={options}
                             settings={settings}
+                            position={position}
                           />
                         );
                       })
