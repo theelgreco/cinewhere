@@ -551,8 +551,8 @@ export default function Movies({
                       })
                     ) : (
                       <Preload
-                        rowSize={rowSize}
                         parentComponent={"MoviesGenre"}
+                        genre={true}
                       />
                     )}
                   </div>

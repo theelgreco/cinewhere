@@ -18,7 +18,8 @@
   text-decoration: none;
 }
 
-.MovieCardLinkPreload {
+.MovieCardLinkPreload,
+.MovieCardLinkPreloadGenre {
   background: linear-gradient(66deg, black, transparent);
   background-size: 400% 400%;
   animation: preload 2s ease-in infinite;
@@ -89,7 +90,7 @@
 }
 
 .MovieCardLink:not(.genre, .trailer, .row),
-.MovieCardLinkPreload:not(.genre) {
+.MovieCardLinkPreload {
   position: relative;
   aspect-ratio: 9/13;
   margin: 5px;
@@ -115,7 +116,7 @@
 }
 
 .genre,
-.MovieCardLinkPreload:has(.genre) {
+.MovieCardLinkPreloadGenre {
   position: relative;
   min-width: max(19vh, 125px);
   max-width: 0px;
@@ -155,7 +156,7 @@
 
 @media screen and (width >= 1500px) {
   .MovieCardLink:not(.genre, .trailer, .row),
-  .MovieCardLinkPreload:not(.genre) {
+  .MovieCardLinkPreload {
     flex-basis: 13%;
   }
 
@@ -166,7 +167,7 @@
 
 @media screen and (width < 1500px) {
   .MovieCardLink:not(.genre, .trailer, .row),
-  .MovieCardLinkPreload:not(.genre) {
+  .MovieCardLinkPreload {
     flex-basis: 15%;
   }
 
@@ -177,7 +178,7 @@
 
 @media screen and (width < 1150px) {
   .MovieCardLink:not(.genre, .trailer, .row),
-  .MovieCardLinkPreload:not(.genre) {
+  .MovieCardLinkPreload {
     flex-basis: 18%;
   }
 
@@ -192,7 +193,7 @@
 
 @media screen and (width < 900px) {
   .MovieCardLink:not(.genre, .trailer, .row),
-  .MovieCardLinkPreload:not(.genre) {
+  .MovieCardLinkPreload {
     flex-basis: 23%;
   }
 
@@ -203,7 +204,7 @@
 
 @media screen and (width < 600px) {
   .MovieCardLink:not(.genre, .trailer, .row),
-  .MovieCardLinkPreload:not(.genre) {
+  .MovieCardLinkPreload {
     flex-basis: 30%;
   }
 
@@ -214,7 +215,7 @@
 
 @media screen and (width < 450px) {
   .MovieCardLink:not(.genre, .trailer, .row),
-  .MovieCardLinkPreload:not(.genre) {
+  .MovieCardLinkPreload {
     flex-basis: 45%;
   }
 
@@ -225,7 +226,7 @@
 
 @media screen and (width < 230px) {
   .MovieCardLink:not(.genre, .trailer, .row),
-  .MovieCardLinkPreload:not(.genre) {
+  .MovieCardLinkPreload {
     flex-basis: 90%;
   }
 }

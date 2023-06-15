@@ -2,16 +2,9 @@ import MovieCard from "./MovieCard";
 import { makeArrayOfEmptyObjects } from "utils/utils";
 import { useEffect, useState } from "react";
 
-export default function Preload({ rowSize, parentComponent }) {
-  const [preload, setPreload] = useState(makeArrayOfEmptyObjects(rowSize));
-
-  useEffect(() => {
-    setPreload(makeArrayOfEmptyObjects(rowSize));
-    console.log(makeArrayOfEmptyObjects(rowSize));
-  }, [rowSize]);
-
+export default function Preload({ rowSize, parentComponent, genre }) {
   if (rowSize) {
-    return preload.map((obj, index) => {
+    return makeArrayOfEmptyObjects(rowSize).map((obj, index) => {
       return (
         <MovieCard
           film={obj}
@@ -22,7 +15,11 @@ export default function Preload({ rowSize, parentComponent }) {
   } else {
     return makeArrayOfEmptyObjects(20).map((obj, index) => {
       return (
-        <MovieCard film={obj} key={`${index}${parentComponent}${20}temp`} />
+        <MovieCard
+          film={obj}
+          key={`${index}${parentComponent}${20}temp`}
+          genre={genre}
+        />
       );
     });
   }

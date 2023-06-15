@@ -187,7 +187,11 @@ export default function MovieCard({
           </div>
         </Link>
       ) : (
-        <div className={styles.MovieCardLinkPreload}></div>
+        <div
+          className={clsx({
+            [styles.MovieCardLinkPreload]: !genre,
+            [styles.MovieCardLinkPreloadGenre]: genre,
+          })}></div>
       )}
     </>
   );
