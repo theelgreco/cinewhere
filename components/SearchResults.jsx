@@ -1,6 +1,7 @@
 import styles from "@/styles/SearchResults.module.css";
 import MovieCard from "./subcomponents/MovieCard";
 import SearchBar from "./subcomponents/SearchBar";
+import Preload from "./subcomponents/Preload";
 import clsx from "clsx";
 
 import { useEffect, useRef } from "react";
@@ -19,8 +20,8 @@ export default function SearchResults({
   noResults,
   setSearchText,
   options,
+  rowSize,
 }) {
-  const preload = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   const close = useRef();
 
   useEffect(() => {
@@ -146,9 +147,7 @@ export default function SearchResults({
         <>
           {searchText && !noResults ? (
             <div className={styles.flexContainer}>
-              {preload.map((temp, index) => {
-                return <MovieCard film={temp} key={`${index}tempsearch`} />;
-              })}
+              <Preload rowSize={rowSize} parentComponent={"Search"} />
             </div>
           ) : (
             <></>

@@ -1,7 +1,9 @@
 import styles from "@/styles/Movies.module.css";
 import MovieCard from "@/subcomponents/MovieCard";
 import SortBy from "./subcomponents/SortBy";
+import Preload from "./subcomponents/Preload";
 import { getFilmsTmdb } from "api";
+import { makeArrayOfEmptyObjects } from "utils/utils";
 import { useEffect, useState } from "react";
 import React from "react";
 import clsx from "clsx";
@@ -36,32 +38,6 @@ export default function Movies({
   const [atBottom, setAtBottom] = useState(false);
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
   const [collapsedMenus, setCollapsedMenus] = useState(false);
-  const preload = [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ];
   const [trailerRow, setTrailerRow] = useState(null);
   const [rowsObject, setRowsObject] = useState({});
 
@@ -480,12 +456,6 @@ export default function Movies({
           <div className={styles.moviesFlex}>
             {data.length ? (
               data.map((film, index) => {
-                // if (index % 1 === 0) {
-                //   row++;
-                // }
-
-                // rowsObject[film.id] = row;
-
                 return (
                   <MovieCard
                     isMobile={isMobile}
@@ -504,11 +474,10 @@ export default function Movies({
               <>
                 {selectedServices.length ? (
                   <div className={styles.moviesFlex}>
-                    {preload.map((temp, index) => {
-                      return (
-                        <MovieCard film={temp} key={`${index}servicetemp`} />
-                      );
-                    })}
+                    <Preload
+                      rowSize={rowSize}
+                      parentComponent={"MoviesService"}
+                    />
                   </div>
                 ) : (
                   <>
@@ -581,13 +550,10 @@ export default function Movies({
                         );
                       })
                     ) : (
-                      <>
-                        {preload.map((temp, index) => {
-                          return (
-                            <MovieCard film={temp} key={`${index}genretemp`} />
-                          );
-                        })}
-                      </>
+                      <Preload
+                        rowSize={rowSize}
+                        parentComponent={"MoviesGenre"}
+                      />
                     )}
                   </div>
                 ) : (

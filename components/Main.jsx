@@ -110,6 +110,7 @@ export default function Main({
         setOptionsClicked={setOptionsClicked}
         setSettings={setSettings}
         settings={settings}
+        rowSize={rowSize}
       />
       <Services
         isMobile={isMobile}

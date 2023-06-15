@@ -1,3 +1,8 @@
+import InfoContainer from "./InfoContainer";
+import ServiceIcons from "./ServiceIcons";
+import Countdown from "./Countdown";
+import Poster from "./Poster";
+import Trailer from "./Trailer";
 import styles from "@/styles/MovieCard.module.css";
 import { getFilmServicesTmdb, getFilmByIdTmdb } from "api";
 import { getOfficialTrailer } from "utils/utils";
@@ -127,7 +132,7 @@ export default function MovieCard({
     if (e.target !== Card) {
       setTrailerPlaying(false);
       setCardFocused(false);
-      if(!genre)setTrailerRow(null);
+      if (!genre) setTrailerRow(null);
     }
   }
 
@@ -144,9 +149,11 @@ export default function MovieCard({
             if (!isMobile) setCardFocused(true);
           }}
           onMouseOut={() => {
-            setCardFocused(false);
-            setCount(null);
-            clearInterval(timer);
+            if (!isMobile) {
+              setCardFocused(false);
+              setCount(null);
+              clearInterval(timer);
+            }
           }}
           to={`/${film.media_type}/${film.id}`}
           className={clsx(styles.MovieCardLink, {
@@ -157,59 +164,26 @@ export default function MovieCard({
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
-            {count !== null && count < 4 ? (
-              <div className={styles.countdownContainer}>
-                <p className={styles.countdownText}>{count}</p>
-              </div>
-            ) : (
-              <></>
-            )}
-            {trailerPlaying && trailer ? (
+            {!trailerPlaying ? (
               <>
-                <div onMouseDown={closeTrailer} className={styles.closeBtn}>
-                  <p>X</p>
-                </div>
-                <iframe
-                  className={styles.video}
-                  src={trailer}
-                  title="YouTube video player"
-                  frameBorder={0}
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen; autoplay"></iframe>
+                <Countdown count={count} />
+                <Poster
+                  url={film.poster_path || null}
+                  title={film.title || film.name}
+                />
+                <ServiceIcons
+                  serviceIcons={serviceIcons}
+                  filmTitle={film.title}
+                />
+                <InfoContainer />
               </>
-            ) : film.poster_path ? (
-              <img
-                className={styles.moviePoster}
-                src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-              />
             ) : (
-              <div className={styles.noImage}>
-                <p>
-                  ~<br></br>
-                  {film.title ? film.title : film.name}
-                  <br></br>~
-                </p>
-              </div>
+              <Trailer
+                trailerPlaying={trailerPlaying}
+                trailer={trailer}
+                closeTrailer={closeTrailer}
+              />
             )}
-            <div className={styles.serviceIcons}>
-              {serviceIcons.length ? (
-                serviceIcons.map((service, index) => {
-                  return (
-                    //prettier-ignore
-                    <React.Fragment key={`${service.provider_name}${index}${film.title}`}>
-                      {service.provider_name === 'Buy' || service.provider_name === 'Rent' 
-                        ? <div>
-                            <p>{service.provider_name}</p>
-                            <p>+{service.amount}</p>
-                          </div>
-                        : <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} /> }
-                      
-                    </React.Fragment>
-                  );
-                })
-              ) : (
-                <></>
-              )}
-            </div>
           </div>
         </Link>
       ) : (

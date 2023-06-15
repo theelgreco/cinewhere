@@ -1,0 +1,22 @@
+.video {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: relative;
+  min-width: 127%;
+  min-height: 150%;
+  aspect-ratio: 1/1;
+  z-index: 500;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 2%;
+  left: 1%;
+  border-radius: 9999px;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.5);
+  z-index: 501;
+}

@@ -43,6 +43,13 @@ export const getOfficialTrailer = (res) => {
   return undefined;
 };
 
+export const makeArrayOfEmptyObjects = (num) => {
+  let arr = [];
+  arr.length = num * 4;
+  arr.fill({});
+  return arr;
+};
+
 class TodaysDate {
   constructor() {
     this.date = new Date().toISOString().split("T")[0];

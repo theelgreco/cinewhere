@@ -1,0 +1,41 @@
+.ServiceIcons::-webkit-scrollbar {
+  width: 0px;
+  background-color: transparent;
+}
+
+.ServiceIcons::-webkit-scrollbar-thumb {
+  width: 0px;
+  background-color: transparent;
+}
+
+.ServiceIcons {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-height: 80%;
+  width: 30%;
+  max-width: 110px;
+  color: white;
+  overflow-y: scroll;
+  z-index: 100;
+}
+
+.ServiceIcons img,
+.ServiceIcons div {
+  border-radius: 9999px;
+  width: 80%;
+  max-width: 80px;
+  aspect-ratio: 1;
+}
+
+.ServiceIcons div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: black;
+  margin: 0 auto;
+  font-size: 65%;
+  font-weight: bold;
+}

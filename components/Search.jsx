@@ -22,6 +22,7 @@ export default function Search({
   setOptionsClicked,
   settings,
   setSettings,
+  rowSize
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);
   const [noResults, setNoResults] = useState(false);
@@ -147,6 +148,7 @@ export default function Search({
           noResults={noResults}
           setSearchText={setSearchText}
           options={options}
+          rowSize={rowSize}
         />
       )}
     </section>
