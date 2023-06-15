@@ -89,6 +89,7 @@ export default function MovieCard({
     if (count === 0) {
       setCardFocused(false);
       setCount(null);
+      setStartTimer(null);
       clearInterval(timer);
 
       if (!trailer) {
@@ -105,6 +106,7 @@ export default function MovieCard({
           if (!genre) setTrailerRow(rowsObject[film.id]);
         });
       } else {
+        setStartTimer(null);
         setTrailerPlaying(true);
         if (!genre) setTrailerRow(rowsObject[film.id]);
       }
@@ -128,10 +130,10 @@ export default function MovieCard({
   }, [rowsObject]);
 
   function closeTrailer(e) {
-    console.log("clicky");
     if (e.target !== Card) {
       setTrailerPlaying(false);
       setCardFocused(false);
+      setStartTimer(null);
       if (!genre) setTrailerRow(null);
     }
   }
@@ -145,13 +147,14 @@ export default function MovieCard({
       {Object.keys(film).length ? (
         <Link
           ref={Card}
-          onMouseEnter={() => {
+          onMouseOver={() => {
             if (!isMobile) setCardFocused(true);
           }}
-          onMouseOut={() => {
+          onMouseLeave={() => {
             if (!isMobile) {
               setCardFocused(false);
               setCount(null);
+              setStartTimer(null);
               clearInterval(timer);
             }
           }}
@@ -175,7 +178,11 @@ export default function MovieCard({
                   serviceIcons={serviceIcons}
                   filmTitle={film.title}
                 />
-                <InfoContainer />
+                <InfoContainer
+                  cardFocused={cardFocused}
+                  id={film.id}
+                  media_type={film.media_type}
+                />
               </>
             ) : (
               <Trailer
