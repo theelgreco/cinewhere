@@ -77,6 +77,7 @@ export default function ServiceCard({
         [styles.mobile]: !isSelected && isMobile,
         [styles.mobileSelected]: isSelected && isMobile,
       })}
+      title={serviceName}
       style={{ background: `no-repeat center/cover url(${background})` }}
       onClick={handleClick}></div>
   );

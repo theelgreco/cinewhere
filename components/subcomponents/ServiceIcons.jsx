@@ -10,11 +10,11 @@ export default function ServiceIcons({ serviceIcons, filmTitle }) {
             //prettier-ignore
             <React.Fragment key={`${service.provider_name}${index}${filmTitle}`}>
             {service.provider_name === 'Buy' || service.provider_name === 'Rent' 
-              ? <div>
+              ? <div title={service.provider_name}>
                   <p>{service.provider_name}</p>
                   <p>+{service.amount}</p>
                 </div>
-              : <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} /> }
+              : <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} title={service.provider_name}/> }
             
           </React.Fragment>
           );

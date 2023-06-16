@@ -1,3 +1,5 @@
+import { getFilmServicesTmdb } from "api";
+
 export const placeItemsAtStart = (
   list,
   string,
@@ -57,6 +59,21 @@ export const getAllDescendantElements = (node, arr) => {
     getAllDescendantElements(child, arr);
   }
   return arr;
+};
+
+export const filterData = async (data, media, country) => {
+  let copy = [...data];
+
+  let filtered = await Promise.all(
+    copy.map(async (el) => {
+      const res = await getFilmServicesTmdb(el.id, media, country);
+      if (res) return el;
+    })
+  );
+
+  filtered = filtered.filter((el) => el !== undefined);
+
+  return filtered;
 };
 
 class TodaysDate {
