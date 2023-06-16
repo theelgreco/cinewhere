@@ -22,9 +22,9 @@ export default function Genres({
     e.preventDefault();
   }
 
-  // useEffect(() => {
-  //   let mediaObj = { movie: movieGenres, tv: tvGenres };
+  let mediaObj = { movie: movieGenres, tv: tvGenres };
 
+  // useEffect(() => {
   //   let mediaGenreIds = {};
 
   //   mediaObj[media_type].forEach((genre) => {
@@ -40,7 +40,7 @@ export default function Genres({
   // }, [media_type]);
 
   useEffect(() => {
-    let mediaObj = { movie: movieGenres, tv: tvGenres };
+    // let mediaObj = { movie: movieGenres, tv: tvGenres };
 
     const otherGenres = genreList.slice(selectedGenres.length);
     if (otherGenres.length) {
@@ -52,36 +52,44 @@ export default function Genres({
   }, [selectedGenres]);
 
   return (
-    // <div className={styles.sideText}>
-    //     <p>genres</p>
-    //   </div>
-    <section
-      className={styles.Genres}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onContextMenu={handleContext}>
-      <div id="Genres" className={styles.genreFlex}>
-        {genreList.map((genre) => {
-          return (
-            <GenreCard
-              key={genre.id}
-              genreId={genre.id}
-              genre={genre.genre}
-              mouseMoving={mouseMoving}
-              isMobile={isMobile}
-              setGenreIdToSearch={setGenreIdToSearch}
-              selectedGenres={selectedGenres}
-              setSelectedGenres={setSelectedGenres}
-              genreList={genreList}
-              setGenreList={setGenreList}
-              clicked={clicked}
-              setClicked={setClicked}
-            />
-          );
-        })}
+    <section className={styles.section}>
+      <div
+        className={styles.Genres}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onContextMenu={handleContext}>
+        <div id="Genres" className={styles.genreFlex}>
+          {genreList.map((genre) => {
+            return (
+              <GenreCard
+                key={genre.id}
+                genreId={genre.id}
+                genre={genre.genre}
+                mouseMoving={mouseMoving}
+                isMobile={isMobile}
+                setGenreIdToSearch={setGenreIdToSearch}
+                selectedGenres={selectedGenres}
+                setSelectedGenres={setSelectedGenres}
+                genreList={genreList}
+                setGenreList={setGenreList}
+                clicked={clicked}
+                setClicked={setClicked}
+              />
+            );
+          })}
+        </div>
       </div>
-      <div title="Reset services" className={styles.reset}>
+      <div
+        title="Reset genres"
+        className={styles.reset}
+        onMouseDown={() => {
+          if (selectedGenres.length) {
+            setSelectedGenres([]);
+            setGenreList([...mediaObj[media_type]]);
+            setGenreIdToSearch({ id: null, add: false });
+          }
+        }}>
         <img src="/svg/reset_icon.svg" />
       </div>
     </section>

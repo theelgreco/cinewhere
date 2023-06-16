@@ -15,24 +15,6 @@
   cursor: grab;
 }
 
-/* .sideText {
-  position: relative;
-  border: 1px solid;
-  width: 70px;
-  height: 20%;
-  background: rgb(38, 28, 103);
-  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
-  z-index: 100;
-} */
-
-/* .sideText p {
-  color: white;
-  rotate: -90deg;
-  position: relative;
-  top: 50%;
-  translate: -0% -50%;
-} */
-
 .Services::-webkit-scrollbar {
   height: 0px;
   background-color: transparent;
@@ -61,7 +43,6 @@
   height: 30px;
   background-color: transparent;
   backdrop-filter: invert(40%);
-  /* border: 1px solid; */
   border-radius: 9999px;
   cursor: pointer;
   transition: 0.4s ease;

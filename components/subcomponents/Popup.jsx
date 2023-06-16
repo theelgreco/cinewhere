@@ -30,11 +30,7 @@ export default function Popup({
   }
 
   return (
-    <div
-      className={clsx(styles.priceBtn)}
-      onClick={(e) => {
-        handleOpenMenu(e, "parent", menuName);
-      }}>
+    <div className={clsx(styles.priceBtn)}>
       <p
         className={clsx(styles.label, {
           [styles.selected]: selectedMenu === menuName,

@@ -22,37 +22,20 @@ export default function InfoContainer({
     }
   }, [cardFocused]);
 
-  // if (isMobile) {
-  //   return (
-  //     <>
-  //       <div
-  //         onClick={() => {
-  //           setPlayButtonClick(true);
-  //           console.log("hello");
-  //         }}
-  //         className={styles.playButtonContainer}>
-  //         <div className={clsx(styles.playButton, { [styles.hov]: hov })}></div>
-  //       </div>
-  //     </>
-  //   );
-  // } else
-
   if (cardFocused && info) {
     return (
       <>
         <div
+          title={`Watch official trailer for '${info.title || info.name}'`}
           className={styles.playButtonContainer}
           onClick={() => {
             setPlayButtonClick(true);
-            console.log("hello");
           }}
           onMouseOver={() => {
             setHov(true);
-            console.log("entered");
           }}
           onMouseLeave={() => {
             setHov(false);
-            console.log("left");
           }}>
           <div className={clsx(styles.playButton, { [styles.hov]: hov })}></div>
         </div>

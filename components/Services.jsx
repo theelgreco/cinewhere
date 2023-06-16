@@ -71,7 +71,7 @@ export default function Services({
           </div>
         </div>
         <div
-          title="reset selections"
+          title="Reset services"
           className={styles.reset}
           onMouseDown={() => {
             if (selectedServices.length) {
