@@ -16,6 +16,8 @@
 .MovieCardLink {
   cursor: pointer;
   text-decoration: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .MovieCardLinkPreload,
@@ -42,10 +44,20 @@
   box-shadow: inset 0px 0px 8px 3px rgba(0, 0, 0, 1);
 }
 
-.MovieCardLink:hover::after,
+/* .MovieCardLink:hover::after,
 .MovieCardLink.genre:hover::after,
 .MovieCardLink:focus::after,
 .MovieCardLink.genre:focus::after {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+  background-size: 400% 150%;
+  background-position: 200%;
+  transition: 0.5s ease;
+  outline-style: ridge;
+  outline-color: purple;
+  outline-width: 3px;
+} */
+
+.focused::after {
   background-image: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
   background-size: 400% 150%;
   background-position: 200%;

@@ -4,7 +4,10 @@ export default function Trailer({ trailerPlaying, trailer, closeTrailer }) {
   if (trailerPlaying && trailer) {
     return (
       <>
-        <div onMouseDown={closeTrailer} className={styles.closeBtn}>
+        <div
+          onTouchEnd={closeTrailer}
+          onMouseDown={closeTrailer}
+          className={styles.closeBtn}>
           <p>X</p>
         </div>
         <iframe

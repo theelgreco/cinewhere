@@ -32,6 +32,7 @@
   border-radius: 9999px;
   background-color: transparent;
   box-shadow: 0px 0px 21px 17px rgb(46, 18, 123);
+  transition: box-shadow 0.2s ease-out;
   z-index: 0;
 }
 
@@ -47,9 +48,17 @@
   border-bottom: 0.5em solid transparent;
   z-index: 1;
   transform: translate(-7.5px, -10.5px);
+  transition: border 0.2s ease-out;
 }
 
-.playButton.hovered::after {
+.playButton.hov {
+  transition: 0.2s ease-in;
+  box-shadow: 0px 0px 21px 15px rgb(46, 18, 123);
+}
+
+.playButton.hov::after {
+  content: "";
+  transition: 0.2s ease-in;
   border-left: 0.9em solid rgba(182, 134, 221, 1);
 }
 
@@ -142,6 +151,7 @@
   display: flex;
   flex-flow: row nowrap;
   gap: 3px;
+  padding-right: 15px;
   overflow-x: scroll;
   overflow-y: hidden;
 }

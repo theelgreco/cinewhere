@@ -50,6 +50,15 @@ export const makeArrayOfEmptyObjects = (num) => {
   return arr;
 };
 
+export const getAllDescendantElements = (node, arr) => {
+  for (let i = 0; i < node.children.length; i++) {
+    let child = node.children[i];
+    arr.push(child);
+    getAllDescendantElements(child, arr);
+  }
+  return arr;
+};
+
 class TodaysDate {
   constructor() {
     this.date = new Date().toISOString().split("T")[0];

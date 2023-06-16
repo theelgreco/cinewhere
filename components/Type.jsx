@@ -7,6 +7,7 @@ import ShowType from "@/subcomponents/ShowType";
 import Popup from "@/subcomponents/Popup";
 import { useRef, useState, useEffect } from "react";
 import { movieGenres, tvGenres } from "constants/genres";
+import { getAllDescendantElements } from "utils/utils";
 import React from "react";
 
 export default function Type({
@@ -35,7 +36,7 @@ export default function Type({
       temp.push(
         menuParent,
         ...menuParent.children,
-        ...allDescendants(menuParent.children[1], [])
+        ...getAllDescendantElements(menuParent.children[1], [])
       );
       setMenuElements(temp);
     }
@@ -70,15 +71,6 @@ export default function Type({
     setGenreList(mediaObj[e.target.id]);
 
     setOptionsClicked(true);
-  }
-
-  function allDescendants(node, arr) {
-    for (let i = 0; i < node.children.length; i++) {
-      let child = node.children[i];
-      arr.push(child);
-      allDescendants(child, arr);
-    }
-    return arr;
   }
 
   return (

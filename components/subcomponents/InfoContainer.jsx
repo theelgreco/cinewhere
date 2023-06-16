@@ -1,9 +1,17 @@
 import styles from "@/styles/InfoContainer.module.css";
 import { getFilmByIdTmdb } from "api";
 import { useState, useEffect } from "react";
+import clsx from "clsx";
 
-export default function InfoContainer({ cardFocused, id, media_type }) {
+export default function InfoContainer({
+  isMobile,
+  cardFocused,
+  id,
+  media_type,
+  setPlayButtonClick,
+}) {
   const [info, setInfo] = useState(null);
+  const [hov, setHov] = useState(false);
 
   useEffect(() => {
     if (!info && cardFocused) {
@@ -14,11 +22,39 @@ export default function InfoContainer({ cardFocused, id, media_type }) {
     }
   }, [cardFocused]);
 
+  // if (isMobile) {
+  //   return (
+  //     <>
+  //       <div
+  //         onClick={() => {
+  //           setPlayButtonClick(true);
+  //           console.log("hello");
+  //         }}
+  //         className={styles.playButtonContainer}>
+  //         <div className={clsx(styles.playButton, { [styles.hov]: hov })}></div>
+  //       </div>
+  //     </>
+  //   );
+  // } else
+
   if (cardFocused && info) {
     return (
       <>
-        <div className={styles.playButtonContainer}>
-          <div className={styles.playButton}></div>
+        <div
+          onClick={() => {
+            setPlayButtonClick(true);
+            console.log("hello");
+          }}
+          onMouseOver={() => {
+            setHov(true);
+            console.log("entered");
+          }}
+          onMouseLeave={() => {
+            setHov(false);
+            console.log("left");
+          }}
+          className={styles.playButtonContainer}>
+          <div className={clsx(styles.playButton, { [styles.hov]: hov })}></div>
         </div>
         <div className={styles.InfoContainer}>
           <div className={styles.ratingContainer}>
@@ -35,7 +71,9 @@ export default function InfoContainer({ cardFocused, id, media_type }) {
             <p>
               {media_type === "movie"
                 ? `${info.runtime} mins`
-                : info.seasons.length + " Seasons"}
+                : `${info.seasons.length} ${
+                    info.seasons.length === 1 ? "Season" : "Seasons"
+                  }`}
             </p>
           </div>
 
