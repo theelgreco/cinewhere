@@ -111,14 +111,12 @@ export default function MovieCard({
           } else {
             return;
           }
-
-          if (!genre) setTrailerRow(rowsObject[film.id]);
         });
       } else {
         setStartTimer(null);
         setTrailerPlaying(true);
-        if (!genre) setTrailerRow(rowsObject[film.id]);
       }
+      if (!genre) setTrailerRow(rowsObject[film.id]);
     }
   }, [count, playButtonClick]);
 
@@ -135,6 +133,10 @@ export default function MovieCard({
   useEffect(() => {
     if (rowsObject) {
       setCurrentRow(rowsObject[film.id]);
+    }
+
+    if (trailerPlaying) {
+      setTrailerRow(rowsObject[film.id]);
     }
   }, [rowsObject]);
 
@@ -220,8 +222,7 @@ export default function MovieCard({
             [styles.focused]: cardHovered || cardFocused,
             [styles.genre]: genre,
             [styles.trailer]: trailerPlaying && trailer,
-            [styles.row]:
-              trailerRow === currentRow && currentRow && !trailerPlaying,
+            [styles.row]: trailerRow === currentRow && !trailerPlaying,
           })}
           onClick={handleClick}>
           <div className={styles.MovieCard}>
