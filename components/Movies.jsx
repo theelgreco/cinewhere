@@ -90,7 +90,7 @@ export default function Movies({
       const genreDataCopy = [...selectedGenres];
       genreDataCopy.forEach((genre, index) => {
         genre.movies = [];
-        setSelectedGenres(genreDataCopy);
+        // setSelectedGenres(genreDataCopy);
         let params = {
           page: 1,
           with_watch_monetization_types: "flatrate",
@@ -104,9 +104,12 @@ export default function Movies({
           );
           genreDataCopy[indexOfGenre].movies = res;
           genreDataCopy[indexOfGenre].page = 1;
-          setSelectedGenres(genreDataCopy);
+          // setSelectedGenres(genreDataCopy);
+          if(index === genreDataCopy.length - 1){
+            setClicked(false)
+            setSelectedGenres(genreDataCopy);
+          }
         });
-        if(index === genreDataCopy.length - 1) setClicked(false)
       });
       setServiceIdToSearch({})
     }
