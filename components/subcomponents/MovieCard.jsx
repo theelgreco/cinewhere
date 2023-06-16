@@ -28,6 +28,7 @@ export default function MovieCard({
   const [trailerPlaying, setTrailerPlaying] = useState(false);
   const [cardFocused, setCardFocused] = useState(false);
   const [cardHovered, setCardHovered] = useState(false);
+  const [preCardHovered, setPreCardHovered] = useState(false);
   const [count, setCount] = useState(null);
   const [timer, setTimer] = useState(null);
   const [startTimer, setStartTimer] = useState(null);
@@ -140,6 +141,20 @@ export default function MovieCard({
     }
   }, [rowsObject]);
 
+  useEffect(() => {
+    if (preCardHovered) {
+      // setCardFocused(true);
+      setPreCardHovered(false);
+      document.removeEventListener("touchend", handleTouchWhileHovered);
+      document.removeEventListener("touchmove", handleTouchMove);
+    } else {
+      setCardHovered(false);
+      setPreCardHovered(false);
+      document.removeEventListener("touchend", handleTouchWhileHovered);
+      document.removeEventListener("touchmove", handleTouchMove);
+    }
+  }, [cardHovered]);
+
   function closeTrailer(e) {
     if (e.target !== Card.current) {
       setTrailerPlaying(false);
@@ -176,17 +191,20 @@ export default function MovieCard({
       setCardFocused(true);
     }
 
+    setPreCardHovered(false);
     setCardHovered(false);
     document.removeEventListener("touchend", handleTouchWhileHovered);
+    document.removeEventListener("touchmove", handleTouchMove);
   }
 
   function handleTouchMove(e) {
     const touch = e.changedTouches[0];
     const currY = touch.pageY;
     let diff = Math.abs(prevTouch - currY);
-    if (diff > 350) {
+    if (diff > 1) {
       setCardFocused(false);
       setCardHovered(false);
+      setPreCardHovered(false);
       document.removeEventListener("touchend", handleTouchWhileHovered);
       document.removeEventListener("touchmove", handleTouchMove);
     }
@@ -201,7 +219,10 @@ export default function MovieCard({
           ref={Card}
           onTouchStart={(e) => {
             if (!cardFocused && !trailerPlaying) {
-              setCardHovered(true);
+              setPreCardHovered(true);
+              setTimeout(() => {
+                setCardHovered(true);
+              }, 200);
               prevTouch = e.touches[0].pageY;
               document.addEventListener("touchend", handleTouchWhileHovered);
               document.addEventListener("touchmove", handleTouchMove);
@@ -219,7 +240,7 @@ export default function MovieCard({
             }
           }}
           className={clsx(styles.MovieCardLink, {
-            [styles.focused]: cardHovered || cardFocused,
+            [styles.focused]: cardFocused || (cardHovered && !preCardHovered),
             [styles.genre]: genre,
             [styles.trailer]: trailerPlaying && trailer,
             [styles.row]: trailerRow === currentRow && !trailerPlaying,

@@ -39,7 +39,6 @@ export default function Genres({
   //   setSelectedGenres(filtered);
   // }, [media_type]);
 
-
   useEffect(() => {
     let mediaObj = { movie: movieGenres, tv: tvGenres };
 
@@ -81,6 +80,9 @@ export default function Genres({
             />
           );
         })}
+      </div>
+      <div title="Reset services" className={styles.reset}>
+        <img src="/svg/reset_icon.svg" />
       </div>
     </section>
   );
