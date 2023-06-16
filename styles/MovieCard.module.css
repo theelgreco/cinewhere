@@ -14,7 +14,7 @@
 }
 
 .MovieCardLink {
-  cursor: pointer;
+  /* cursor: pointer; */
   text-decoration: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
