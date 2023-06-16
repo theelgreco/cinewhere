@@ -10,6 +10,7 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { clsx } from "clsx";
 import { Link } from "react-router-dom";
+import { getAllDescendantElements } from "utils/utils";
 
 export default function MovieCard({
   isMobile,
@@ -26,10 +27,13 @@ export default function MovieCard({
   const [trailer, setTrailer] = useState(null);
   const [trailerPlaying, setTrailerPlaying] = useState(false);
   const [cardFocused, setCardFocused] = useState(false);
+  const [cardHovered, setCardHovered] = useState(false);
   const [count, setCount] = useState(null);
   const [timer, setTimer] = useState(null);
   const [startTimer, setStartTimer] = useState(null);
   const [currentRow, setCurrentRow] = useState(null);
+  const [playButtonClick, setPlayButtonClick] = useState(false);
+  let prevTouch;
   const Card = useRef();
 
   useEffect(() => {
@@ -70,6 +74,10 @@ export default function MovieCard({
     } else {
       setStartTimer(null);
     }
+
+    if (cardFocused && isMobile) {
+      document.addEventListener("touchstart", handleTouchWhileFocused);
+    }
   }, [cardFocused]);
 
   useEffect(() => {
@@ -86,9 +94,11 @@ export default function MovieCard({
   }, [startTimer]);
 
   useEffect(() => {
-    if (count === 0) {
+    if (count === 0 || playButtonClick) {
       setCardFocused(false);
+      setPlayButtonClick(false);
       setCount(null);
+      setStartTimer(null);
       clearInterval(timer);
 
       if (!trailer) {
@@ -105,11 +115,12 @@ export default function MovieCard({
           if (!genre) setTrailerRow(rowsObject[film.id]);
         });
       } else {
+        setStartTimer(null);
         setTrailerPlaying(true);
         if (!genre) setTrailerRow(rowsObject[film.id]);
       }
     }
-  }, [count]);
+  }, [count, playButtonClick]);
 
   useEffect(() => {
     if (trailerPlaying) {
@@ -128,35 +139,85 @@ export default function MovieCard({
   }, [rowsObject]);
 
   function closeTrailer(e) {
-    console.log("clicky");
-    if (e.target !== Card) {
+    if (e.target !== Card.current) {
       setTrailerPlaying(false);
       setCardFocused(false);
+      setStartTimer(null);
       if (!genre) setTrailerRow(null);
     }
   }
 
+  //remember to set film clicked when going to individual film page
   function handleClick(e) {
     setFilmClicked(true);
+  }
+
+  /* Touch event handler callbacks */
+
+  function handleTouchWhileFocused(e) {
+    let descendants = getAllDescendantElements(Card.current, []);
+
+    if (e.target !== Card.current && !descendants.includes(e.target)) {
+      setCardFocused(false);
+      document.removeEventListener("touchstart", handleTouchWhileFocused);
+    }
+  }
+
+  function handleTouchWhileHovered(e) {
+    const touch = e.changedTouches[0];
+    const targetElement = document.elementFromPoint(
+      touch.clientX,
+      touch.clientY
+    );
+
+    if (targetElement === Card.current) {
+      setCardFocused(true);
+    }
+
+    setCardHovered(false);
+    document.removeEventListener("touchend", handleTouchWhileHovered);
+  }
+
+  function handleTouchMove(e) {
+    const touch = e.changedTouches[0];
+    const currY = touch.pageY;
+    let diff = Math.abs(prevTouch - currY);
+    if (diff > 350) {
+      setCardFocused(false);
+      setCardHovered(false);
+      document.removeEventListener("touchend", handleTouchWhileHovered);
+      document.removeEventListener("touchmove", handleTouchMove);
+    }
   }
 
   return (
     <>
       {Object.keys(film).length ? (
-        <Link
+        // <Link to={`/${film.media_type}/${film.id}`}></Link>
+        <div
+          title={film.title}
           ref={Card}
-          onMouseEnter={() => {
+          onTouchStart={(e) => {
+            if (!cardFocused && !trailerPlaying) {
+              setCardHovered(true);
+              prevTouch = e.touches[0].pageY;
+              document.addEventListener("touchend", handleTouchWhileHovered);
+              document.addEventListener("touchmove", handleTouchMove);
+            }
+          }}
+          onMouseOver={() => {
             if (!isMobile) setCardFocused(true);
           }}
-          onMouseOut={() => {
+          onMouseLeave={() => {
             if (!isMobile) {
               setCardFocused(false);
               setCount(null);
+              setStartTimer(null);
               clearInterval(timer);
             }
           }}
-          to={`/${film.media_type}/${film.id}`}
           className={clsx(styles.MovieCardLink, {
+            [styles.focused]: cardHovered || cardFocused,
             [styles.genre]: genre,
             [styles.trailer]: trailerPlaying && trailer,
             [styles.row]:
@@ -175,7 +236,13 @@ export default function MovieCard({
                   serviceIcons={serviceIcons}
                   filmTitle={film.title}
                 />
-                <InfoContainer />
+                <InfoContainer
+                  isMobile={isMobile}
+                  cardFocused={cardFocused}
+                  id={film.id}
+                  media_type={film.media_type}
+                  setPlayButtonClick={setPlayButtonClick}
+                />
               </>
             ) : (
               <Trailer
@@ -185,9 +252,13 @@ export default function MovieCard({
               />
             )}
           </div>
-        </Link>
+        </div>
       ) : (
-        <div className={styles.MovieCardLinkPreload}></div>
+        <div
+          className={clsx({
+            [styles.MovieCardLinkPreload]: !genre,
+            [styles.MovieCardLinkPreloadGenre]: genre,
+          })}></div>
       )}
     </>
   );

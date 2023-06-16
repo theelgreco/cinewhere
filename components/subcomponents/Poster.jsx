@@ -5,6 +5,7 @@ export default function Poster({ url, title }) {
     return (
       <img
         className={styles.moviePoster}
+        alt={title}
         src={`https://image.tmdb.org/t/p/w500${url}`}
       />
     );

@@ -3,7 +3,7 @@ import MovieCard from "@/subcomponents/MovieCard";
 import SortBy from "./subcomponents/SortBy";
 import Preload from "./subcomponents/Preload";
 import { getFilmsTmdb } from "api";
-import { makeArrayOfEmptyObjects } from "utils/utils";
+import { filterData } from "utils/utils";
 import { useEffect, useState } from "react";
 import React from "react";
 import clsx from "clsx";
@@ -40,6 +40,7 @@ export default function Movies({
   const [collapsedMenus, setCollapsedMenus] = useState(false);
   const [trailerRow, setTrailerRow] = useState(null);
   const [rowsObject, setRowsObject] = useState({});
+  const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {
@@ -351,6 +352,17 @@ export default function Movies({
     }
   }, [rowSize, data]);
 
+  /* FILTER FUNCTION */
+  // useEffect(() => {
+  //   if (data.length) {
+  //     filterData(data, media_type, options.watch_region).then(
+  //       (filteredData) => {
+  //         setFiltered(filteredData);
+  //       }
+  //     );
+  //   }
+  // }, [data]);
+
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;
     const scrollHeight = e.target.scrollHeight;
@@ -550,10 +562,7 @@ export default function Movies({
                         );
                       })
                     ) : (
-                      <Preload
-                        rowSize={rowSize}
-                        parentComponent={"MoviesGenre"}
-                      />
+                      <Preload parentComponent={"MoviesGenre"} genre={true} />
                     )}
                   </div>
                 ) : (

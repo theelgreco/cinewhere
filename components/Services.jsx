@@ -22,7 +22,6 @@ export default function Services({
   const [noneSelected, setNoneSelected] = useState(true);
 
   function handleContext(e) {
-    console.log(servicesList);
     e.preventDefault();
   }
 

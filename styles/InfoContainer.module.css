@@ -1,8 +1,196 @@
-.InfoContainer {
-  background-color: black;
+@import url("https://use.typekit.net/own5bac.css");
+
+.genreContainer::-webkit-scrollbar,
+.title::-webkit-scrollbar {
+  height: 0;
+}
+
+.title {
+  display: flex;
+  height: fit-content;
+  width: calc(100% - 10px);
+  overflow-y: hidden;
+  overflow-x: scroll;
   position: absolute;
-  top: 80%;
+  bottom: 15%;
+  color: white;
+  z-index: 1;
   left: 0;
+  margin-left: 5px;
+  font-family: "adobe-caslon-pro", serif;
+  font-size: 10px;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+@media screen and (width > 940px) {
+  .title {
+    bottom: 13%;
+  }
+}
+
+.InfoContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+  /* background-color: black; */
   width: 100%;
-  height: 20%;
+  position: absolute;
+  bottom: 2%;
+  left: 0;
+  height: fit-content;
+  z-index: 1;
+  gap: 7px;
+  margin-left: 5px;
+}
+
+.playButtonContainer {
+  position: absolute;
+  top: 8%;
+  left: 8%;
+  width: fit-content;
+  height: fit-content;
+  z-index: 1;
+}
+
+.playButton {
+  cursor: pointer;
+
+  position: relative;
+  width: 0px;
+  height: 0px;
+  font-size: 35px;
+  border-radius: 9999px;
+  background-color: transparent;
+  box-shadow: 0px 0px 21px 17px rgb(46, 18, 123);
+  transition: box-shadow 0.2s ease-out;
+  z-index: 0;
+}
+
+.playButton::after {
+  position: absolute;
+  content: "";
+  width: 0px;
+  height: 0px;
+  font-size: 25px;
+  background-color: transparent;
+  border-left: 0.9em solid rgba(182, 134, 221, 0.8);
+  border-top: 0.5em solid transparent;
+  border-bottom: 0.5em solid transparent;
+  z-index: 1;
+  transform: translate(-7.5px, -10.5px);
+  transition: border 0.2s ease-out;
+}
+
+.playButton.hov {
+  transition: 0.2s ease-in;
+  box-shadow: 0px 0px 21px 15px rgb(46, 18, 123);
+}
+
+.playButton.hov::after {
+  content: "";
+  transition: 0.2s ease-in;
+  border-left: 0.9em solid rgba(182, 134, 221, 1);
+}
+
+.ratingContainer {
+  width: fit-content;
+}
+
+.imdb {
+  width: 105%;
+  height: 12px;
+  border-radius: 5px;
+}
+
+.rating {
+  color: white;
+  width: fit-content;
+  font-weight: lighter;
+  font-size: 11px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  font-family: Impact;
+}
+
+.star {
+  position: relative;
+
+  display: inline-block;
+  width: 0;
+  height: 0;
+
+  margin-left: 0.7em;
+  margin-right: 0.9em;
+  margin-bottom: 1.2em;
+
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0.8em solid #fc0;
+
+  /* Controlls the size of the stars. */
+  font-size: 7px;
+}
+
+.star:after,
+.star:before {
+  content: "";
+
+  display: block;
+  width: 0;
+  height: 0;
+
+  position: absolute;
+  top: 0.6em;
+  left: -1em;
+
+  border-right: 1em solid transparent;
+  border-bottom: 0.7em solid #fc0;
+  border-left: 1em solid transparent;
+
+  transform: rotate(-35deg);
+}
+
+.star:before {
+  transform: rotate(35deg);
+}
+
+.runtime {
+  text-align: left;
+  color: white;
+  width: fit-content;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.runtime > p:first-child {
+  font-weight: bold;
+}
+
+.runtime > p:nth-child(2) {
+  font-weight: bolder;
+  font-style: italic;
+}
+
+.genreContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 3px;
+  padding-right: 15px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.genres {
+  width: fit-content;
+  color: white;
+  font-family: "adobe-caslon-pro", serif;
+  font-weight: 100;
+  font-size: 10px;
+  font-style: italic;
+  margin-bottom: -4px;
+  height: fit-content;
+  white-space: nowrap;
 }

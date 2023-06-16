@@ -64,11 +64,6 @@ const servicesArray = [
     id: "Sky Go",
     provider_id: 29,
   },
-  {
-    image: "logos/virgin.png",
-    id: "Virgin TV Go",
-    provider_id: 594,
-  },
 
   {
     image: "logos/mubi.jpeg",
