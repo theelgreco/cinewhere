@@ -352,21 +352,16 @@ export default function Movies({
     }
   }, [rowSize, data]);
 
-  useEffect(() => {
-    if (data.length) {
-      filterData(data, media_type, options.watch_region).then(
-        (filteredData) => {
-          setFiltered(filteredData);
-        }
-      );
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (filtered.length) {
-      console.log(filtered);
-    }
-  }, [filtered]);
+  /* FILTER FUNCTION */
+  // useEffect(() => {
+  //   if (data.length) {
+  //     filterData(data, media_type, options.watch_region).then(
+  //       (filteredData) => {
+  //         setFiltered(filteredData);
+  //       }
+  //     );
+  //   }
+  // }, [data]);
 
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;

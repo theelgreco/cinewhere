@@ -58,7 +58,7 @@
 } */
 
 .focused::after {
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
   background-size: 400% 150%;
   background-position: 200%;
   transition: 0.5s ease;

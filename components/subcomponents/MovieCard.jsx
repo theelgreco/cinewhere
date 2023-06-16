@@ -33,6 +33,7 @@ export default function MovieCard({
   const [startTimer, setStartTimer] = useState(null);
   const [currentRow, setCurrentRow] = useState(null);
   const [playButtonClick, setPlayButtonClick] = useState(false);
+  let prevTouch;
   const Card = useRef();
 
   useEffect(() => {
@@ -177,6 +178,18 @@ export default function MovieCard({
     document.removeEventListener("touchend", handleTouchWhileHovered);
   }
 
+  function handleTouchMove(e) {
+    const touch = e.changedTouches[0];
+    const currY = touch.pageY;
+    let diff = Math.abs(prevTouch - currY);
+    if (diff > 350) {
+      setCardFocused(false);
+      setCardHovered(false);
+      document.removeEventListener("touchend", handleTouchWhileHovered);
+      document.removeEventListener("touchmove", handleTouchMove);
+    }
+  }
+
   return (
     <>
       {Object.keys(film).length ? (
@@ -184,10 +197,12 @@ export default function MovieCard({
         <div
           title={film.title}
           ref={Card}
-          onTouchStart={() => {
+          onTouchStart={(e) => {
             if (!cardFocused && !trailerPlaying) {
               setCardHovered(true);
+              prevTouch = e.touches[0].pageY;
               document.addEventListener("touchend", handleTouchWhileHovered);
+              document.addEventListener("touchmove", handleTouchMove);
             }
           }}
           onMouseOver={() => {
