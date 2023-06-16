@@ -41,6 +41,7 @@ export default function InfoContainer({
     return (
       <>
         <div
+          className={styles.playButtonContainer}
           onClick={() => {
             setPlayButtonClick(true);
             console.log("hello");
@@ -52,10 +53,10 @@ export default function InfoContainer({
           onMouseLeave={() => {
             setHov(false);
             console.log("left");
-          }}
-          className={styles.playButtonContainer}>
+          }}>
           <div className={clsx(styles.playButton, { [styles.hov]: hov })}></div>
         </div>
+        <p className={styles.title}>{info.title || info.name}</p>
         <div className={styles.InfoContainer}>
           <div className={styles.ratingContainer}>
             <img
