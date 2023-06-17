@@ -1,0 +1,11 @@
+{
+  "name": "Stream Browser",
+  "icons": [
+    {
+      "src": "public/favicon.ico",
+      "sizes": "256x256"
+    }
+  ],
+  "start_url": "https://streambrowser.netlify.app",
+  "display": "fullscreen"
+}

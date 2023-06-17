@@ -68,7 +68,11 @@ export default function SearchBar({
         onKeyDown={handleKeyDown}
         ref={search}
       />
-      <button ref={submit} onMouseDown={handleClick} onKeyDown={handleKeyDown}>
+      <button
+        ref={submit}
+        onMouseDown={handleClick}
+        onKeyDown={handleKeyDown}
+        aria-label="Search Movies">
         <svg
           viewBox="0 0 24 24"
           preserveAspectRatio="xMidYMid meet"

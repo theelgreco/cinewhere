@@ -6,6 +6,7 @@ import servicesArray from "constants/services";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
 import Main from "@/components/Main";
 import MovieInfo from "@/components/subcomponents/MovieInfo";
+import Head from "next/head";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(null);
@@ -79,6 +80,12 @@ export default function Home() {
 
   return (
     <BrowserRouter>
+      <Head>
+        <title>
+          Discover where you can watch your favourite movies and tv shows
+        </title>
+        <meta name="theme-color" content="#000000" />
+      </Head>
       <Routes>
         <Route
           path="/"
