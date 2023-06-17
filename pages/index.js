@@ -64,16 +64,6 @@ export default function Home() {
 
       setRefs(refsObject);
     }
-
-    if (navigator.serviceWorker.controller) {
-      console.log("Active service worker found");
-    } else {
-      navigator.serviceWorker
-        .register("serviceWorker.js", { scope: "./" })
-        .then((reg) => {
-          console.log("Service worker  registered");
-        });
-    }
   }, []);
 
   function returnRowSize(width) {
@@ -95,6 +85,10 @@ export default function Home() {
         <meta name="theme-color" content="#000000" />
         <link rel="icon" type="image/svg" href="/icon.svg"></link>
         <link rel="manifest" href="/manifest.json"></link>
+        <script src="./register-sw.js"></script>
+        <script src="./install-sw.js"></script>
+        <script src="./fetch-sw.js"></script>
+        <script src="./activate-sw.js"></script>
       </Head>
       <Routes>
         <Route
