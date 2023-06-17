@@ -137,6 +137,7 @@ export default function SearchResults({
                 key={`${film.title}${film.id}${index}search`}
                 setFilmClicked={setFilmClicked}
                 film={film}
+                search={true}
                 data={searchResultsData}
                 options={options}
               />
