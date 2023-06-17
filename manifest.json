@@ -7,5 +7,6 @@
     }
   ],
   "start_url": "https://streambrowser.netlify.app",
-  "display": "fullscreen"
+  "display": "fullscreen",
+  "prefer_related_applications": "false"
 }
