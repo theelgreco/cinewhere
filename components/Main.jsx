@@ -53,6 +53,9 @@ export default function Main({
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+    });
   }, []);
 
   function handleMouseDown(e) {

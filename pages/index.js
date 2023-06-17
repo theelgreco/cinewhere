@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Script from "next/script";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 import { todaysDate } from "utils/utils";
@@ -7,6 +6,7 @@ import servicesArray from "constants/services";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
 import Main from "@/components/Main";
 import MovieInfo from "@/components/subcomponents/MovieInfo";
+import Privacy from "@/components/Privacy";
 import Head from "next/head";
 
 export default function Home() {
@@ -38,9 +38,6 @@ export default function Home() {
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
-    window.addEventListener("beforeunload", (e) => {
-      e.preventDefault();
-    });
 
     window.addEventListener("resize", () => {
       setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
@@ -137,6 +134,7 @@ export default function Home() {
           path="/:media_type/:imdb_id"
           element={<MovieInfo options={options} />}
         />
+        <Route path="/privacy-policy" element={<Privacy />} />
       </Routes>
     </BrowserRouter>
   );

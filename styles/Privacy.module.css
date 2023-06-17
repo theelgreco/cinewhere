@@ -1,0 +1,17 @@
+.page {
+  overflow-y: scroll;
+  height: calc(100vh - 20px);
+  padding: 20px;
+  line-height: 2rem;
+}
+
+.header,
+.tab_content {
+  text-align: center;
+}
+
+.main_content {
+  border-top: 1px solid;
+  padding-top: 50px;
+  margin-top: 50px;
+}
