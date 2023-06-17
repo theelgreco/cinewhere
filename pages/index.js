@@ -41,6 +41,10 @@ export default function Home() {
       e.preventDefault();
     });
 
+    window.addEventListener("resize", () => {
+      setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
+    });
+
     if (!Object.keys(refs).length) {
       const refsObject = {};
       genreIds.forEach((genre) => {
@@ -60,12 +64,16 @@ export default function Home() {
 
       setRefs(refsObject);
     }
-  }, []);
 
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
-    });
+    if (navigator.serviceWorker.controller) {
+      console.log("Active service worker found");
+    } else {
+      navigator.serviceWorker
+        .register("serviceWorker.js", { scope: "./" })
+        .then((reg) => {
+          console.log("Service worker  registered");
+        });
+    }
   }, []);
 
   function returnRowSize(width) {
