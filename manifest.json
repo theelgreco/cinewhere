@@ -2,8 +2,8 @@
   "name": "Stream Browser",
   "icons": [
     {
-      "src": "public/favicon.ico",
-      "sizes": "256x256"
+      "src": "public/icon.svg",
+      "sizes": "any"
     }
   ],
   "start_url": "https://streambrowser.netlify.app",

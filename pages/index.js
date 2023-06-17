@@ -85,6 +85,7 @@ export default function Home() {
           Discover where you can watch your favourite movies and tv shows
         </title>
         <meta name="theme-color" content="#000000" />
+        <link rel="icon" type="image/svg" href="/icon.svg"></link>
       </Head>
       <Routes>
         <Route
