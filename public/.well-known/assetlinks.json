@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.netlify.streambrowser.twa",
+      "sha256_cert_fingerprints": [
+        "EC:71:6D:E8:40:C1:62:9A:27:0F:73:EE:3E:49:75:5E:9C:CB:FB:08:FD:1E:F9:27:61:EB:00:10:58:AD:BC:C4"
+      ]
+    }
+  }
+]
