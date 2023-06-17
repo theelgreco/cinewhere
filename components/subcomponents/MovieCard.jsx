@@ -245,7 +245,8 @@ export default function MovieCard({
             [styles.trailer]: trailerPlaying && trailer,
             [styles.row]: trailerRow === currentRow && !trailerPlaying,
           })}
-          onClick={handleClick}>
+          // onClick={handleClick}
+        >
           <div className={styles.MovieCard}>
             {!trailerPlaying ? (
               <>
