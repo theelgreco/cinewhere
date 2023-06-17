@@ -20,6 +20,7 @@ export default function Genres({
 }) {
   function handleContext(e) {
     e.preventDefault();
+    console.log("test");
   }
 
   let mediaObj = { movie: movieGenres, tv: tvGenres };
