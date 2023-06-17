@@ -86,7 +86,7 @@ export default function Home() {
         </title>
         <meta name="theme-color" content="#000000" />
         <link rel="icon" type="image/svg" href="/icon.svg"></link>
-        <link rel="manifest" href="manifest.json"></link>
+        <link rel="manifest" href="/manifest.json"></link>
       </Head>
       <Routes>
         <Route
