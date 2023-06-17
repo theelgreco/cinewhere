@@ -166,7 +166,7 @@ export default function MovieCard({
 
   //remember to set film clicked when going to individual film page
   function handleClick(e) {
-    setFilmClicked(true);
+    // setFilmClicked(true);
   }
 
   /* Touch event handler callbacks */

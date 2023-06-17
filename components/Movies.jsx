@@ -158,6 +158,7 @@ export default function Movies({
     //prettier-ignore
     // only execute if a genre has been added with services selected
     if (Object.keys(genreIdToSearch).length && genreIdToSearch.add && selectedServices.length && !filmClicked) {
+      console.log('hererer')
       let params = {
         page: 1,
         with_watch_monetization_types: "flatrate",

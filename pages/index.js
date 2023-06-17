@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Script from "next/script";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 import { todaysDate } from "utils/utils";

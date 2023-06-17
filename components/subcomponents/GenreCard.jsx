@@ -48,7 +48,6 @@ export default function GenreCard({
       setIsSelected(true);
       setSelectedGenres([...selectedGenres, { id: genreId, genre: genre }]);
       setGenreIdToSearch({ id: genreId, add: true });
-
       genreListCopy.splice(selectedGenres.length, 0, genreToReplace);
       setGenreList(genreListCopy);
     } else if (isSelected && !clicked) {

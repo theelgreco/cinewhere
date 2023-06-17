@@ -20,10 +20,7 @@
 }
 
 .unselected:hover {
-  /* box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5); */
   background: rgba(0, 0, 0, 0.8);
-  /* transition: 0.2s ease-in; */
-  /* border-bottom: 1px solid rgb(106, 90, 205); */
 }
 
 .selected {
@@ -36,14 +33,8 @@
 }
 
 .selected p {
-  background: radial-gradient(
-    523px at 7.1% 19.3%,
-    rgb(147, 15, 255) 2%,
-    rgb(101, 5, 255) 100.7%
-  );
   background: linear-gradient(to right, rgb(84, 58, 232), darkorchid);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* transition: 0.2s ease-in; */
 }
