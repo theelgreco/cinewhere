@@ -1,8 +1,10 @@
 {
+  "short_name": "Stream Browser",
   "name": "Stream Browser",
   "icons": [
     {
       "src": "public/icon.svg",
+      "type": "image/svg+xml",
       "sizes": "any"
     }
   ],
