@@ -11,7 +11,7 @@ self.addEventListener("install", function (event) {
         return caches.open(cacheName);
       })
       .then((cache) => {
-        return cache.addAll(newCacheUrls);
+        return cache.addAll(urlsToCache);
       })
       .then(() => {
         console.log(`New cache "${cacheName}" has been set.`);
