@@ -1,5 +1,6 @@
 import SearchBar from "./subcomponents/SearchBar";
 import SearchResults from "./SearchResults";
+import SearchSelect from "./subcomponents/SearchSelect";
 import Settings from "./Settings";
 import styles from "@/styles/Search.module.css";
 import { searchMovies } from "api";
@@ -22,7 +23,7 @@ export default function Search({
   setOptionsClicked,
   settings,
   setSettings,
-  rowSize
+  rowSize,
 }) {
   const [finishedTyping, setFinishedTyping] = useState(false);
   const [noResults, setNoResults] = useState(false);
@@ -79,78 +80,40 @@ export default function Search({
     }
   }
 
-  function handleSelect(e) {
-    console.log({ [e.target.id]: e.target.value });
-    setOptions({
-      ...options,
-      [e.target.id]: e.target.value,
-    });
-    setOptionsClicked(true);
-  }
-
   return (
     <section className={styles.Search}>
-      {!expand ? (
-        <>
-          <div className={styles.selectFlex}>
-            <select
-              id="watch_region"
-              className={styles.regionSelect}
-              onChange={handleSelect}
-              value={options.watch_region}>
-              {regions ? (
-                regions.map((region) => {
-                  return (
-                    <option key={region.iso_3166_1} value={region.iso_3166_1}>
-                      {region.english_name}
-                    </option>
-                  );
-                })
-              ) : (
-                <></>
-              )}
-            </select>
-            <select
-              id="with_original_language"
-              className={styles.languageSelect}
-              onChange={handleSelect}
-              value={options.with_original_language}>
-              {languages ? (
-                languages.map((lang, index) => {
-                  return (
-                    <option key={lang.iso_639_1} value={lang.iso_639_1}>
-                      {index === 0
-                        ? `${lang.name}`
-                        : `(${lang.iso_639_1.toUpperCase()}) ${lang.name}`}
-                    </option>
-                  );
-                })
-              ) : (
-                <></>
-              )}
-            </select>
-          </div>
-          <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
-          <Settings settings={settings} setSettings={setSettings} />
-        </>
-      ) : (
-        <SearchResults
-          setFilmClicked={setFilmClicked}
-          searchResultsData={searchResultsData}
-          handleChange={handleChange}
-          refs={refs}
-          setExpand={setExpand}
-          searchClosed={searchClosed}
-          expand={expand}
-          setSearchClosed={setSearchClosed}
-          setSearchResultsData={setSearchResultsData}
-          searchText={searchText}
-          noResults={noResults}
-          setSearchText={setSearchText}
-          options={options}
-          rowSize={rowSize}
-        />
-      )}
+      <>
+        <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
+        {!expand ? (
+          <>
+            <SearchSelect
+              regions={regions}
+              languages={languages}
+              options={options}
+              setOptions={setOptions}
+              setOptionsClicked={setOptionsClicked}
+            />
+            <Settings settings={settings} setSettings={setSettings} />
+          </>
+        ) : (
+          <SearchResults
+            setFilmClicked={setFilmClicked}
+            searchResultsData={searchResultsData}
+            handleChange={handleChange}
+            refs={refs}
+            setExpand={setExpand}
+            searchClosed={searchClosed}
+            expand={expand}
+            setSearchClosed={setSearchClosed}
+            setSearchResultsData={setSearchResultsData}
+            searchText={searchText}
+            noResults={noResults}
+            setSearchText={setSearchText}
+            options={options}
+            rowSize={rowSize}
+          />
+        )}
+      </>
     </section>
   );
 }

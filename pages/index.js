@@ -40,8 +40,6 @@ export default function Home() {
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
 
-    console.log(process.env.NODE_ENV);
-
     window.addEventListener("resize", () => {
       setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
     });
@@ -84,6 +82,10 @@ export default function Home() {
           Discover where you can watch your favourite movies and tv shows
         </title>
         <meta name="theme-color" content="#000000" />
+        <meta
+          name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1, interactive-widget=overlays-content"
+        />
         <link rel="icon" type="image/svg" href="/icon.svg"></link>
         <link rel="manifest" href="/manifest.json"></link>
         <Script src="./register-sw.js" strategy="beforeInteractive" />
