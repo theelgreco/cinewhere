@@ -40,7 +40,7 @@ export default function Movies({
   const [collapsedMenus, setCollapsedMenus] = useState(false);
   const [trailerRow, setTrailerRow] = useState(null);
   const [rowsObject, setRowsObject] = useState({});
-  const [filtered, setFiltered] = useState([]);
+  // const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
     if (!selectedGenres.length && data.length) {

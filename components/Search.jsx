@@ -29,6 +29,8 @@ export default function Search({
   const [noResults, setNoResults] = useState(false);
   const [regions, setRegions] = useState(null);
   const [languages, setLanguages] = useState(null);
+  const [focus, setFocus] = useState(false);
+  const [prevSearch, setPrevSearch] = useState("");
 
   useEffect(() => {
     getRegions().then((res) => {
@@ -40,6 +42,10 @@ export default function Search({
   }, []);
 
   useEffect(() => {
+    expand ? setFocus(true) : setFocus(null);
+  }, [expand]);
+
+  useEffect(() => {
     setFinishedTyping(false);
 
     setTimeout(() => {
@@ -48,7 +54,7 @@ export default function Search({
   }, [searchText]);
 
   useEffect(() => {
-    if (finishedTyping && searchText) {
+    if (finishedTyping && searchText && searchText !== prevSearch) {
       setSearchResultsData([]);
       refs.searchResultsPage.current = 1;
       let params = {
@@ -59,10 +65,12 @@ export default function Search({
         if (!res.length) setNoResults(true);
         setSearchResultsData(res);
         setFinishedTyping(false);
+        setPrevSearch(searchText);
         // refs.page.current++;
       });
     } else if (finishedTyping && !searchText) {
       setSearchResultsData([]);
+      setPrevSearch("");
       setFinishedTyping(false);
     }
   }, [finishedTyping]);
@@ -70,8 +78,7 @@ export default function Search({
   function handleChange(e) {
     setSearchResultsData([]);
     if (noResults) setNoResults(false);
-    expand ? setSearchText(e.target.value) : (e.target.value = "");
-    refs.search.current = e.target.value;
+    setSearchText(e.target.value);
   }
 
   function expandSearch(e) {
@@ -80,10 +87,55 @@ export default function Search({
     }
   }
 
+  function closeSearch(e) {
+    refs.close.current.style.display = "none";
+    setSearchResultsData([]);
+    setSearchText("");
+    const search = refs.expandedSearch.current;
+    search.animate(
+      {
+        height: "8vh",
+      },
+      {
+        duration: 300,
+        iterations: 1,
+        fill: "forwards",
+        easing: "cubic-bezier(1, 0.285, 0, 0.96)",
+      }
+    );
+    search
+      .animate(
+        {
+          backgroundColor: "rgba(0, 0, 0, 0)",
+          height: "5vh",
+          top: "1.5vh",
+          width: "32vw",
+        },
+        {
+          duration: 500,
+          delay: 500,
+          iterations: 1,
+          fill: "forwards",
+          easing: "cubic-bezier(1, 0.285, 0, 0.96)",
+        }
+      )
+      .finished.then(() => {
+        setSearchClosed(true);
+        setExpand(false);
+      });
+  }
+
   return (
     <section className={styles.Search}>
       <>
-        <SearchBar handleChange={handleChange} expandSearch={expandSearch} />
+        <SearchBar
+          handleChange={handleChange}
+          focus={focus}
+          refs={refs}
+          searchText={searchText}
+          closeSearch={closeSearch}
+          expandSearch={expandSearch}
+        />
         {!expand ? (
           <>
             <SearchSelect
@@ -111,6 +163,7 @@ export default function Search({
             setSearchText={setSearchText}
             options={options}
             rowSize={rowSize}
+            closeSearch={closeSearch}
           />
         )}
       </>

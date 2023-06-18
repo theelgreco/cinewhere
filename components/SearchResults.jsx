@@ -9,21 +9,16 @@ import { useEffect, useRef } from "react";
 export default function SearchResults({
   setFilmClicked,
   searchResultsData,
-  handleChange,
   refs,
   searchClosed,
-  setExpand,
   expand,
   setSearchClosed,
-  setSearchResultsData,
   searchText,
   noResults,
-  setSearchText,
+  closeSearch,
   options,
   rowSize,
 }) {
-  const close = useRef();
-
   useEffect(() => {
     if (expand && searchClosed) {
       const search = refs.expandedSearch.current;
@@ -60,51 +55,6 @@ export default function SearchResults({
     }
   }, [expand]);
 
-  function closeSearch(e) {
-    close.current.style.display = "none";
-    setSearchResultsData([]);
-    setSearchText("");
-    refs.search.current = "";
-    const search = refs.expandedSearch.current;
-    search.animate(
-      {
-        height: "8vh",
-      },
-      {
-        duration: 300,
-        iterations: 1,
-        fill: "forwards",
-        easing: "cubic-bezier(1, 0.285, 0, 0.96)",
-      }
-    );
-    search
-      .animate(
-        {
-          backgroundColor: "rgba(0, 0, 0, 0)",
-          height: "5vh",
-          top: "1.5vh",
-          width: "32vw",
-        },
-        {
-          duration: 500,
-          delay: 500,
-          iterations: 1,
-          fill: "forwards",
-          easing: "cubic-bezier(1, 0.285, 0, 0.96)",
-        }
-      )
-      .finished.then(() => {
-        setSearchClosed(true);
-        setExpand(false);
-      });
-  }
-
-  function handleBlur() {
-    if (!searchText) {
-      closeSearch();
-    }
-  }
-
   return (
     <div
       className={clsx({
@@ -115,20 +65,10 @@ export default function SearchResults({
       <button
         onClick={closeSearch}
         className={styles.closeBtn}
-        ref={close}
+        ref={refs.close}
         id="closeBtn">
         X
       </button>
-      <div className={styles.searchBar}>
-        <SearchBar
-          handleChange={handleChange}
-          focus={true}
-          refs={refs}
-          handleBlur={handleBlur}
-          closeSearch={closeSearch}
-          searchText={searchText}
-        />
-      </div>
       {searchResultsData.length ? (
         <div className={styles.flexContainer}>
           {searchResultsData.map((film, index) => {

@@ -1,4 +1,4 @@
-let CACHE_NAME = "my-cache-v3.0.1";
+let CACHE_NAME = "my-cache-v0.0.1";
 let urlsToCache = ["/manifest.json"];
 
 self.addEventListener("install", function (event) {
