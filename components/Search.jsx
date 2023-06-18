@@ -107,6 +107,7 @@ export default function Search({
     refs.close.current.style.display = "none";
     setSearchResultsData([]);
     setSearchText("");
+    setFocus(false);
     router.push("/");
     const search = refs.expandedSearch.current;
     search.animate(

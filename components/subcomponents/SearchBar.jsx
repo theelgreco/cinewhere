@@ -14,7 +14,8 @@ export default function SearchBar({
 
   useEffect(() => {
     if (focus) search.current.focus();
-  }, []);
+    else search.current.blur();
+  }, [focus]);
 
   useEffect(() => {
     if (pressed) {
