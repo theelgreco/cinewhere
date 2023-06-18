@@ -6,6 +6,7 @@ import styles from "@/styles/Search.module.css";
 import { searchMovies } from "api";
 import { useState, useEffect } from "react";
 import { getRegions, getLanguages } from "api";
+import { useRouter } from "next/router";
 
 export default function Search({
   searchText,
@@ -31,6 +32,8 @@ export default function Search({
   const [languages, setLanguages] = useState(null);
   const [focus, setFocus] = useState(false);
   const [prevSearch, setPrevSearch] = useState("");
+  const router = useRouter();
+  const [prevRouterQuery, setPrevRouterQuery] = useState("");
 
   useEffect(() => {
     getRegions().then((res) => {
@@ -42,7 +45,17 @@ export default function Search({
   }, []);
 
   useEffect(() => {
-    expand ? setFocus(true) : setFocus(null);
+    if (router.query.search === "true") {
+      expandSearch();
+      setPrevRouterQuery("search");
+    } else if (prevRouterQuery === "search" && !router.query.search) {
+      closeSearch();
+      setPrevRouterQuery("");
+    }
+  }, [router.query.search]);
+
+  useEffect(() => {
+    expand ? setFocus(true) : setFocus(false);
   }, [expand]);
 
   useEffect(() => {
@@ -84,6 +97,9 @@ export default function Search({
   function expandSearch(e) {
     if (!expand) {
       setExpand(true);
+      router.query.search = "true";
+      router.push(router);
+      console.log(router);
     }
   }
 
@@ -91,6 +107,7 @@ export default function Search({
     refs.close.current.style.display = "none";
     setSearchResultsData([]);
     setSearchText("");
+    router.push("/");
     const search = refs.expandedSearch.current;
     search.animate(
       {
