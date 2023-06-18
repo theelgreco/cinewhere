@@ -124,5 +124,7 @@
 }
 
 .searchAll {
+  margin: 0 auto;
   z-index: 1000;
+  width: 100px;
 }

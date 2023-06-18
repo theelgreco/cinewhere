@@ -1,6 +1,7 @@
 import SortBy from "./subcomponents/SortBy";
 import { getFilmsTmdb } from "api";
 import { filterData } from "utils/utils";
+import { updateRows } from "utils/utils";
 import GenreMovies from "./GenreMovies";
 import ServiceMovies from "./ServiceMovies";
 import { useEffect, useState } from "react";
@@ -416,18 +417,6 @@ export default function Movies({
     });
     setServiceIdToSearch({});
     setGenreIdToSearch({});
-  }
-
-  function updateRows(filmArray, number, rowObj) {
-    let row = 0;
-    filmArray.forEach((film, index) => {
-      if (index % number === 0) {
-        row++;
-      }
-
-      rowObj[film.id] = row;
-    });
-    return rowObj;
   }
 
   if (selectedGenres.length) {

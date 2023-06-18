@@ -1,11 +1,8 @@
 import styles from "@/styles/SearchResults.module.css";
 import MovieCard from "./subcomponents/MovieCard";
-import SearchBar from "./subcomponents/SearchBar";
 import Preload from "./subcomponents/Preload";
-import Movies from "./Movies";
 import clsx from "clsx";
-
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export default function SearchResults({
   setFilmClicked,
@@ -19,6 +16,9 @@ export default function SearchResults({
   closeSearch,
   options,
   rowSize,
+  rowsObject,
+  trailerRow,
+  setTrailerRow,
 }) {
   useEffect(() => {
     if (expand && searchClosed) {
@@ -78,9 +78,11 @@ export default function SearchResults({
                 key={`${film.title}${film.id}${index}search`}
                 setFilmClicked={setFilmClicked}
                 film={film}
-                search={true}
                 data={searchResultsData}
                 options={options}
+                rowsObject={rowsObject}
+                trailerRow={trailerRow}
+                setTrailerRow={setTrailerRow}
               />
             );
           })}

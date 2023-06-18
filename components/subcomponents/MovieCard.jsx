@@ -17,7 +17,6 @@ export default function MovieCard({
   film,
   setFilmClicked,
   genre,
-  search,
   options,
   settings,
   rowsObject,
@@ -118,7 +117,7 @@ export default function MovieCard({
         setStartTimer(null);
         setTrailerPlaying(true);
       }
-      if (!genre && !search) setTrailerRow(rowsObject[film.id]);
+      if (!genre) setTrailerRow(rowsObject[film.id]);
     }
   }, [count, playButtonClick]);
 
@@ -161,7 +160,7 @@ export default function MovieCard({
       setTrailerPlaying(false);
       setCardFocused(false);
       setStartTimer(null);
-      if (!genre && !search) setTrailerRow(null);
+      if (!genre) setTrailerRow(null);
     }
   }
 
