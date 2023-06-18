@@ -1,6 +1,6 @@
 {
-  "manifest_version": "2.0.1",
-  "version": "2.0.0",
+  "manifest_version": "0.0.1",
+  "version": "0.0.1",
   "name": "Stream Browser",
   "short_name": "Stream Browser",
   "theme_color": "#290441",

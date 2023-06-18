@@ -1,12 +1,10 @@
-import styles from "@/styles/Movies.module.css";
-import MovieCard from "@/subcomponents/MovieCard";
 import SortBy from "./subcomponents/SortBy";
-import Preload from "./subcomponents/Preload";
 import { getFilmsTmdb } from "api";
 import { filterData } from "utils/utils";
+import GenreMovies from "./GenreMovies";
+import ServiceMovies from "./ServiceMovies";
 import { useEffect, useState } from "react";
 import React from "react";
-import clsx from "clsx";
 
 export default function Movies({
   isMobile,
@@ -35,26 +33,9 @@ export default function Movies({
   settings,
   rowSize,
 }) {
-  const [atBottom, setAtBottom] = useState(false);
-  const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
   const [collapsedMenus, setCollapsedMenus] = useState(false);
   const [trailerRow, setTrailerRow] = useState(null);
-  const [rowsObject, setRowsObject] = useState({});
-  const [filtered, setFiltered] = useState([]);
-
-  useEffect(() => {
-    if (!selectedGenres.length && data.length) {
-      refs.sectionRef.current.scrollTop = refs.scrollHeight.current;
-    } else if (selectedGenres.length) {
-      refs.sectionRefGenre.current.scrollTop = refs.scrollHeightGenre.current;
-    }
-
-    selectedGenres.forEach((genre) => {
-      if (genre.scrollLeft) {
-        refs[genre.id].current.scrollLeft = genre.scrollLeft;
-      }
-    });
-  }, []);
+  // const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
     //prettier-ignore
@@ -305,57 +286,6 @@ export default function Movies({
     }
   }, [optionsClicked]);
 
-  useEffect(() => {
-    if (atBottom) {
-      let params = {
-        page: refs.page.current,
-        watch_region: "GB",
-        with_watch_monetization_types: "flatrate",
-        with_watch_providers: selectedServices.join("|"),
-        ...options,
-      };
-      getFilmsTmdb(params, media_type).then((res) => {
-        setData([...data, ...res]);
-        refs.page.current++;
-        setAtBottom(false);
-      });
-    }
-
-    if (genreScroll.atEnd) {
-      selectedGenres.forEach((genre) => {
-        if (String(genre.id) === genreScroll.id) {
-          console.log(genre);
-          let params = {
-            page: genre.page + 1,
-            watch_region: "GB",
-            with_watch_monetization_types: "flatrate",
-            with_watch_providers: selectedServices.join("|"),
-            with_genres: genre.id,
-            ...options,
-          };
-          getFilmsTmdb(params, media_type).then((res) => {
-            const genreDataCopy = [...selectedGenres];
-            const indexOfGenre = genreDataCopy.findIndex(
-              (el) => el.id === genre.id
-            );
-            //prettier-ignore
-            genreDataCopy[indexOfGenre].movies = [...genreDataCopy[indexOfGenre].movies, ...res];
-            genreDataCopy[indexOfGenre].page++;
-            setSelectedGenres(genreDataCopy);
-            setGenreScroll({ atEnd: false, id: null });
-          });
-        }
-      });
-    }
-  }, [atBottom, genreScroll]);
-
-  useEffect(() => {
-    if (data.length) {
-      let rowsObjectCopy = { ...rowsObject };
-      setRowsObject(updateRows(data, rowSize, rowsObjectCopy));
-    }
-  }, [rowSize, data]);
-
   /* FILTER FUNCTION */
   // useEffect(() => {
   //   if (data.length) {
@@ -367,216 +297,57 @@ export default function Movies({
   //   }
   // }, [data]);
 
-  function handleScroll(e) {
-    const clientHeight = e.target.clientHeight;
-    const scrollHeight = e.target.scrollHeight;
-    const scrollTop = e.target.scrollTop;
-    //prettier-ignore
-    if (scrollTop > scrollHeight - clientHeight - 450 && !atBottom && e.target.id === "sectionRef") {
-      setAtBottom(true);
-    }
-
-    if (e.target.id === "sectionRef") {
-      refs.scrollHeight.current = scrollTop;
-    } else if (e.target.id === "sectionRefGenre") {
-      refs.scrollHeightGenre.current = scrollTop;
-    }
+  if (selectedGenres.length) {
+    return (
+      <GenreMovies
+        collapsedMenus={collapsedMenus}
+        setCollapsedMenus={setCollapsedMenus}
+        refs={refs}
+        options={options}
+        setOptions={setOptions}
+        sort={sort}
+        setSort={setSort}
+        order={order}
+        setOrder={setOrder}
+        optionsClicked={optionsClicked}
+        setOptionsClicked={setOptionsClicked}
+        selectedGenres={selectedGenres}
+        setFilmClicked={setFilmClicked}
+        settings={settings}
+        isMobile={isMobile}
+        setSelectedGenres={setSelectedGenres}
+        selectedServices={selectedServices}
+        media_type={media_type}
+      />
+    );
+  } else {
+    return (
+      <ServiceMovies
+        collapsedMenus={collapsedMenus}
+        setCollapsedMenus={setCollapsedMenus}
+        refs={refs}
+        options={options}
+        setOptions={setOptions}
+        sort={sort}
+        setSort={setSort}
+        order={order}
+        setOrder={setOrder}
+        optionsClicked={optionsClicked}
+        setOptionsClicked={setOptionsClicked}
+        data={data}
+        isMobile={isMobile}
+        setFilmClicked={setFilmClicked}
+        settings={settings}
+        trailerRow={trailerRow}
+        setTrailerRow={setTrailerRow}
+        selectedServices={selectedServices}
+        rowSize={rowSize}
+        setData={setData}
+        media_type={media_type}
+        setClicked={setClicked}
+        setServiceIdToSearch={setServiceIdToSearch}
+        setGenreIdToSearch={setGenreIdToSearch}
+      />
+    );
   }
-
-  function handleGenreScroll(e) {
-    const genresCopy = [...selectedGenres];
-
-    const scrollWidth = e.target.scrollWidth;
-    const clientWidth = e.target.clientWidth;
-    const scrollLeft = e.target.scrollLeft;
-
-    if (scrollLeft > scrollWidth - clientWidth - 450 && !genreScroll.atEnd) {
-      setGenreScroll({ atEnd: true, id: e.target.id });
-    }
-
-    genresCopy.map((genre) => {
-      if (String(genre.id) === e.target.id) {
-        genre.scrollLeft = scrollLeft;
-      }
-    });
-  }
-
-  function handleClick(e) {
-    setData([]);
-    refs.sectionRef.current.scrollTop = 0;
-    refs.page.current = 1;
-    let params = {
-      page: 1,
-      with_watch_monetization_types: "flatrate",
-      with_watch_providers: selectedServices.join("|"),
-      ...options,
-    };
-    getFilmsTmdb(params, media_type).then((res) => {
-      setData(res);
-      refs.page.current++;
-      setClicked(false);
-    });
-    setServiceIdToSearch({});
-    setGenreIdToSearch({});
-  }
-
-  function updateRows(filmArray, number, rowObj) {
-    let row = 0;
-    filmArray.forEach((film, index) => {
-      if (index % number === 0) {
-        row++;
-      }
-
-      rowObj[film.id] = row;
-    });
-    return rowObj;
-  }
-
-  return (
-    <>
-      {!selectedGenres.length ? (
-        <section
-          id="sectionRef"
-          className={clsx({
-            [styles.Movies]: !collapsedMenus,
-            [styles.MoviesCollapsed]: collapsedMenus,
-          })}
-          onScroll={handleScroll}
-          ref={refs.sectionRef}>
-          <div
-            className={clsx({
-              [styles.collapseBtn]: !collapsedMenus,
-              [styles.collapseBtnCollapsed]: collapsedMenus,
-            })}
-            onClick={() => {
-              !collapsedMenus
-                ? setCollapsedMenus(true)
-                : setCollapsedMenus(false);
-            }}>
-            =
-          </div>
-          {data.length ? (
-            <SortBy
-              options={options}
-              setOptions={setOptions}
-              sort={sort}
-              setSort={setSort}
-              order={order}
-              setOrder={setOrder}
-              optionsClicked={optionsClicked}
-              setOptionsClicked={setOptionsClicked}
-            />
-          ) : (
-            <></>
-          )}
-          <div className={styles.moviesFlex}>
-            {data.length ? (
-              data.map((film, index) => {
-                return (
-                  <MovieCard
-                    isMobile={isMobile}
-                    key={`${index}${film.id}${film.title}`}
-                    film={film}
-                    setFilmClicked={setFilmClicked}
-                    options={options}
-                    settings={settings}
-                    rowsObject={rowsObject}
-                    trailerRow={trailerRow}
-                    setTrailerRow={setTrailerRow}
-                  />
-                );
-              })
-            ) : (
-              <>
-                {selectedServices.length ? (
-                  <div className={styles.moviesFlex}>
-                    <Preload
-                      rowSize={rowSize}
-                      parentComponent={"MoviesService"}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <button className={styles.searchAll} onClick={handleClick}>
-                      Search All
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-          </div>
-        </section>
-      ) : (
-        <section
-          id="sectionRefGenre"
-          className={clsx({
-            [styles.genreContainer]: !collapsedMenus,
-            [styles.genreContainerCollapsed]: collapsedMenus,
-          })}
-          ref={refs.sectionRefGenre}
-          onScroll={handleScroll}>
-          <SortBy
-            options={options}
-            setOptions={setOptions}
-            sort={sort}
-            setSort={setSort}
-            order={order}
-            setOrder={setOrder}
-            optionsClicked={optionsClicked}
-            setOptionsClicked={setOptionsClicked}
-          />
-          {selectedGenres.map((genre) => {
-            return (
-              <div
-                key={`${genre.id}data`}
-                className={styles.individualGenreContainer}>
-                <div className={styles.genreName}>
-                  <p>{genre.genre}</p>
-                </div>
-                <div
-                  className={clsx({
-                    [styles.collapseBtn]: !collapsedMenus,
-                    [styles.collapseBtnCollapsed]: collapsedMenus,
-                  })}
-                  onClick={() => {
-                    !collapsedMenus
-                      ? setCollapsedMenus(true)
-                      : setCollapsedMenus(false);
-                  }}>
-                  =
-                </div>
-                {genre.movies ? (
-                  <div
-                    className={styles.genreMovies}
-                    onScroll={handleGenreScroll}
-                    id={genre.id}
-                    ref={refs[genre.id]}>
-                    {genre.movies.length ? (
-                      genre.movies.map((film) => {
-                        return (
-                          <MovieCard
-                            isMobile={isMobile}
-                            key={`${film.id}${genre.genre}`}
-                            film={film}
-                            setFilmClicked={setFilmClicked}
-                            genre={true}
-                            options={options}
-                            settings={settings}
-                          />
-                        );
-                      })
-                    ) : (
-                      <Preload parentComponent={"MoviesGenre"} genre={true} />
-                    )}
-                  </div>
-                ) : (
-                  <></>
-                )}
-              </div>
-            );
-          })}
-        </section>
-      )}
-    </>
-  );
 }

@@ -76,6 +76,18 @@ export const filterData = async (data, media, country) => {
   return filtered;
 };
 
+export const updateRows = (filmArray, number, rowObj) => {
+  let row = 0;
+  filmArray.forEach((film, index) => {
+    if (index % number === 0) {
+      row++;
+    }
+
+    rowObj[film.id] = row;
+  });
+  return rowObj;
+};
+
 class TodaysDate {
   constructor() {
     this.date = new Date().toISOString().split("T")[0];

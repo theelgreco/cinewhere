@@ -59,6 +59,7 @@ export default function Home() {
       refsObject.searchResultsPage.current = 1;
       refsObject.expandedSearch = React.createRef();
       refsObject.search = React.createRef();
+      refsObject.close = React.createRef();
       refsObject.services = React.createRef();
 
       setRefs(refsObject);

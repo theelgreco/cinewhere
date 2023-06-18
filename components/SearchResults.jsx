@@ -1,28 +1,28 @@
 import styles from "@/styles/SearchResults.module.css";
 import MovieCard from "./subcomponents/MovieCard";
-import SearchBar from "./subcomponents/SearchBar";
 import Preload from "./subcomponents/Preload";
 import clsx from "clsx";
-
-import { useEffect, useRef } from "react";
+import { updateRows } from "utils/utils";
+import { searchMovies } from "api";
+import { useEffect, useState } from "react";
 
 export default function SearchResults({
   setFilmClicked,
   searchResultsData,
-  handleChange,
+  setSearchResultsData,
   refs,
   searchClosed,
-  setExpand,
   expand,
   setSearchClosed,
-  setSearchResultsData,
   searchText,
   noResults,
-  setSearchText,
+  closeSearch,
   options,
   rowSize,
 }) {
-  const close = useRef();
+  const [rowsObject, setRowsObject] = useState({});
+  const [trailerRow, setTrailerRow] = useState(null);
+  const [atBottom, setAtBottom] = useState(false);
 
   useEffect(() => {
     if (expand && searchClosed) {
@@ -60,49 +60,36 @@ export default function SearchResults({
     }
   }, [expand]);
 
-  function closeSearch(e) {
-    close.current.style.display = "none";
-    setSearchResultsData([]);
-    setSearchText("");
-    refs.search.current = "";
-    const search = refs.expandedSearch.current;
-    search.animate(
-      {
-        height: "8vh",
-      },
-      {
-        duration: 300,
-        iterations: 1,
-        fill: "forwards",
-        easing: "cubic-bezier(1, 0.285, 0, 0.96)",
-      }
-    );
-    search
-      .animate(
-        {
-          backgroundColor: "rgba(0, 0, 0, 0)",
-          height: "5vh",
-          top: "1.5vh",
-          width: "32vw",
-        },
-        {
-          duration: 500,
-          delay: 500,
-          iterations: 1,
-          fill: "forwards",
-          easing: "cubic-bezier(1, 0.285, 0, 0.96)",
-        }
-      )
-      .finished.then(() => {
-        setSearchClosed(true);
-        setExpand(false);
-      });
-  }
-
-  function handleBlur() {
-    if (!searchText) {
-      closeSearch();
+  useEffect(() => {
+    if (searchResultsData.length) {
+      let rowsObjectCopy = { ...rowsObject };
+      setRowsObject(updateRows(searchResultsData, rowSize, rowsObjectCopy));
     }
+  }, [rowSize, searchResultsData]);
+
+  useEffect(() => {
+    if (atBottom) {
+      let params = {
+        page: refs.searchResultsPage.current,
+        query: searchText,
+      };
+      searchMovies(params).then((res) => {
+        setSearchResultsData([...searchResultsData, ...res]);
+        refs.searchResultsPage.current++;
+        setAtBottom(false);
+      });
+    }
+  }, [atBottom]);
+
+  function handleScroll(e) {
+    const clientHeight = e.target.clientHeight;
+    const scrollHeight = e.target.scrollHeight;
+    const scrollTop = e.target.scrollTop;
+    //prettier-ignore
+    if (scrollTop > scrollHeight - clientHeight - 450 && !atBottom) {
+      setAtBottom(true);
+    }
+    // refs.scrollHeight.current = scrollTop;
   }
 
   return (
@@ -115,31 +102,23 @@ export default function SearchResults({
       <button
         onClick={closeSearch}
         className={styles.closeBtn}
-        ref={close}
+        ref={refs.close}
         id="closeBtn">
         X
       </button>
-      <div className={styles.searchBar}>
-        <SearchBar
-          handleChange={handleChange}
-          focus={true}
-          refs={refs}
-          handleBlur={handleBlur}
-          closeSearch={closeSearch}
-          searchText={searchText}
-        />
-      </div>
       {searchResultsData.length ? (
-        <div className={styles.flexContainer}>
+        <div className={styles.flexContainer} onScroll={handleScroll}>
           {searchResultsData.map((film, index) => {
             return (
               <MovieCard
                 key={`${film.title}${film.id}${index}search`}
                 setFilmClicked={setFilmClicked}
                 film={film}
-                search={true}
                 data={searchResultsData}
                 options={options}
+                rowsObject={rowsObject}
+                trailerRow={trailerRow}
+                setTrailerRow={setTrailerRow}
               />
             );
           })}

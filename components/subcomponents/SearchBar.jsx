@@ -3,12 +3,10 @@ import { useState, useEffect, useRef } from "react";
 
 export default function SearchBar({
   handleChange,
-  expandSearch,
   focus,
-  refs,
-  handleBlur,
   searchText,
   closeSearch,
+  expandSearch,
 }) {
   const search = useRef();
   const submit = useRef();
@@ -16,9 +14,6 @@ export default function SearchBar({
 
   useEffect(() => {
     if (focus) search.current.focus();
-    if (refs) {
-      search.current.value = refs.search.current;
-    }
   }, []);
 
   useEffect(() => {
@@ -38,6 +33,12 @@ export default function SearchBar({
         });
     }
   }, [pressed]);
+
+  function handleBlur() {
+    if (!searchText) {
+      closeSearch();
+    }
+  }
 
   function handleKeyDown(e) {
     if (e.key === "Enter") {
@@ -66,6 +67,7 @@ export default function SearchBar({
         onFocus={expandSearch}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        value={searchText}
         ref={search}
       />
       <button
