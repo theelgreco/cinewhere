@@ -2,6 +2,7 @@ import styles from "@/styles/SearchResults.module.css";
 import MovieCard from "./subcomponents/MovieCard";
 import SearchBar from "./subcomponents/SearchBar";
 import Preload from "./subcomponents/Preload";
+import Movies from "./Movies";
 import clsx from "clsx";
 
 import { useEffect, useRef } from "react";

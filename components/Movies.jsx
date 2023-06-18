@@ -1,12 +1,10 @@
-import styles from "@/styles/Movies.module.css";
-import MovieCard from "@/subcomponents/MovieCard";
 import SortBy from "./subcomponents/SortBy";
-import Preload from "./subcomponents/Preload";
 import { getFilmsTmdb } from "api";
 import { filterData } from "utils/utils";
+import GenreMovies from "./GenreMovies";
+import ServiceMovies from "./ServiceMovies";
 import { useEffect, useState } from "react";
 import React from "react";
-import clsx from "clsx";
 
 export default function Movies({
   isMobile,
@@ -432,151 +430,54 @@ export default function Movies({
     return rowObj;
   }
 
-  return (
-    <>
-      {!selectedGenres.length ? (
-        <section
-          id="sectionRef"
-          className={clsx({
-            [styles.Movies]: !collapsedMenus,
-            [styles.MoviesCollapsed]: collapsedMenus,
-          })}
-          onScroll={handleScroll}
-          ref={refs.sectionRef}>
-          <div
-            className={clsx({
-              [styles.collapseBtn]: !collapsedMenus,
-              [styles.collapseBtnCollapsed]: collapsedMenus,
-            })}
-            onClick={() => {
-              !collapsedMenus
-                ? setCollapsedMenus(true)
-                : setCollapsedMenus(false);
-            }}>
-            =
-          </div>
-          {data.length ? (
-            <SortBy
-              options={options}
-              setOptions={setOptions}
-              sort={sort}
-              setSort={setSort}
-              order={order}
-              setOrder={setOrder}
-              optionsClicked={optionsClicked}
-              setOptionsClicked={setOptionsClicked}
-            />
-          ) : (
-            <></>
-          )}
-          <div className={styles.moviesFlex}>
-            {data.length ? (
-              data.map((film, index) => {
-                return (
-                  <MovieCard
-                    isMobile={isMobile}
-                    key={`${index}${film.id}${film.title}`}
-                    film={film}
-                    setFilmClicked={setFilmClicked}
-                    options={options}
-                    settings={settings}
-                    rowsObject={rowsObject}
-                    trailerRow={trailerRow}
-                    setTrailerRow={setTrailerRow}
-                  />
-                );
-              })
-            ) : (
-              <>
-                {selectedServices.length ? (
-                  <div className={styles.moviesFlex}>
-                    <Preload
-                      rowSize={rowSize}
-                      parentComponent={"MoviesService"}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <button className={styles.searchAll} onClick={handleClick}>
-                      Search All
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-          </div>
-        </section>
-      ) : (
-        <section
-          id="sectionRefGenre"
-          className={clsx({
-            [styles.genreContainer]: !collapsedMenus,
-            [styles.genreContainerCollapsed]: collapsedMenus,
-          })}
-          ref={refs.sectionRefGenre}
-          onScroll={handleScroll}>
-          <SortBy
-            options={options}
-            setOptions={setOptions}
-            sort={sort}
-            setSort={setSort}
-            order={order}
-            setOrder={setOrder}
-            optionsClicked={optionsClicked}
-            setOptionsClicked={setOptionsClicked}
-          />
-          {selectedGenres.map((genre) => {
-            return (
-              <div
-                key={`${genre.id}data`}
-                className={styles.individualGenreContainer}>
-                <div className={styles.genreName}>
-                  <p>{genre.genre}</p>
-                </div>
-                <div
-                  className={clsx({
-                    [styles.collapseBtn]: !collapsedMenus,
-                    [styles.collapseBtnCollapsed]: collapsedMenus,
-                  })}
-                  onClick={() => {
-                    !collapsedMenus
-                      ? setCollapsedMenus(true)
-                      : setCollapsedMenus(false);
-                  }}>
-                  =
-                </div>
-                {genre.movies ? (
-                  <div
-                    className={styles.genreMovies}
-                    onScroll={handleGenreScroll}
-                    id={genre.id}
-                    ref={refs[genre.id]}>
-                    {genre.movies.length ? (
-                      genre.movies.map((film) => {
-                        return (
-                          <MovieCard
-                            isMobile={isMobile}
-                            key={`${film.id}${genre.genre}`}
-                            film={film}
-                            setFilmClicked={setFilmClicked}
-                            genre={true}
-                            options={options}
-                            settings={settings}
-                          />
-                        );
-                      })
-                    ) : (
-                      <Preload parentComponent={"MoviesGenre"} genre={true} />
-                    )}
-                  </div>
-                ) : (
-                  <></>
-                )}
-              </div>
-            );
-          })}
-        </section>
-      )}
-    </>
-  );
+  if (selectedGenres.length) {
+    return (
+      <GenreMovies
+        collapsedMenus={collapsedMenus}
+        setCollapsedMenus={setCollapsedMenus}
+        handleScroll={handleScroll}
+        refs={refs}
+        options={options}
+        setOptions={setOptions}
+        sort={sort}
+        setSort={setSort}
+        order={order}
+        setOrder={setOrder}
+        optionsClicked={optionsClicked}
+        setOptionsClicked={setOptionsClicked}
+        selectedGenres={selectedGenres}
+        handleGenreScroll={handleGenreScroll}
+        setFilmClicked={setFilmClicked}
+        settings={settings}
+        isMobile={isMobile}
+      />
+    );
+  } else {
+    return (
+      <ServiceMovies
+        collapsedMenus={collapsedMenus}
+        setCollapsedMenus={setCollapsedMenus}
+        handleScroll={handleScroll}
+        refs={refs}
+        options={options}
+        setOptions={setOptions}
+        sort={sort}
+        setSort={setSort}
+        order={order}
+        setOrder={setOrder}
+        optionsClicked={optionsClicked}
+        setOptionsClicked={setOptionsClicked}
+        data={data}
+        isMobile={isMobile}
+        setFilmClicked={setFilmClicked}
+        settings={settings}
+        rowsObject={rowsObject}
+        trailerRow={trailerRow}
+        setTrailerRow={setTrailerRow}
+        selectedServices={selectedServices}
+        rowSize={rowSize}
+        handleClick={handleClick}
+      />
+    );
+  }
 }
