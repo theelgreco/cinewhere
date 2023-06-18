@@ -5,8 +5,7 @@ import axios from "axios";
 const tmdb = axios.create({ baseURL: "https://api.themoviedb.org/3" });
 
 const authHeader = {
-  Authorization:
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZDZjYTEzZGJlYmNiMmIxNGYxNTRjODE0ZTE1NmQ5OSIsInN1YiI6IjY0NWQ0NDQzMTU2Y2M3MDBmZmE5YTFhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vMuMXOgxFYgh_viKM6qoUnOX1r9LHXVkb8C_wqedtvs",
+  Authorization: process.env.API_KEY,
 };
 
 export const getFilmsTmdb = (params, media_type) => {

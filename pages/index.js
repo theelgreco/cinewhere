@@ -40,6 +40,8 @@ export default function Home() {
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
 
+    console.log(process.env.NODE_ENV);
+
     window.addEventListener("resize", () => {
       setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
     });
