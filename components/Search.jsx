@@ -6,7 +6,6 @@ import styles from "@/styles/Search.module.css";
 import { searchMovies } from "api";
 import { useState, useEffect } from "react";
 import { getRegions, getLanguages } from "api";
-import { updateRows } from "utils/utils";
 
 export default function Search({
   searchText,
@@ -32,8 +31,6 @@ export default function Search({
   const [languages, setLanguages] = useState(null);
   const [focus, setFocus] = useState(false);
   const [prevSearch, setPrevSearch] = useState("");
-  const [trailerRow, setTrailerRow] = useState(null);
-  const [rowsObject, setRowsObject] = useState({});
 
   useEffect(() => {
     getRegions().then((res) => {
@@ -69,7 +66,7 @@ export default function Search({
         setSearchResultsData(res);
         setFinishedTyping(false);
         setPrevSearch(searchText);
-        // refs.page.current++;
+        refs.searchResultsPage.current++;
       });
     } else if (finishedTyping && !searchText) {
       setSearchResultsData([]);
@@ -77,13 +74,6 @@ export default function Search({
       setFinishedTyping(false);
     }
   }, [finishedTyping]);
-
-  useEffect(() => {
-    if (searchResultsData.length) {
-      let rowsObjectCopy = { ...rowsObject };
-      setRowsObject(updateRows(searchResultsData, rowSize, rowsObjectCopy));
-    }
-  }, [rowSize, searchResultsData]);
 
   function handleChange(e) {
     setSearchResultsData([]);
@@ -161,22 +151,16 @@ export default function Search({
           <SearchResults
             setFilmClicked={setFilmClicked}
             searchResultsData={searchResultsData}
-            handleChange={handleChange}
             refs={refs}
-            setExpand={setExpand}
             searchClosed={searchClosed}
             expand={expand}
             setSearchClosed={setSearchClosed}
             setSearchResultsData={setSearchResultsData}
             searchText={searchText}
             noResults={noResults}
-            setSearchText={setSearchText}
             options={options}
             closeSearch={closeSearch}
             rowSize={rowSize}
-            rowsObject={rowsObject}
-            trailerRow={trailerRow}
-            setTrailerRow={setTrailerRow}
           />
         )}
       </>

@@ -2,11 +2,14 @@ import styles from "@/styles/SearchResults.module.css";
 import MovieCard from "./subcomponents/MovieCard";
 import Preload from "./subcomponents/Preload";
 import clsx from "clsx";
-import { useEffect } from "react";
+import { updateRows } from "utils/utils";
+import { searchMovies } from "api";
+import { useEffect, useState } from "react";
 
 export default function SearchResults({
   setFilmClicked,
   searchResultsData,
+  setSearchResultsData,
   refs,
   searchClosed,
   expand,
@@ -16,10 +19,11 @@ export default function SearchResults({
   closeSearch,
   options,
   rowSize,
-  rowsObject,
-  trailerRow,
-  setTrailerRow,
 }) {
+  const [rowsObject, setRowsObject] = useState({});
+  const [trailerRow, setTrailerRow] = useState(null);
+  const [atBottom, setAtBottom] = useState(false);
+
   useEffect(() => {
     if (expand && searchClosed) {
       const search = refs.expandedSearch.current;
@@ -56,6 +60,38 @@ export default function SearchResults({
     }
   }, [expand]);
 
+  useEffect(() => {
+    if (searchResultsData.length) {
+      let rowsObjectCopy = { ...rowsObject };
+      setRowsObject(updateRows(searchResultsData, rowSize, rowsObjectCopy));
+    }
+  }, [rowSize, searchResultsData]);
+
+  useEffect(() => {
+    if (atBottom) {
+      let params = {
+        page: refs.searchResultsPage.current,
+        query: searchText,
+      };
+      searchMovies(params).then((res) => {
+        setSearchResultsData([...searchResultsData, ...res]);
+        refs.searchResultsPage.current++;
+        setAtBottom(false);
+      });
+    }
+  }, [atBottom]);
+
+  function handleScroll(e) {
+    const clientHeight = e.target.clientHeight;
+    const scrollHeight = e.target.scrollHeight;
+    const scrollTop = e.target.scrollTop;
+    //prettier-ignore
+    if (scrollTop > scrollHeight - clientHeight - 450 && !atBottom) {
+      setAtBottom(true);
+    }
+    // refs.scrollHeight.current = scrollTop;
+  }
+
   return (
     <div
       className={clsx({
@@ -71,7 +107,7 @@ export default function SearchResults({
         X
       </button>
       {searchResultsData.length ? (
-        <div className={styles.flexContainer}>
+        <div className={styles.flexContainer} onScroll={handleScroll}>
           {searchResultsData.map((film, index) => {
             return (
               <MovieCard

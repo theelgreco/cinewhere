@@ -51,17 +51,6 @@
   overflow-y: scroll;
 }
 
-/* .flexContainer {
-  position: relative;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  margin-top: 11vh;
-  gap: 0px;
-  width: 100%;
-  height: fit-content;
-} */
-
 .closeBtn {
   position: absolute;
   top: 2vh;
