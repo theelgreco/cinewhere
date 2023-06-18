@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
+import Script from "next/script";
 import { todaysDate } from "utils/utils";
 import servicesArray from "constants/services";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
@@ -83,10 +84,10 @@ export default function Home() {
         <meta name="theme-color" content="#000000" />
         <link rel="icon" type="image/svg" href="/icon.svg"></link>
         <link rel="manifest" href="/manifest.json"></link>
-        <script src="./register-sw.js"></script>
-        <script src="./install-sw.js"></script>
-        <script src="./fetch-sw.js"></script>
-        <script src="./activate-sw.js"></script>
+        <Script src="./register-sw.js" strategy="beforeInteractive" />
+        <Script src="./install-sw.js" strategy="beforeInteractive" />
+        <Script src="./fetch-sw.js" strategy="beforeInteractive" />
+        <Script src="./activate-sw.js" strategy="beforeInteractive" />
       </Head>
       <Routes>
         <Route
