@@ -40,7 +40,7 @@
   z-index: 1000;
 }
 
-/* .flexContainer {
+.flexContainer {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
@@ -49,18 +49,18 @@
   gap: 3px;
   margin-top: 11vh;
   overflow-y: scroll;
-} */
+}
 
-.flexContainer {
+/* .flexContainer {
   position: relative;
   display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
   margin-top: 11vh;
   gap: 0px;
-  flex-flow: row wrap;
   width: 100%;
   height: fit-content;
-  justify-content: space-evenly;
-}
+} */
 
 .closeBtn {
   position: absolute;

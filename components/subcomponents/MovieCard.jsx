@@ -102,6 +102,11 @@ export default function MovieCard({
       setStartTimer(null);
       clearInterval(timer);
 
+      if (trailer && !genre) {
+        setTrailerPlaying(true);
+        setTrailerRow(rowsObject[film.id]);
+      }
+
       if (!trailer) {
         getFilmByIdTmdb(film.id, film.media_type).then((res) => {
           const getTrailer = getOfficialTrailer(res);
@@ -109,15 +114,12 @@ export default function MovieCard({
           if (getTrailer) {
             setTrailer(getOfficialTrailer(res));
             setTrailerPlaying(true);
+            !genre ? setTrailerRow(rowsObject[film.id]) : null;
           } else {
             return;
           }
         });
-      } else {
-        setStartTimer(null);
-        setTrailerPlaying(true);
       }
-      if (!genre) setTrailerRow(rowsObject[film.id]);
     }
   }, [count, playButtonClick]);
 
@@ -136,7 +138,7 @@ export default function MovieCard({
       setCurrentRow(rowsObject[film.id]);
     }
 
-    if (trailerPlaying) {
+    if (trailer && trailerPlaying) {
       setTrailerRow(rowsObject[film.id]);
     }
   }, [rowsObject]);
