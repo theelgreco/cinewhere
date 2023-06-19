@@ -5,28 +5,19 @@
   height: 0;
 }
 
-.title {
-  display: flex;
-  height: fit-content;
-  width: calc(100% - 10px);
-  overflow-y: hidden;
-  overflow-x: scroll;
-  position: absolute;
-  bottom: 15%;
-  color: white;
-  z-index: 1;
-  left: 0;
-  margin-left: 5px;
-  font-family: "adobe-caslon-pro", serif;
-  font-size: 10px;
-  font-style: italic;
-  white-space: nowrap;
-}
-
-@media screen and (width > 940px) {
+/* @media screen and (width > 940px) {
   .title {
     bottom: 13%;
   }
+} */
+
+.col {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 2%;
+  left: 0;
+  width: 100%;
 }
 
 .InfoContainer {
@@ -35,13 +26,29 @@
   align-items: flex-end;
   /* background-color: black; */
   width: 100%;
-  position: absolute;
-  bottom: 2%;
-  left: 0;
   height: fit-content;
   z-index: 1;
   gap: 7px;
   margin-left: 5px;
+}
+
+.title {
+  /* display: flex; */
+  height: fit-content;
+  width: calc(100% - 10px);
+  overflow-y: hidden;
+  overflow-x: scroll;
+  text-align: left;
+  /* position: absolute; */
+  /* bottom: 15%; */
+  color: white;
+  z-index: 1;
+  left: 0;
+  margin-left: 5px;
+  font-family: "adobe-caslon-pro", serif;
+  font-size: 10px;
+  font-style: italic;
+  white-space: nowrap;
 }
 
 .playButtonContainer {
