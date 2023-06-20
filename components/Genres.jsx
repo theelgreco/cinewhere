@@ -80,17 +80,17 @@ export default function Genres({
           })}
         </div>
       </div>
-      <div
-        title="Reset genres"
-        className={styles.reset}
-        onMouseDown={() => {
-          if (selectedGenres.length) {
-            setSelectedGenres([]);
-            setGenreList([...mediaObj[media_type]]);
-            setGenreIdToSearch({ id: null, add: false });
-          }
-        }}>
-        <img src="/svg/reset_icon.svg" />
+      <div title="Reset genres" className={styles.reset}>
+        <img
+          onMouseDown={() => {
+            if (selectedGenres.length) {
+              setSelectedGenres([]);
+              setGenreList([...mediaObj[media_type]]);
+              setGenreIdToSearch({ id: null, add: false });
+            }
+          }}
+          src="/svg/reset_icon.svg"
+        />
       </div>
     </section>
   );
