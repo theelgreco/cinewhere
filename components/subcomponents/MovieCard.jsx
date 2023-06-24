@@ -58,6 +58,7 @@ export default function MovieCard({
                 provider_name: "Buy",
                 amount: res.buy.length,
               });
+
             setServiceIcons(serviceIconsArray);
           } else {
             setServiceIcons([]);
@@ -259,7 +260,7 @@ export default function MovieCard({
                 />
                 <ServiceIcons
                   serviceIcons={serviceIcons}
-                  filmTitle={film.title}
+                  filmTitle={film.title || film.name}
                 />
                 <InfoContainer
                   isMobile={isMobile}
