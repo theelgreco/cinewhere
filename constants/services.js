@@ -65,11 +65,7 @@ const servicesArray = [
     id: "MUBI",
     provider_id: 11,
   },
-  {
-    image: "logos/chili.webp",
-    id: "Chili",
-    provider_id: 40,
-  },
+
   {
     image: "logos/pluto.png",
     id: "Pluto TV",
