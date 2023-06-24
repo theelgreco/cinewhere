@@ -20,11 +20,6 @@ const servicesArray = [
     provider_id: 350,
   },
   {
-    image: "logos/paramount.png",
-    id: "Paramount Plus",
-    provider_id: 531,
-  },
-  {
     image: "logos/iplayer.jpeg",
     id: "BBC iPlayer",
     provider_id: 38,
