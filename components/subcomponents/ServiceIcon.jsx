@@ -5,6 +5,17 @@ import { getWatchLink } from "api";
 export default function ServiceIcon({ service, filmTitle }) {
   const [link, setLink] = useState(null);
 
+  const iconStyles = {
+    backgroundImage: `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
+    display: "inline-block",
+    width: "80%",
+    maxWidth: "80px",
+    borderRadius: "9999px",
+    aspectRatio: "1",
+    backgroundSize: "contain",
+    backgroundPosition: "center",
+  };
+
   function getLink(serviceName, title) {
     if (link) return;
 
@@ -45,16 +56,7 @@ export default function ServiceIcon({ service, filmTitle }) {
     return (
       <a
         title={`Watch ${filmTitle} on ${service.provider_name}`}
-        style={{
-          "background-image": `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
-          display: "inline-block",
-          width: "80%",
-          "max-width": "80px",
-          "border-radius": "9999px",
-          "aspect-ratio": "1",
-          "background-size": "contain",
-          "background-position": "center",
-        }}
+        style={iconStyles}
         target="_blank"
         onMouseEnter={() => {
           getLink(service.provider_name, filmTitle);
@@ -65,16 +67,7 @@ export default function ServiceIcon({ service, filmTitle }) {
       <a
         title={`Watch ${filmTitle} on ${service.provider_name}`}
         className={styles.fetching}
-        style={{
-          "background-image": `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
-          display: "inline-block",
-          width: "80%",
-          "max-width": "80px",
-          "border-radius": "9999px",
-          "aspect-ratio": "1",
-          "background-size": "contain",
-          "background-position": "center",
-        }}
+        style={iconStyles}
         target="_blank"></a>
     );
   } else {
@@ -83,16 +76,7 @@ export default function ServiceIcon({ service, filmTitle }) {
         title={`Watch ${filmTitle} on ${service.provider_name}`}
         className={styles.fetched}
         href={link}
-        style={{
-          "background-image": `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
-          display: "inline-block",
-          width: "80%",
-          "max-width": "80px",
-          "border-radius": "9999px",
-          "aspect-ratio": "1",
-          "background-size": "contain",
-          "background-position": "center",
-        }}
+        style={iconStyles}
         target="_blank"></a>
     );
   }

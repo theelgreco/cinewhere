@@ -87,6 +87,7 @@
 .genreMovies {
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
   gap: 8px;
   margin: 7px;
   margin-left: 4px;

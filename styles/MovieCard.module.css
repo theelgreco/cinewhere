@@ -132,7 +132,6 @@
 .MovieCardLinkPreloadGenre {
   position: relative;
   min-width: max(19vh, 125px);
-  max-width: 0px;
   aspect-ratio: 9/13;
   margin-top: 1vh;
   margin-bottom: 12px;
@@ -143,12 +142,12 @@
 
 .genre.trailer {
   position: relative;
-  aspect-ratio: 2/1;
   z-index: 500;
   box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
   margin: 4px;
-  flex: 1 0 min(80%, 450px);
+  flex: 1 0 min(95%, 450px);
   overflow: hidden;
+  aspect-ratio: 2/1;
   border-radius: 10px;
 }
 

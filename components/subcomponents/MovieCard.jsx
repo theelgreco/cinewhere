@@ -128,6 +128,11 @@ export default function MovieCard({
     if (trailerPlaying) {
       document.addEventListener("mousedown", closeTrailer);
 
+      // Card.current.scrollIntoView({
+      //   behavior: "smooth",
+      //   block: "center",
+      // });
+
       return () => {
         document.removeEventListener("mousedown", closeTrailer);
       };
