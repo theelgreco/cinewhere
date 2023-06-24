@@ -5,7 +5,9 @@ export default function handler(req, res) {
   const { string } = req.query;
 
   const encodedString =
-    "watch " + encodeURIComponent(string).split("%20").join("+");
+    "watch+" + encodeURIComponent(string).split("%20").join("+");
+
+  console.log(encodedString);
 
   getStreamingLink(encodedString).then((url) => {
     res.status(200).send(url);
