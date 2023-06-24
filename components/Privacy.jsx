@@ -9,7 +9,7 @@ export default function Privacy() {
         <Image src="icon.svg" width={150} height={150} />
         <div>
           <h1>Privacy Policy</h1>
-          <p class="title">Privacy Policy for Stream Browser</p>
+          <p class="title">Privacy Policy for Cinewhere</p>
         </div>
       </div>
       <div class="translations-content-container">
@@ -65,7 +65,7 @@ export default function Privacy() {
                 </li>
                 <li>
                   <p>
-                    <strong>Application</strong> refers to Stream Browser, the
+                    <strong>Application</strong> refers to Cinewhere, the
                     software program provided by the Company.
                   </p>
                 </li>
