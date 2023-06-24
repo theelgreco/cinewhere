@@ -103,8 +103,11 @@ export default function MovieCard({
       setStartTimer(null);
       clearInterval(timer);
 
-      if (trailer && !genre) {
+      if (trailer) {
         setTrailerPlaying(true);
+      }
+
+      if (!genre) {
         setTrailerRow(rowsObject[film.id]);
       }
 
