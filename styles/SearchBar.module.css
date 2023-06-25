@@ -4,7 +4,7 @@
   min-width: 200px;
   height: 4vh;
   margin: 0 auto;
-  z-index: 2000;
+  z-index: 6001;
 }
 
 .container > input:focus {
