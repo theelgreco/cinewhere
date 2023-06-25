@@ -13,16 +13,15 @@
   z-index: 5000;
   border: 1px solid;
   cursor: pointer;
+  right: 0%;
 }
 
 .collapseBtnExpanded {
   top: 36svh;
-  left: 50%;
 }
 
 .collapseBtnCollapsed {
   top: 8svh;
-  left: 50%;
 }
 
 .arrow {
