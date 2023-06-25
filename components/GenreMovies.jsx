@@ -105,18 +105,6 @@ export default function GenreMovies({
             <div className={styles.genreName}>
               <p>{genre.genre}</p>
             </div>
-            <div
-              className={clsx({
-                [styles.collapseBtn]: !collapsedMenus,
-                [styles.collapseBtnCollapsed]: collapsedMenus,
-              })}
-              onClick={() => {
-                !collapsedMenus
-                  ? setCollapsedMenus(true)
-                  : setCollapsedMenus(false);
-              }}>
-              =
-            </div>
             {genre.movies ? (
               <div
                 className={styles.genreMovies}

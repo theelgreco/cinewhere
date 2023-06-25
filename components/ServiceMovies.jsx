@@ -102,17 +102,6 @@ export default function ServiceMovies({
       })}
       onScroll={handleScroll}
       ref={refs.sectionRef}>
-      <div
-        className={clsx({
-          [styles.collapseBtn]: !collapsedMenus,
-          [styles.collapseBtnCollapsed]: collapsedMenus,
-        })}
-        onClick={() => {
-          !collapsedMenus ? setCollapsedMenus(true) : setCollapsedMenus(false);
-        }}>
-        =
-      </div>
-
       {data.length ? (
         <>
           <SortBy

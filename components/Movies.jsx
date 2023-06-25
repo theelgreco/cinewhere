@@ -1,6 +1,7 @@
-import SortBy from "./subcomponents/SortBy";
 import { getFilmsTmdb } from "api";
 import { filterData } from "utils/utils";
+import clsx from "clsx";
+import styles from "@/styles/Movies.module.css";
 import GenreMovies from "./GenreMovies";
 import ServiceMovies from "./ServiceMovies";
 import { useEffect, useState } from "react";
@@ -297,57 +298,67 @@ export default function Movies({
   //   }
   // }, [data]);
 
-  if (selectedGenres.length) {
-    return (
-      <GenreMovies
-        collapsedMenus={collapsedMenus}
-        setCollapsedMenus={setCollapsedMenus}
-        refs={refs}
-        options={options}
-        setOptions={setOptions}
-        sort={sort}
-        setSort={setSort}
-        order={order}
-        setOrder={setOrder}
-        optionsClicked={optionsClicked}
-        setOptionsClicked={setOptionsClicked}
-        selectedGenres={selectedGenres}
-        setFilmClicked={setFilmClicked}
-        settings={settings}
-        isMobile={isMobile}
-        setSelectedGenres={setSelectedGenres}
-        selectedServices={selectedServices}
-        media_type={media_type}
-      />
-    );
-  } else {
-    return (
-      <ServiceMovies
-        collapsedMenus={collapsedMenus}
-        setCollapsedMenus={setCollapsedMenus}
-        refs={refs}
-        options={options}
-        setOptions={setOptions}
-        sort={sort}
-        setSort={setSort}
-        order={order}
-        setOrder={setOrder}
-        optionsClicked={optionsClicked}
-        setOptionsClicked={setOptionsClicked}
-        data={data}
-        isMobile={isMobile}
-        setFilmClicked={setFilmClicked}
-        settings={settings}
-        trailerRow={trailerRow}
-        setTrailerRow={setTrailerRow}
-        selectedServices={selectedServices}
-        rowSize={rowSize}
-        setData={setData}
-        media_type={media_type}
-        setClicked={setClicked}
-        setServiceIdToSearch={setServiceIdToSearch}
-        setGenreIdToSearch={setGenreIdToSearch}
-      />
-    );
-  }
+  return (
+    <>
+      <div
+        className={clsx(styles.collapseBtn, {
+          [styles.collapseBtnExpanded]: !collapsedMenus,
+          [styles.collapseBtnCollapsed]: collapsedMenus,
+        })}
+        onClick={() => {
+          !collapsedMenus ? setCollapsedMenus(true) : setCollapsedMenus(false);
+        }}>
+        =
+      </div>
+      {selectedGenres.length ? (
+        <GenreMovies
+          collapsedMenus={collapsedMenus}
+          setCollapsedMenus={setCollapsedMenus}
+          refs={refs}
+          options={options}
+          setOptions={setOptions}
+          sort={sort}
+          setSort={setSort}
+          order={order}
+          setOrder={setOrder}
+          optionsClicked={optionsClicked}
+          setOptionsClicked={setOptionsClicked}
+          selectedGenres={selectedGenres}
+          setFilmClicked={setFilmClicked}
+          settings={settings}
+          isMobile={isMobile}
+          setSelectedGenres={setSelectedGenres}
+          selectedServices={selectedServices}
+          media_type={media_type}
+        />
+      ) : (
+        <ServiceMovies
+          collapsedMenus={collapsedMenus}
+          setCollapsedMenus={setCollapsedMenus}
+          refs={refs}
+          options={options}
+          setOptions={setOptions}
+          sort={sort}
+          setSort={setSort}
+          order={order}
+          setOrder={setOrder}
+          optionsClicked={optionsClicked}
+          setOptionsClicked={setOptionsClicked}
+          data={data}
+          isMobile={isMobile}
+          setFilmClicked={setFilmClicked}
+          settings={settings}
+          trailerRow={trailerRow}
+          setTrailerRow={setTrailerRow}
+          selectedServices={selectedServices}
+          rowSize={rowSize}
+          setData={setData}
+          media_type={media_type}
+          setClicked={setClicked}
+          setServiceIdToSearch={setServiceIdToSearch}
+          setGenreIdToSearch={setGenreIdToSearch}
+        />
+      )}
+    </>
+  );
 }
