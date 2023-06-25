@@ -3,15 +3,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15px;
-  height: 15px;
+  width: 60px;
+  height: 20px;
   position: fixed;
-  translate: -50% -50%;
+  translate: -50% -30%;
   background-color: violet;
-  border-radius: 50%;
+  border-radius: 5px;
   font-size: 80%;
   z-index: 5000;
-  border: 1px dotted;
+  border: 1px solid;
   cursor: pointer;
 }
 
@@ -23,4 +23,17 @@
 .collapseBtnCollapsed {
   top: 8svh;
   left: 50%;
+}
+
+.arrow {
+  width: 10px;
+  height: 15px;
+}
+
+.up {
+  rotate: 0deg;
+}
+
+.down {
+  rotate: 180deg;
 }

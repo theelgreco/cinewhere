@@ -163,7 +163,7 @@ export default function Search({
               setOptions={setOptions}
               setOptionsClicked={setOptionsClicked}
             />
-            <Settings settings={settings} setSettings={setSettings} />
+            {/* <Settings settings={settings} setSettings={setSettings} /> */}
           </>
         ) : (
           <SearchResults

@@ -139,9 +139,9 @@ export default function ServiceMovies({
             </div>
           ) : (
             <>
-              <button className={styles.searchAll} onClick={handleClick}>
+              {/* <button className={styles.searchAll} onClick={handleClick}>
                 Search All
-              </button>
+              </button> */}
             </>
           )}
         </>

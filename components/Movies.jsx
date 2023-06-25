@@ -308,7 +308,13 @@ export default function Movies({
         onClick={() => {
           !collapsedMenus ? setCollapsedMenus(true) : setCollapsedMenus(false);
         }}>
-        =
+        <img
+          src="/svg/uparrow.svg"
+          className={clsx(styles.arrow, {
+            [styles.up]: !collapsedMenus,
+            [styles.down]: collapsedMenus,
+          })}
+        />
       </div>
       {selectedGenres.length ? (
         <GenreMovies

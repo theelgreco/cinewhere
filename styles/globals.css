@@ -5,9 +5,11 @@
 body,
 html,
 #__next {
-  height: 100svh;
+  height: 100vh;
+  background: radial-gradient(rgb(147, 15, 255) 20%, rgb(101, 5, 255) 100.7%);
   width: 100vw;
   overscroll-behavior: none;
   user-select: none;
   overflow: hidden;
+  z-index: -10000;
 }
