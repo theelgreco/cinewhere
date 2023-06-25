@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 
 export default function ServiceMovies({
   collapsedMenus,
-  setCollapsedMenus,
   refs,
   options,
   setOptions,

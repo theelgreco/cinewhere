@@ -18,7 +18,6 @@ export default function GenreMovies({
   optionsClicked,
   setOptionsClicked,
   selectedGenres,
-  setCollapsedMenus,
   setFilmClicked,
   settings,
   isMobile,
