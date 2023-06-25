@@ -16,11 +16,11 @@
 }
 
 .collapseBtnExpanded {
-  top: 36vh;
+  top: 36svh;
   left: 50%;
 }
 
 .collapseBtnCollapsed {
-  top: 8vh;
+  top: 8svh;
   left: 50%;
 }

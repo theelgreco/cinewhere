@@ -3,7 +3,7 @@
   grid-template-rows: 8% 12% 8% 8%;
   text-align: center;
   box-sizing: border-box;
-  height: 100vh;
+  height: 100svh;
   width: 100vw;
   margin: 0;
   background: radial-gradient(
