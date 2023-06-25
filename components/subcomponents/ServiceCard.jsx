@@ -68,7 +68,7 @@ export default function ServiceCard({
   }
 
   return (
-    <div
+    <button
       type="unselected"
       className={clsx({
         [styles.noneSelected]: noneSelected,
@@ -79,6 +79,6 @@ export default function ServiceCard({
       })}
       title={serviceName}
       style={{ background: `no-repeat center/cover url(${background})` }}
-      onClick={handleClick}></div>
+      onClick={handleClick}></button>
   );
 }

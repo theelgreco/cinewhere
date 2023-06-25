@@ -66,7 +66,7 @@ export default function GenreCard({
   }
 
   return (
-    <div
+    <button
       id={genreId}
       className={clsx({
         [styles.unselected]: !isSelected,
@@ -74,6 +74,6 @@ export default function GenreCard({
       })}
       onClick={handleClick}>
       <p>{genre}</p>
-    </div>
+    </button>
   );
 }

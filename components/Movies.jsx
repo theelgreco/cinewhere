@@ -300,7 +300,7 @@ export default function Movies({
 
   return (
     <>
-      <div
+      <button
         className={clsx(styles.collapseBtn, {
           [styles.collapseBtnExpanded]: !collapsedMenus,
           [styles.collapseBtnCollapsed]: collapsedMenus,
@@ -315,7 +315,7 @@ export default function Movies({
             [styles.down]: collapsedMenus,
           })}
         />
-      </div>
+      </button>
       {selectedGenres.length ? (
         <GenreMovies
           collapsedMenus={collapsedMenus}
