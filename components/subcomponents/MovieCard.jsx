@@ -131,10 +131,23 @@ export default function MovieCard({
     if (trailerPlaying) {
       document.addEventListener("mousedown", closeTrailer);
 
-      // Card.current.scrollIntoView({
-      //   behavior: "smooth",
-      //   block: "center",
-      // });
+      if (genre) {
+        const cardLeft = Card.current.offsetLeft;
+        const flexContainer = Card.current.parentElement;
+
+        flexContainer.scrollTo({
+          left: cardLeft - 5,
+          behavior: "smooth",
+        });
+      } else {
+        const cardTop = Card.current.offsetTop;
+        const flexContainer = Card.current.parentElement.parentElement;
+
+        flexContainer.scrollTo({
+          top: cardTop + 30,
+          behavior: "smooth",
+        });
+      }
 
       return () => {
         document.removeEventListener("mousedown", closeTrailer);
