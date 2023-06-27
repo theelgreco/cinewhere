@@ -23,7 +23,7 @@ export default function MovieCard({
   trailerRow,
   setTrailerRow,
 }) {
-  const [serviceIcons, setServiceIcons] = useState([]);
+  const [serviceIcons, setServiceIcons] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [trailerPlaying, setTrailerPlaying] = useState(false);
   const [cardFocused, setCardFocused] = useState(false);
@@ -264,7 +264,8 @@ export default function MovieCard({
             [styles.focused]: cardFocused || (cardHovered && !preCardHovered),
             [styles.genre]: genre,
             [styles.trailer]: trailerPlaying && trailer,
-            [styles.row]: trailerRow === currentRow && !trailerPlaying,
+            [styles.row]:
+              currentRow && trailerRow === currentRow && !trailerPlaying,
           })}
           // onClick={handleClick}
         >

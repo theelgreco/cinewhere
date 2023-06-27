@@ -38,7 +38,7 @@ export const getOfficialTrailer = (res) => {
   let regex = /Official Trailer/i;
   let trail = res.videos.results.find((el) => regex.test(el.name));
   if (!trail) trail = res.videos.results.find((el) => el.type === "Trailer");
-  // if (!trail) trail = res.videos.results.find((el) => el.type === "Teaser");
+  if (!trail) trail = res.videos.results.find((el) => el.type === "Teaser");
   if (trail) {
     return `https://yewtu.be/embed/${trail.key}`;
   }
