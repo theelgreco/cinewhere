@@ -9,9 +9,13 @@ export default function handler(req, res) {
 
   console.log(encodedString);
 
-  getStreamingLink(encodedString).then((url) => {
-    res.status(200).send(url);
-  });
+  getStreamingLink(encodedString)
+    .then((url) => {
+      res.status(200).send(url);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 function getStreamingLink(string) {

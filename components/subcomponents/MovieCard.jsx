@@ -105,10 +105,7 @@ export default function MovieCard({
 
       if (trailer) {
         setTrailerPlaying(true);
-      }
-
-      if (!genre) {
-        setTrailerRow(rowsObject[film.id]);
+        !genre ? setTrailerRow(rowsObject[film.id]) : null;
       }
 
       if (!trailer) {
