@@ -35,10 +35,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: black;
   margin: 0 auto;
   font-size: 65%;
   font-weight: bold;
+}
+
+.ServiceIcons div:not(.noServices) {
+  background-color: black;
 }
 
 .fetching {
@@ -47,4 +50,10 @@
 
 .link {
   cursor: alias;
+}
+
+.noServices p {
+  align-self: center;
+  width: fit-content;
+  font-size: clamp(7px, 1vw, 10px);
 }
