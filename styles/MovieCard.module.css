@@ -112,7 +112,6 @@
   border-radius: 10px;
   overflow: hidden;
   z-index: 100;
-  flex-basis: 18%;
   flex-grow: 0;
   flex-shrink: 1;
 }
@@ -160,7 +159,6 @@
   border-radius: 10px;
   overflow: hidden;
   z-index: 100;
-  flex-basis: 14%;
   flex-grow: 0;
   flex-shrink: 1;
   height: fit-content;
