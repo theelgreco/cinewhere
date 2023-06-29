@@ -63,6 +63,7 @@ export const searchMovies = (params) => {
       params: params,
     })
     .then((res) => {
+      if (!res.data.results.length) return "no results";
       let movies = [];
       res.data.results.map((result) => {
         if (result.media_type === "person") {

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "albra";
+  src: local("/fonts/albra/albraTRIAL-Regular.otf") format("opentype");
+}
+
 .flexContainer::-webkit-scrollbar {
   width: 2px;
   background-color: black;
@@ -63,4 +68,26 @@
   background: rgb(74, 59, 167);
   border: none;
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+.noResults {
+  font-family: "albra";
+  width: 90%;
+  height: 80%;
+  margin: auto;
+  margin-top: 13vh;
+  display: grid;
+  border-radius: 10px;
+  place-items: center;
+  background: rgb(0 0 0 /50%);
+}
+
+.noResults h1 {
+  align-self: end;
+  color: rgb(232 188 241 /70%);
+}
+
+.noResults p {
+  align-self: baseline;
+  color: rgb(232 188 241 /50%);
 }

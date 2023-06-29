@@ -92,6 +92,42 @@ export default function SearchResults({
     // refs.scrollHeight.current = scrollTop;
   }
 
+  function render() {
+    if (searchResultsData === "no results") {
+      return (
+        <div className={styles.noResults}>
+          <h1>NO RESULTS</h1>
+          <p>TRY AGAIN</p>
+        </div>
+      );
+    } else if (searchResultsData.length) {
+      return (
+        <div className={styles.flexContainer} onScroll={handleScroll}>
+          {searchResultsData.map((film, index) => {
+            return (
+              <MovieCard
+                key={`${film.title}${film.id}${index}search`}
+                setFilmClicked={setFilmClicked}
+                film={film}
+                data={searchResultsData}
+                options={options}
+                rowsObject={rowsObject}
+                trailerRow={trailerRow}
+                setTrailerRow={setTrailerRow}
+              />
+            );
+          })}
+        </div>
+      );
+    } else if (searchText) {
+      return (
+        <div className={styles.flexContainer}>
+          <Preload rowSize={rowSize} parentComponent={"Search"} />
+        </div>
+      );
+    }
+  }
+
   return (
     <div
       className={clsx({
@@ -106,7 +142,8 @@ export default function SearchResults({
         id="closeBtn">
         X
       </button>
-      {searchResultsData.length ? (
+      {render()}
+      {/* {searchResultsData.length ? (
         <div className={styles.flexContainer} onScroll={handleScroll}>
           {searchResultsData.map((film, index) => {
             return (
@@ -133,7 +170,7 @@ export default function SearchResults({
             <></>
           )}
         </>
-      )}
+      )} */}
     </div>
   );
 }
