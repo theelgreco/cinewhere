@@ -317,6 +317,7 @@ export default function Slider({
         }}>
         {renderSliderType(type)}
       </div>
+      <div onClick={reset}>X</div>
     </div>
   );
 }

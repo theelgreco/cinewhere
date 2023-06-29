@@ -14,21 +14,16 @@ export default function RatingSlider({
 
   useEffect(() => {
     if (!firstLoad && !resetClicked) {
-      setOptions({ ...options, "vote_average.gte": minValue });
+      setOptions({
+        ...options,
+        "vote_average.gte": minValue,
+        "vote_average.lte": maxValue,
+      });
       setOptionsClicked(true);
     } else {
       setFirstLoad(false);
     }
-  }, [minValue]);
-
-  useEffect(() => {
-    if (!firstLoad && !resetClicked) {
-      setOptions({ ...options, "vote_average.lte": maxValue });
-      setOptionsClicked(true);
-    } else {
-      setFirstLoad(false);
-    }
-  }, [maxValue]);
+  }, [minValue, maxValue]);
 
   return (
     <div>

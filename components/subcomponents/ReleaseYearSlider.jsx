@@ -16,25 +16,15 @@ export default function ReleaseYearSlider({
 
   useEffect(() => {
     if (!firstLoad && !resetClicked) {
-      setOptions({
-        ...options,
-        "primary_release_date.gte": `${minValue}-01-01`,
-        "first_air_date.gte": `${minValue}-01-01`,
-      });
-      setOptionsClicked(true);
-    } else {
-      setFirstLoad(false);
-    }
-  }, [minValue]);
-
-  useEffect(() => {
-    if (!firstLoad && !resetClicked) {
       let value;
       maxValue === Number(todaysDate.year)
         ? (value = `${todaysDate.date}`)
         : (value = `${maxValue}-12-31`);
+
       setOptions({
         ...options,
+        "primary_release_date.gte": `${minValue}-01-01`,
+        "first_air_date.gte": `${minValue}-01-01`,
         "primary_release_date.lte": value,
         "first_air_date.lte": value,
       });
@@ -42,7 +32,7 @@ export default function ReleaseYearSlider({
     } else {
       setFirstLoad(false);
     }
-  }, [maxValue]);
+  }, [minValue, maxValue]);
 
   return (
     <div>
