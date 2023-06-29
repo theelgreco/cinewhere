@@ -48,3 +48,21 @@
   top: -25px;
   color: white;
 }
+
+.resetContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: fit-content;
+  left: 50%;
+  gap: 1px;
+  margin-top: 10px;
+  align-items: center;
+  color: #f5d3f5;
+  font-size: 10px;
+  translate: -50% 0%;
+}
+
+.resetContainer img {
+  width: 17px;
+}

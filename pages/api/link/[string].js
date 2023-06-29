@@ -20,7 +20,7 @@ export default function handler(req, res) {
 
 function getStreamingLink(string) {
   return axios
-    .get(`https://www.google.com/search?q=${string}`)
+    .get(`https://www.google.co.uk/search?q=${string}`)
     .then((res) => {
       const html = res.data;
       const dom = new JSDOM(html);

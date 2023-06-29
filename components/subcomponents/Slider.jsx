@@ -307,17 +307,22 @@ export default function Slider({
   }
 
   return (
-    <div className={styles.backdropSlider}>
-      <div
-        className={styles.slider}
-        ref={sliderRefs.slider}
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(0,0,0,0) -1px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 200px, rgba(0,0,0,0) 201px)",
-        }}>
-        {renderSliderType(type)}
+    <>
+      <div className={styles.backdropSlider}>
+        <div
+          className={styles.slider}
+          ref={sliderRefs.slider}
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(0,0,0,0) -1px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 200px, rgba(0,0,0,0) 201px)",
+          }}>
+          {renderSliderType(type)}
+        </div>
+        <div className={styles.resetContainer}>
+          <img onClick={reset} src="svg/reset_icon.svg" />
+          <div>reset</div>
+        </div>
       </div>
-      <div onClick={reset}>X</div>
-    </div>
+    </>
   );
 }
