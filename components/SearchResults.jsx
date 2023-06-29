@@ -15,7 +15,6 @@ export default function SearchResults({
   expand,
   setSearchClosed,
   searchText,
-  noResults,
   closeSearch,
   options,
   rowSize,

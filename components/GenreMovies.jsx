@@ -77,8 +77,6 @@ export default function GenreMovies({
     });
   }
 
-  function renderResults() {}
-
   return (
     <section
       id="sectionRefGenre"
