@@ -143,34 +143,6 @@ export default function SearchResults({
         X
       </button>
       {render()}
-      {/* {searchResultsData.length ? (
-        <div className={styles.flexContainer} onScroll={handleScroll}>
-          {searchResultsData.map((film, index) => {
-            return (
-              <MovieCard
-                key={`${film.title}${film.id}${index}search`}
-                setFilmClicked={setFilmClicked}
-                film={film}
-                data={searchResultsData}
-                options={options}
-                rowsObject={rowsObject}
-                trailerRow={trailerRow}
-                setTrailerRow={setTrailerRow}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <>
-          {searchText && !noResults ? (
-            <div className={styles.flexContainer}>
-              <Preload rowSize={rowSize} parentComponent={"Search"} />
-            </div>
-          ) : (
-            <></>
-          )}
-        </>
-      )} */}
     </div>
   );
 }
