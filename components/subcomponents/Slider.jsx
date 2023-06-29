@@ -121,14 +121,17 @@ export default function Slider({
 
     //prettier-ignore
     if (mouseX <= sliderLeft + circleRadius) {
+      // if slider is moved to the leftmost position
       sliderRefs.min.current.style.left = "0px";
       sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 1px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeftLocal + circleRadius}px)`
     } else if (mouseX >= maxLeft + circleRadius){
+      // if slider is moved either to the end or to where the max circle currently is
       sliderRefs.min.current.style.left = `${sliderRefs.max.current.offsetLeft}px`;
       type === 'double' 
       ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeftLocal + circleRadius}px)` 
       : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius}px, rgba(0,0,0,1) ${maxLeftLocal + (circleRadius * 2)}px, rgba(0,0,0,0) ${maxLeftLocal + (circleRadius * 2) + 1}px)`
     } else {
+      // else set it to the current mouse position
       sliderRefs.min.current.style.left = `${mouseX - sliderLeft - circleRadius}px`;
       type === 'double' 
       ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft}px, rgba(0,0,0,1) ${maxLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${maxLeftLocal + circleRadius}px)` 
@@ -137,7 +140,7 @@ export default function Slider({
 
     const newPosition = parseInt(sliderRefs.min.current.style.left);
     const years =
-      (min + Math.round(newPosition * pixelToValueRatio)) / increment;
+      (min + Math.floor(newPosition * pixelToValueRatio)) / increment;
 
     sliderRefs.minText.current.innerText = years;
     updatedMin = years;
@@ -168,16 +171,19 @@ export default function Slider({
 
     //prettier-ignore
     if(mouseX >= sliderLeft + sliderWidth - circleRadius){
+      // if slider is moved to rightmost position
       sliderRefs.max.current.style.left = `${sliderWidth - (circleRadius * 2)}px`
       type === 'double' 
       ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
       : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal - 1}px, rgba(0,0,0,1) ${minLeftLocal}px, rgba(0,0,0,1) ${sliderWidth - 1}px, rgba(0,0,0,0) ${sliderWidth}px)`
     } else if(mouseX <= minLeft + circleRadius){
+      // if slider is moved to left most position or to where the min circle currently is
       sliderRefs.max.current.style.left = `${minLeftLocal}px`
       type === 'double' 
       ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${minLeftLocal + circleRadius}px)`
       : sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal - 1}px, rgba(0,0,0,1) ${minLeftLocal}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,0) ${minLeftLocal + circleRadius}px)`
     } else {
+      // else set position to mouse position
       sliderRefs.max.current.style.left = `${mouseX - sliderLeft - circleRadius}px`
       type === 'double' 
       ? sliderRefs.slider.current.style.background = `linear-gradient(90deg, rgba(0,0,0,0) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${minLeftLocal + circleRadius - 1}px, rgba(0,0,0,1) ${mouseX - sliderLeft - 1}px, rgba(0,0,0,0) ${mouseX - sliderLeft}px)`
@@ -186,7 +192,7 @@ export default function Slider({
 
     const newPosition = parseInt(sliderRefs.max.current.style.left);
     const years =
-      (min + Math.round(newPosition * pixelToValueRatio)) / increment;
+      (min + Math.floor(newPosition * pixelToValueRatio)) / increment;
 
     if (type === "single.lte" && years >= max) {
       updatedMax = "any";

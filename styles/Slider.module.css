@@ -2,7 +2,7 @@
   position: relative;
   left: 0;
   width: 200px;
-  height: 10px;
+  height: 20px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 50px;
   z-index: 0;
@@ -12,25 +12,26 @@
   position: relative;
   left: 0;
   width: 200px;
-  height: 10px;
+  height: 20px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 50px;
   z-index: 1;
 }
 
 .circle {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 50%;
   position: absolute;
   width: 10%;
-  height: 200%;
-  transform: translateY(-25%);
+  height: 100%;
+  /* transform: translateY(-25%); */
   border-radius: 50px;
   background: violet;
-  /* border: 1px solid black; */
-  outline: 1px solid;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  /* outline: 1px solid; */
   z-index: 2;
 }
 
