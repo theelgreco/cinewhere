@@ -131,6 +131,7 @@
 .MovieCardLinkPreloadGenre {
   position: relative;
   min-width: max(19vh, 125px);
+  flex: 0 1 0%;
   aspect-ratio: 9/13;
   margin-top: 1vh;
   margin-bottom: 12px;
