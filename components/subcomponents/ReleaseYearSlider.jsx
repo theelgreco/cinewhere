@@ -8,13 +8,14 @@ export default function ReleaseYearSlider({
   setOptions,
   setOptionsClicked,
   menuOpen,
+  resetClicked,
 }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(1900);
   const [maxValue, setMaxValue] = useState(2023);
 
   useEffect(() => {
-    if (!firstLoad) {
+    if (!firstLoad && !resetClicked) {
       setOptions({
         ...options,
         "primary_release_date.gte": `${minValue}-01-01`,
@@ -27,9 +28,9 @@ export default function ReleaseYearSlider({
   }, [minValue]);
 
   useEffect(() => {
-    if (!firstLoad) {
+    if (!firstLoad && !resetClicked) {
       let value;
-      maxValue === todaysDate.year
+      maxValue === Number(todaysDate.year)
         ? (value = `${todaysDate.date}`)
         : (value = `${maxValue}-12-31`);
       setOptions({
@@ -55,6 +56,7 @@ export default function ReleaseYearSlider({
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
         type={"double"}
+        resetClicked={resetClicked}
       />
     </div>
   );

@@ -6,15 +6,15 @@ export default function RunningTimeSlider({
   options,
   setOptions,
   setOptionsClicked,
+  resetClicked,
 }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(1);
   const [maxValue, setMaxValue] = useState("any");
 
   useEffect(() => {
-    if (!firstLoad) {
+    if (!firstLoad && !resetClicked) {
       let currentOptions = { ...options };
-      console.log(maxValue, currentOptions);
       maxValue === "any" && currentOptions["with_runtime.lte"]
         ? (delete currentOptions["with_runtime.lte"],
           setOptions({ ...currentOptions }))
@@ -37,6 +37,7 @@ export default function RunningTimeSlider({
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
         type={"single.lte"}
+        resetClicked={resetClicked}
       />
     </div>
   );

@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import styles from "@/styles/Popup.module.css";
-import { useState, useRef } from "react";
 
 export default function Popup({
   menuName,
@@ -12,6 +11,7 @@ export default function Popup({
   ChildComponent,
   childProps,
   childRef,
+  selectedFilters,
 }) {
   function handleOpenMenu(e, str, menuName) {
     e.stopPropagation();
@@ -34,6 +34,7 @@ export default function Popup({
       <p
         className={clsx(styles.label, {
           [styles.selected]: selectedMenu === menuName,
+          [styles.chosen]: selectedFilters[menuName] === true,
         })}
         onClick={(e) => {
           handleOpenMenu(e, "child", menuName);

@@ -12,6 +12,7 @@ export default function Slider({
   setMinValue,
   setMaxValue,
   type,
+  resetClicked,
 }) {
   const [sliderRefs, setSliderRefs] = useState({});
   let side;
@@ -55,6 +56,10 @@ export default function Slider({
       });
     }
   }, [sliderRefs]);
+
+  useEffect(() => {
+    if (resetClicked) reset();
+  }, [resetClicked]);
 
   function handleMouseDown(e) {
     e.preventDefault();
@@ -281,6 +286,24 @@ export default function Slider({
         </>
       );
     }
+  }
+
+  function reset() {
+    if (sliderRefs.min?.current) {
+      sliderRefs.min.current.style.left = "0px";
+      setMinValue(min);
+    }
+
+    if (sliderRefs.max?.current) {
+      sliderRefs.max.current.style.right = "0px";
+      sliderRefs.max.current.style.left = "unset";
+      type === "single.lte"
+        ? (setMaxValue("any"), (sliderRefs.maxText.current.innerText = "any"))
+        : setMaxValue(max);
+    }
+
+    sliderRefs.slider.current.style.background =
+      "linear-gradient(90deg, rgba(0,0,0,0) -1px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 200px, rgba(0,0,0,0) 201px)";
   }
 
   return (

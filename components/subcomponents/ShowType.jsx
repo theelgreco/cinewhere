@@ -1,7 +1,7 @@
 import styles from "@/styles/ShowType.module.css";
 import clsx from "clsx";
 
-export default function ShowType({ handleClick, media_type }) {
+export default function ShowType({ handleClick, media_type, hasBeenChosen }) {
   return (
     <div className={styles.flex_row + " " + styles.media}>
       <div

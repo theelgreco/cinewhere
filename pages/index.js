@@ -30,8 +30,12 @@ export default function Home() {
     with_original_language: "en",
     with_watch_monetization_types: "",
     "primary_release_date.lte": todaysDate.date,
+    "primary_release_date.gte": "1900-01-01",
     "first_air_date.lte": todaysDate.date,
+    "first_air_date.gte": "1900-01-01",
     "with_runtime.gte": 0,
+    "vote_average.lte": 10,
+    "vote_average.gte": 0,
   });
   const [media_type, set_media_type] = useState("movie");
   const [settings, setSettings] = useState({ autoplay: false });

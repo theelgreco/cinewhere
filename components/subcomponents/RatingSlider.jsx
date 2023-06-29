@@ -6,13 +6,14 @@ export default function RatingSlider({
   options,
   setOptions,
   setOptionsClicked,
+  resetClicked,
 }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(10);
 
   useEffect(() => {
-    if (!firstLoad) {
+    if (!firstLoad && !resetClicked) {
       setOptions({ ...options, "vote_average.gte": minValue });
       setOptionsClicked(true);
     } else {
@@ -21,7 +22,7 @@ export default function RatingSlider({
   }, [minValue]);
 
   useEffect(() => {
-    if (!firstLoad) {
+    if (!firstLoad && !resetClicked) {
       setOptions({ ...options, "vote_average.lte": maxValue });
       setOptionsClicked(true);
     } else {
@@ -41,6 +42,7 @@ export default function RatingSlider({
         setMinValue={setMinValue}
         setMaxValue={setMaxValue}
         type={"double"}
+        resetClicked={resetClicked}
       />
     </div>
   );
