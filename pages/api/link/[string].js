@@ -2,14 +2,12 @@ import axios from "axios";
 import { JSDOM } from "jsdom";
 
 export default function handler(req, res) {
-  const { string } = req.query;
+  const { string, region } = req.query;
 
   const encodedString =
     "watch+" + encodeURIComponent(string).split("%20").join("+");
 
-  console.log(encodedString);
-
-  getStreamingLink(encodedString)
+  getStreamingLink(encodedString, region)
     .then((url) => {
       res.status(200).send(url);
     })
@@ -18,9 +16,10 @@ export default function handler(req, res) {
     });
 }
 
-function getStreamingLink(string) {
+function getStreamingLink(string, region) {
+  console.log(string, region);
   return axios
-    .get(`https://www.google.co.uk/search?q=${string}`)
+    .get(`https://www.google.com/search?q=${string}&gl=${region}`)
     .then((res) => {
       const html = res.data;
       const dom = new JSDOM(html);
@@ -30,7 +29,7 @@ function getStreamingLink(string) {
         .querySelector(".egMi0")
         .innerHTML.split("&amp;")[0]
         .split("url?q=")[1];
-      // console.log(url);
+      console.log(url);
       return url;
     })
     .catch((err) => {

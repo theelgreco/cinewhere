@@ -2,7 +2,7 @@ import styles from "@/styles/ServiceIcons.module.css";
 import React from "react";
 import ServiceIcon from "./ServiceIcon";
 
-export default function ServiceIcons({ serviceIcons, filmTitle }) {
+export default function ServiceIcons({ serviceIcons, filmTitle, region }) {
   if (serviceIcons) {
     return (
       <div className={styles.ServiceIcons}>
@@ -13,6 +13,7 @@ export default function ServiceIcons({ serviceIcons, filmTitle }) {
                 key={`${service.provider_name}${index}${filmTitle}`}
                 service={service}
                 filmTitle={filmTitle}
+                region={region}
               />
             );
           })

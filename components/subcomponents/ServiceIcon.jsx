@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "@/styles/ServiceIcon.module.css";
 import { getWatchLink } from "api";
 
-export default function ServiceIcon({ service, filmTitle }) {
+export default function ServiceIcon({ service, filmTitle, region }) {
   const [link, setLink] = useState(null);
 
   const iconStyles = {
@@ -34,8 +34,7 @@ export default function ServiceIcon({ service, filmTitle }) {
     const formattedServiceName = serviceName.split(" ").join(" ");
     const queryString = formattedTitle + " " + formattedServiceName;
 
-    getWatchLink(queryString).then((res) => {
-      console.log(res);
+    getWatchLink(queryString, region).then((res) => {
       setLink(res);
     });
   }

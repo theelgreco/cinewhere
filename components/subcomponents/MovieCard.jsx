@@ -280,6 +280,7 @@ export default function MovieCard({
                 <ServiceIcons
                   serviceIcons={serviceIcons}
                   filmTitle={film.title || film.name}
+                  region={options.watch_region}
                 />
                 <InfoContainer
                   isMobile={isMobile}

@@ -119,8 +119,8 @@ export const getLowestMovieYear = (params) => {
     });
 };
 
-export const getWatchLink = (str) => {
-  return axios.get(`/api/link/${str}`).then((res) => {
+export const getWatchLink = (str, region) => {
+  return axios.get(`/api/link/${str}?region=${region}`).then((res) => {
     return res.data;
   });
 };
