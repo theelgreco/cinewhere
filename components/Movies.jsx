@@ -108,7 +108,7 @@ export default function Movies({
       const genreDataCopy = [...selectedGenres];
       genreDataCopy.forEach((genre, index) => {
         genre.movies = [];
-        setSelectedGenres(genreDataCopy);
+
         let params = {
           page: 1,
           with_watch_monetization_types: "flatrate",
@@ -121,8 +121,10 @@ export default function Movies({
           );
           genreDataCopy[indexOfGenre].movies = res;
           genreDataCopy[indexOfGenre].page = 1;
-          setSelectedGenres(genreDataCopy);
-          if(index === genreDataCopy.length - 1) setClicked(false)
+          if(index === genreDataCopy.length - 1) {
+            setSelectedGenres(genreDataCopy);
+            setClicked(false)
+          }
         });
       });
       setServiceIdToSearch({})
@@ -140,7 +142,6 @@ export default function Movies({
     //prettier-ignore
     // only execute if a genre has been added with services selected
     if (Object.keys(genreIdToSearch).length && genreIdToSearch.add && selectedServices.length && !filmClicked) {
-      console.log('hererer')
       let params = {
         page: 1,
         with_watch_monetization_types: "flatrate",

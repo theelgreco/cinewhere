@@ -78,6 +78,8 @@ export const filterData = async (data, media, country) => {
 };
 
 export const updateRows = (filmArray, number, rowObj) => {
+  if (!Array.isArray(filmArray)) return;
+
   let row = 0;
   filmArray.forEach((film, index) => {
     if (index % number === 0) {

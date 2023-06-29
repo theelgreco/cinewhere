@@ -16,6 +16,7 @@ export const getFilmsTmdb = (params, media_type) => {
       params: params,
     })
     .then((res) => {
+      if (!res.data.results.length) return "no results";
       const movies = res.data.results;
       movies.map((movie) => {
         return (movie.media_type = media_type);

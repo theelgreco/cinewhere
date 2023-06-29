@@ -92,16 +92,15 @@ export default function ServiceMovies({
     setGenreIdToSearch({});
   }
 
-  return (
-    <section
-      id="sectionRef"
-      className={clsx({
-        [styles.Movies]: !collapsedMenus,
-        [styles.MoviesCollapsed]: collapsedMenus,
-      })}
-      onScroll={handleScroll}
-      ref={refs.sectionRef}>
-      {data.length ? (
+  function renderResults() {
+    if (data === "no results") {
+      return (
+        <>
+          <h1>NO RESULTS BLAD</h1>
+        </>
+      );
+    } else if (data.length && Array.isArray(data)) {
+      return (
         <>
           <SortBy
             options={options}
@@ -131,21 +130,26 @@ export default function ServiceMovies({
             })}
           </div>
         </>
-      ) : (
-        <>
-          {selectedServices.length ? (
-            <div className={styles.moviesFlex}>
-              <Preload rowSize={rowSize} parentComponent={"MoviesService"} />
-            </div>
-          ) : (
-            <>
-              {/* <button className={styles.searchAll} onClick={handleClick}>
-                Search All
-              </button> */}
-            </>
-          )}
-        </>
-      )}
+      );
+    } else if (selectedServices.length && !data.length) {
+      return (
+        <div className={styles.moviesFlex}>
+          <Preload rowSize={rowSize} parentComponent={"MoviesService"} />
+        </div>
+      );
+    }
+  }
+
+  return (
+    <section
+      id="sectionRef"
+      className={clsx({
+        [styles.Movies]: !collapsedMenus,
+        [styles.MoviesCollapsed]: collapsedMenus,
+      })}
+      onScroll={handleScroll}
+      ref={refs.sectionRef}>
+      {renderResults()}
     </section>
   );
 }
