@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "albra";
+  src: local("/fonts/albra/albraTRIAL-Regular.otf") format("opentype");
+}
+
 .Movies::-webkit-scrollbar,
 .MoviesCollapsed::-webkit-scrollbar {
   width: 8px;
@@ -89,4 +94,26 @@
   margin: 0 auto;
   z-index: 1000;
   width: 100px;
+}
+
+.noResults {
+  margin: 0 auto;
+  font-family: "albra";
+  width: 90%;
+  height: 90%;
+  margin-top: 15px;
+  display: grid;
+  border-radius: 10px;
+  place-items: center;
+  background: rgb(0 0 0 /50%);
+}
+
+.noResults h1 {
+  align-self: end;
+  color: rgb(232 188 241 /70%);
+}
+
+.noResults p {
+  align-self: baseline;
+  color: rgb(232 188 241 /50%);
 }

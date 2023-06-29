@@ -95,9 +95,10 @@ export default function ServiceMovies({
   function renderResults() {
     if (data === "no results") {
       return (
-        <>
-          <h1>NO RESULTS BLAD</h1>
-        </>
+        <div className={styles.noResults}>
+          <h1>NO RESULTS</h1>
+          <p>TRY AGAIN</p>
+        </div>
       );
     } else if (data.length && Array.isArray(data)) {
       return (

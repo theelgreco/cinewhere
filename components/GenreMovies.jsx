@@ -77,6 +77,8 @@ export default function GenreMovies({
     });
   }
 
+  function renderResults() {}
+
   return (
     <section
       id="sectionRefGenre"
@@ -104,7 +106,7 @@ export default function GenreMovies({
             <div className={styles.genreName}>
               <p>{genre.genre}</p>
             </div>
-            {genre.movies ? (
+            {genre.movies && Array.isArray(genre.movies) ? (
               <div
                 className={styles.genreMovies}
                 onScroll={handleGenreScroll}
@@ -128,6 +130,10 @@ export default function GenreMovies({
                   <Preload parentComponent={"MoviesGenre"} genre={true} />
                 )}
               </div>
+            ) : genre.movies === "no results" ? (
+              <>
+                <h1 className={styles.noResults}>No results</h1>
+              </>
             ) : (
               <></>
             )}

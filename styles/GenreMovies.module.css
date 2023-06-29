@@ -1,8 +1,11 @@
 @font-face {
-  font-family: "bright";
-  src: url("/bright.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
+  font-family: "albra";
+  src: local("/fonts/albra/albraTRIAL-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "cresing";
+  src: local("/fonts/cruiser/cresing.otf") format("opentype");
 }
 
 .genreMovies::-webkit-scrollbar {
@@ -93,7 +96,7 @@
   align-items: center;
   gap: 8px;
   margin: 7px;
-  margin-left: 4px;
+  margin-left: 5px;
   margin-bottom: 0px;
   width: 100%;
   overflow-x: scroll;
@@ -103,17 +106,36 @@
 .genreName {
   position: relative;
   text-align: left;
-  margin-left: 25px;
+  align-self: flex-start;
   color: white;
   font-size: 3vh;
   min-width: 150px;
   width: 10%;
+  margin-left: 10px;
   height: fit-content;
   margin-top: 18px;
   z-index: 1;
 }
 
 .genreName > p {
-  font-family: "bright";
+  font-family: "cresing";
   color: rgb(232, 188, 241);
+}
+
+.noResults {
+  box-sizing: border-box;
+  align-self: center;
+  height: fit-content;
+  position: relative;
+  width: calc(100% - 15px);
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  font-family: "albra";
+  background: rgb(0 0 0 /45%);
+  border-radius: 10px;
+  color: rgb(232 188 241 /60%);
+  font-weight: 500;
 }
