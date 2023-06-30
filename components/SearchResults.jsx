@@ -15,13 +15,15 @@ export default function SearchResults({
   expand,
   setSearchClosed,
   searchText,
+  totalPages,
   closeSearch,
   options,
   rowSize,
+  atBottom,
+  setAtBottom,
 }) {
   const [rowsObject, setRowsObject] = useState({});
   const [trailerRow, setTrailerRow] = useState(null);
-  const [atBottom, setAtBottom] = useState(false);
 
   useEffect(() => {
     if (expand && searchClosed) {
@@ -68,17 +70,22 @@ export default function SearchResults({
 
   useEffect(() => {
     if (atBottom) {
-      let params = {
-        page: refs.searchResultsPage.current,
-        query: searchText,
-      };
-      searchMovies(params).then((res) => {
-        setSearchResultsData([...searchResultsData, ...res]);
-        refs.searchResultsPage.current++;
-        setAtBottom(false);
-      });
+      fetchResults();
     }
   }, [atBottom]);
+
+  async function fetchResults() {
+    let params = {
+      page: refs.searchResultsPage.current,
+      query: searchText,
+    };
+    const res = await searchMovies(params);
+    if (params.page <= totalPages) {
+      setSearchResultsData([...searchResultsData, ...res.data]);
+      refs.searchResultsPage.current++;
+      setAtBottom(false);
+    }
+  }
 
   function handleScroll(e) {
     const clientHeight = e.target.clientHeight;

@@ -34,6 +34,8 @@ export default function Search({
   const [prevSearch, setPrevSearch] = useState("");
   const router = useRouter();
   const [prevRouterQuery, setPrevRouterQuery] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [atBottom, setAtBottom] = useState(false);
 
   useEffect(() => {
     getRegions().then((res) => {
@@ -75,10 +77,11 @@ export default function Search({
         page: refs.searchResultsPage.current,
       };
       searchMovies(params).then((res) => {
-        if (!res.length) setNoResults(true);
-        setSearchResultsData(res);
+        setSearchResultsData(res.data);
+        setTotalPages(res.total_pages);
         setFinishedTyping(false);
         setPrevSearch(searchText);
+        setAtBottom(false);
         refs.searchResultsPage.current++;
       });
     } else if (finishedTyping && !searchText) {
@@ -175,10 +178,12 @@ export default function Search({
             setSearchClosed={setSearchClosed}
             setSearchResultsData={setSearchResultsData}
             searchText={searchText}
-            noResults={noResults}
+            totalPages={totalPages}
             options={options}
             closeSearch={closeSearch}
             rowSize={rowSize}
+            atBottom={atBottom}
+            setAtBottom={setAtBottom}
           />
         )}
       </>

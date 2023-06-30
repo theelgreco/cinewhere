@@ -63,7 +63,10 @@ export const searchMovies = (params) => {
       params: params,
     })
     .then((res) => {
-      if (!res.data.results.length) return "no results";
+      if (!res.data.results.length) {
+        return { data: "no results", total_pages: 0 };
+      }
+
       let movies = [];
       res.data.results.map((result) => {
         if (result.media_type === "person") {
@@ -74,7 +77,11 @@ export const searchMovies = (params) => {
           movies.push(result);
         }
       });
-      return movies;
+
+      return {
+        data: movies,
+        total_pages: res.data.total_pages,
+      };
     })
     .catch((err) => {
       if (err) console.error(err);
