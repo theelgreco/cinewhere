@@ -32,29 +32,35 @@ export default function Slider({
   }, []);
 
   useEffect(() => {
-    if (sliderRefs.min?.current && isMobile) {
+    if (sliderRefs.min?.current) {
       sliderRefs.min.current.addEventListener("touchstart", handleMouseDown, {
         passive: false,
       });
-    }
-
-    if (sliderRefs.max?.current && isMobile) {
-      sliderRefs.max.current.addEventListener("touchstart", handleMouseDown, {
-        passive: false,
-      });
-    }
-
-    if (sliderRefs.min?.current && !isMobile) {
       sliderRefs.min.current.addEventListener("mousedown", handleMouseDown, {
         passive: false,
       });
     }
 
-    if (sliderRefs.max?.current && !isMobile) {
+    if (sliderRefs.max?.current) {
+      sliderRefs.max.current.addEventListener("touchstart", handleMouseDown, {
+        passive: false,
+      });
       sliderRefs.max.current.addEventListener("mousedown", handleMouseDown, {
         passive: false,
       });
     }
+
+    // if (sliderRefs.min?.current && !isMobile) {
+    //   sliderRefs.min.current.addEventListener("mousedown", handleMouseDown, {
+    //     passive: false,
+    //   });
+    // }
+
+    // if (sliderRefs.max?.current && !isMobile) {
+    //   sliderRefs.max.current.addEventListener("mousedown", handleMouseDown, {
+    //     passive: false,
+    //   });
+    // }
   }, [sliderRefs]);
 
   useEffect(() => {
