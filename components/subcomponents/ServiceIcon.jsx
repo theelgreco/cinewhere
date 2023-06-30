@@ -34,9 +34,13 @@ export default function ServiceIcon({ service, filmTitle, region }) {
     const formattedServiceName = serviceName.split(" ").join(" ");
     const queryString = formattedTitle + " " + formattedServiceName;
 
-    getWatchLink(queryString, region).then((res) => {
-      setLink(res);
-    });
+    getWatchLink(queryString, region)
+      .then((res) => {
+        setLink(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   /*

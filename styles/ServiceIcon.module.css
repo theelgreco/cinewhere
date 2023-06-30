@@ -1,7 +1,63 @@
 .fetching {
   cursor: progress;
+  position: relative;
+  z-index: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.fetching::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: rgb(0 0 0 /60%);
+  transition: 0.1s ease-in;
+  z-index: 1;
+}
+
+.fetching::before {
+  position: absolute;
+  content: "";
+  width: calc(100% + 3px);
+  height: calc(100% + 3px);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border-radius: 9999px;
+  background: linear-gradient(black, black) padding-box,
+    linear-gradient(0deg, rgb(84, 58, 232), darkorchid) border-box;
+  border: 4px solid transparent;
+  animation: rotate 1s ease-in 0s infinite;
+  z-index: -1;
 }
 
 .fetched {
   cursor: alias;
+}
+
+@keyframes rotate {
+  0% {
+    background: linear-gradient(black, black) padding-box,
+      linear-gradient(0deg, rgb(84, 58, 232), darkorchid) border-box;
+  }
+  25% {
+    background: linear-gradient(black, black) padding-box,
+      linear-gradient(90deg, rgb(84, 58, 232), darkorchid) border-box;
+  }
+  50% {
+    background: linear-gradient(black, black) padding-box,
+      linear-gradient(180deg, rgb(84, 58, 232), darkorchid) border-box;
+  }
+  75% {
+    background: linear-gradient(black, black) padding-box,
+      linear-gradient(270deg, rgb(84, 58, 232), darkorchid) border-box;
+  }
+  100% {
+    background: linear-gradient(black, black) padding-box,
+      linear-gradient(360deg, rgb(84, 58, 232), darkorchid) border-box;
+  }
 }
