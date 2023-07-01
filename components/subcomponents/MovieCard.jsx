@@ -250,15 +250,13 @@ export default function MovieCard({
             }
           }}
           onMouseOver={() => {
-            if (!isMobile) setCardFocused(true);
+            setCardFocused(true);
           }}
           onMouseLeave={() => {
-            if (!isMobile) {
-              setCardFocused(false);
-              setCount(null);
-              setStartTimer(null);
-              clearInterval(timer);
-            }
+            setCardFocused(false);
+            setCount(null);
+            setStartTimer(null);
+            clearInterval(timer);
           }}
           className={clsx(styles.MovieCardLink, {
             [styles.focused]: cardFocused || (cardHovered && !preCardHovered),
