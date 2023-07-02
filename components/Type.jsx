@@ -6,20 +6,15 @@ import PriceMenu from "@/subcomponents/PriceMenu.jsx";
 import ShowType from "@/subcomponents/ShowType";
 import Popup from "@/subcomponents/Popup";
 import { useRef, useState, useEffect } from "react";
-import { movieGenres, tvGenres } from "constants/genres";
 import { getAllDescendantElements } from "utils/utils";
 import React from "react";
 import { todaysDate } from "utils/utils";
 
 export default function Type({
   isMobile,
-  media_type,
-  set_media_type,
   options,
   setOptions,
   setOptionsClicked,
-  setSelectedGenres,
-  setGenreList,
 }) {
   const type = useRef();
   const Price = useRef();
@@ -103,17 +98,6 @@ export default function Type({
     }
   }
 
-  function handleClick(e) {
-    let mediaObj = { movie: movieGenres, tv: tvGenres };
-
-    set_media_type(e.target.id);
-
-    setSelectedGenres([]);
-    setGenreList(mediaObj[e.target.id]);
-
-    setOptionsClicked(true);
-  }
-
   function resetFilters() {
     const areFiltersSelected = Object.values(selectedFilters).filter(
       (x) => x
@@ -145,17 +129,6 @@ export default function Type({
   return (
     <section className={styles.Type} ref={type}>
       <div className={styles.flex_row + " " + styles.container}>
-        <Popup
-          menuName={"Show type"}
-          selectedMenu={selectedMenu}
-          setSelectedMenu={setSelectedMenu}
-          setMenuParent={setMenuParent}
-          menuParent={menuParent}
-          setMenuElements={setMenuElements}
-          ChildComponent={ShowType}
-          childProps={{ handleClick, media_type }}
-          selectedFilters={selectedFilters}
-        />
         <Popup
           menuName={"Price"}
           selectedMenu={selectedMenu}

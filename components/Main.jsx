@@ -187,6 +187,8 @@ export default function Main({
         setOptionsClicked={setOptionsClicked}
         settings={settings}
         rowSize={rowSize}
+        setGenreList={setGenreList}
+        set_media_type={set_media_type}
       />
     </main>
   );

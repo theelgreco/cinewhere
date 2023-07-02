@@ -1,6 +1,7 @@
 import MovieCard from "./subcomponents/MovieCard";
 import SortBy from "./subcomponents/SortBy";
 import Preload from "./subcomponents/Preload";
+import FilterBar from "./FilterBar";
 import clsx from "clsx";
 import styles from "@/styles/ServiceMovies.module.css";
 import { getFilmsTmdb } from "api";
@@ -31,6 +32,9 @@ export default function ServiceMovies({
   setServiceIdToSearch,
   setGenreIdToSearch,
   setClicked,
+  setGenreList,
+  set_media_type,
+  setSelectedGenres,
 }) {
   const [atBottom, setAtBottom] = useState(false);
   const [rowsObject, setRowsObject] = useState({});
@@ -103,16 +107,6 @@ export default function ServiceMovies({
     } else if (data.length && Array.isArray(data)) {
       return (
         <>
-          <SortBy
-            options={options}
-            setOptions={setOptions}
-            sort={sort}
-            setSort={setSort}
-            order={order}
-            setOrder={setOrder}
-            optionsClicked={optionsClicked}
-            setOptionsClicked={setOptionsClicked}
-          />
           <div className={styles.moviesFlex}>
             {data.map((film, index) => {
               return (
@@ -150,6 +144,24 @@ export default function ServiceMovies({
       })}
       onScroll={handleScroll}
       ref={refs.sectionRef}>
+      {selectedServices.length ? (
+        <FilterBar
+          set_media_type={set_media_type}
+          setSelectedGenres={setSelectedGenres}
+          setGenreList={setGenreList}
+          setOptionsClicked={setOptionsClicked}
+          media_type={media_type}
+          options={options}
+          setOptions={setOptions}
+          sort={sort}
+          setSort={setSort}
+          order={order}
+          setOrder={setOrder}
+          optionsClicked={optionsClicked}
+        />
+      ) : (
+        <></>
+      )}
       {renderResults()}
     </section>
   );

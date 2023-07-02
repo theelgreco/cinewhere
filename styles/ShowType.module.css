@@ -1,26 +1,55 @@
+@font-face {
+  font-family: "cruiser";
+  src: url("../public/fonts/cruiser/Cruiser.otf");
+}
+
 .flex_row {
   display: flex;
   flex-direction: row;
+  gap: 15px;
 }
 
 .media {
   width: 150px;
-  height: 80%;
-  border-radius: 50px;
+  height: fit-content;
+  z-index: 1;
+  margin-left: 10px;
 }
 
-.buttonChoices {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  background-color: white;
-  cursor: pointer;
-  transition: 0.1s ease-out;
+.engraved {
+  font-size: 30px;
+  font-family: "cruiser";
+  background-color: rgb(53 22 104);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: rgba(245, 245, 245, 0.5) 3px 5px 1px;
 }
 
-.selected {
-  background-color: black;
-  color: whitesmoke;
-  cursor: auto;
-  transition: 0.1s ease-in;
+.embossed {
+  color: #e8bcf0;
+  font-size: 35px;
+  font-family: "cruiser";
+  background-color: #666666;
+  text-shadow: 1px 4px 4px #555;
+  text-align: center;
+  border-bottom: 1px solid gray;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+}
+
+@media screen and (width < 415px) {
+  .media {
+    width: 110px;
+  }
+
+  .engraved {
+    font-size: 20px;
+  }
+
+  .embossed {
+    font-size: 25px;
+  }
 }

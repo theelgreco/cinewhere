@@ -1,3 +1,32 @@
 .sort {
+  width: auto;
   z-index: 1;
+  display: flex;
+  gap: 5px;
+}
+
+.select {
+  background: #0000006e;
+  border: none;
+  color: #e8bcf0;
+  padding: 4px;
+  border-radius: 4px;
+  max-width: 100px;
+}
+
+.select:focus-visible {
+  outline: 1px solid #e8bcf0;
+}
+
+@media screen and (width < 415px) {
+  .select {
+    max-width: 75px;
+  }
+}
+
+@media screen and (width < 320px) {
+  .select {
+    max-width: 60px;
+    font-size: 10px;
+  }
 }

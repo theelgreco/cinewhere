@@ -35,7 +35,11 @@ export default function SortBy({
 
   return (
     <div className={styles.sort}>
-      <select id="sort_by" onChange={handleSelect} value={sort}>
+      <select
+        id="sort_by"
+        onChange={handleSelect}
+        value={sort}
+        className={styles.select}>
         <option value="" disabled defaultValue="">
           Sort by
         </option>
@@ -45,7 +49,11 @@ export default function SortBy({
         <option value="vote_average">Vote Average</option>
         <option value="vote_count">Vote Count</option>
       </select>
-      <select id="order" onChange={handleSelect} value={order}>
+      <select
+        id="order"
+        onChange={handleSelect}
+        value={order}
+        className={styles.select}>
         <option value="" disabled defaultValue="">
           Order
         </option>

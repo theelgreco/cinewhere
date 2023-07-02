@@ -17,11 +17,11 @@
 }
 
 .collapseBtnExpanded {
-  top: 36svh;
+  top: min(36svh, 270px);
 }
 
 .collapseBtnCollapsed {
-  top: 8svh;
+  top: min(8svh, 60px);
 }
 
 .arrow {

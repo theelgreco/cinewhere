@@ -1,11 +1,11 @@
 @font-face {
   font-family: "albra";
-  src: local("/fonts/albra/albraTRIAL-Regular.otf") format("opentype");
+  src: url("../public/fonts/albra/albraTRIAL-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: "cresing";
-  src: local("/fonts/cruiser/cresing.otf") format("opentype");
+  src: url("../public/fonts/cresing/cresing.otf") format("opentype");
 }
 
 .genreMovies::-webkit-scrollbar {
@@ -78,7 +78,7 @@
   );
   box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
   z-index: 1;
-  top: -28svh;
+  top: max(-28svh, -210px);
   gap: 10px;
 }
 

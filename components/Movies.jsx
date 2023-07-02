@@ -33,6 +33,8 @@ export default function Movies({
   setOptionsClicked,
   settings,
   rowSize,
+  setGenreList,
+  set_media_type,
 }) {
   const [collapsedMenus, setCollapsedMenus] = useState(false);
   const [trailerRow, setTrailerRow] = useState(null);
@@ -290,6 +292,9 @@ export default function Movies({
           setClicked={setClicked}
           setServiceIdToSearch={setServiceIdToSearch}
           setGenreIdToSearch={setGenreIdToSearch}
+          setGenreList={setGenreList}
+          set_media_type={set_media_type}
+          setSelectedGenres={setSelectedGenres}
         />
       )}
     </>

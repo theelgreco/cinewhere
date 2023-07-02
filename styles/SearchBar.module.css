@@ -1,8 +1,7 @@
 .container {
   position: absolute;
-  width: 30vw;
-  min-width: 200px;
-  height: 4vh;
+  width: max(30vw, 150px);
+  height: 50%;
   margin: 0 auto;
   z-index: 6001;
 }
@@ -21,7 +20,7 @@
   color: rgb(223, 219, 245);
   border-radius: 20px;
   width: 100%;
-  height: 100%;
+  height: min(100%, 50px);
   border: none;
   background-color: rgba(106, 90, 205, 0.5);
   background-color: rgba(0, 0, 0, 0.2);
@@ -47,7 +46,7 @@
   place-items: center;
   position: absolute;
   right: -3px;
-  height: calc(4vh + 8px);
+  height: calc(100% + 8px);
   width: 14%;
   min-width: 40px;
   border-top-right-radius: 20px;
