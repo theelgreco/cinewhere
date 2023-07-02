@@ -61,6 +61,18 @@
   gap: 10px;
 }
 
+.genreContainer::after,
+.genreContainerCollapsed::after {
+  position: absolute;
+  content: "";
+  top: -20px;
+  left: 0;
+  height: 92px;
+  border-bottom-left-radius: 10px;
+  width: 100%;
+  background: rgb(0 0 0 /50%);
+}
+
 .genreContainerCollapsed {
   transition: top 0.5s ease;
   position: relative;
@@ -110,7 +122,7 @@
   color: white;
   font-size: 3vh;
   min-width: 150px;
-  width: 10%;
+  width: fit-content;
   margin-left: 10px;
   height: fit-content;
   margin-top: 18px;

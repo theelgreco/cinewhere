@@ -9,20 +9,6 @@ export default function ShowType({ handleClick, media_type }) {
   function changeClasses(e) {
     if (media_type !== e.target.id) {
       handleClick(e);
-      const classes = {
-        [styles.engraved]: styles.embossed,
-        [styles.embossed]: styles.engraved,
-      };
-
-      tv.current.classList.replace(
-        tv.current.classList.value,
-        classes[tv.current.classList.value]
-      );
-
-      movies.current.classList.replace(
-        movies.current.classList.value,
-        classes[movies.current.classList.value]
-      );
     }
   }
 
@@ -32,10 +18,20 @@ export default function ShowType({ handleClick, media_type }) {
         id="movie"
         ref={movies}
         onClick={changeClasses}
-        className={styles.embossed}>
+        className={clsx({
+          [styles.embossed]: media_type === "movie",
+          [styles.engraved]: media_type === "tv",
+        })}>
         MOVIES
       </div>
-      <div id="tv" onClick={changeClasses} ref={tv} className={styles.engraved}>
+      <div
+        id="tv"
+        onClick={changeClasses}
+        ref={tv}
+        className={clsx({
+          [styles.embossed]: media_type === "tv",
+          [styles.engraved]: media_type === "movie",
+        })}>
         TV
       </div>
     </div>

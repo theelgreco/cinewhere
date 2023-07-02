@@ -43,14 +43,13 @@ export default function Movies({
 
   useEffect(() => {
     if (filmClicked) return;
-
     // prettier-ignore
     if(!Object.keys(genreIdToSearch).length && !Object.keys(serviceIdToSearch).length) return;
 
     // prettier-ignore
-
     // execute if a genre is added
     if (genreIdToSearch.add) {
+      console.log('here')
       let params = {
         page: 1,
         with_genres: genreIdToSearch.id,
@@ -74,6 +73,7 @@ export default function Movies({
     }
     // execute if a service is clicked with genres selected
     else if (Object.keys(serviceIdToSearch).length && selectedGenres.length) {
+      console.log('here')
       selectedGenres.forEach((genre) => {
         if (refs[genre.id].current) {
           refs[genre.id].current.scrollLeft = 0;
@@ -117,6 +117,7 @@ export default function Movies({
     }
     // only execute if a service has been clicked with no genres selected or if the last genre has been removed with services still selected
     else if ((Object.keys(genreIdToSearch).length || Object.keys(serviceIdToSearch).length) && selectedServices.length && !selectedGenres.length) {
+      console.log('here')
       setData([]);
       refs.sectionRef.current.scrollTop = 0;
       refs.page.current = 1;
@@ -135,7 +136,9 @@ export default function Movies({
       setServiceIdToSearch({})
       setGenreIdToSearch({})
     }
+
     else {
+      console.log('here')
       setData([])
       setServiceIdToSearch({})
       setGenreIdToSearch({})
@@ -146,7 +149,7 @@ export default function Movies({
   }, [genreIdToSearch, serviceIdToSearch]);
 
   useEffect(() => {
-    if (!optionsClicked && !filmClicked) return;
+    if (filmClicked || !optionsClicked) return;
 
     if (selectedGenres.length) {
       selectedGenres.forEach((genre) => {
@@ -206,23 +209,6 @@ export default function Movies({
       });
       // setServiceIdToSearch({});
       // setGenreIdToSearch({});
-    } else {
-      setData([]);
-      refs.sectionRef.current.scrollTop = 0;
-      refs.page.current = 1;
-      let params = {
-        page: 1,
-        ...options,
-      };
-      getFilmsTmdb(params, media_type).then((res) => {
-        setData(res);
-        refs.page.current++;
-        if (
-          refs.sectionRef.current.scrollHeight ===
-          refs.sectionRef.current.offsetHeight
-        )
-          setAtBottom(true);
-      });
     }
 
     setOptionsClicked(false);
@@ -277,6 +263,8 @@ export default function Movies({
           setSelectedGenres={setSelectedGenres}
           selectedServices={selectedServices}
           media_type={media_type}
+          set_media_type={set_media_type}
+          setGenreList={setGenreList}
         />
       ) : (
         <ServiceMovies

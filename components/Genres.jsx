@@ -24,24 +24,7 @@ export default function Genres({
 
   let mediaObj = { movie: movieGenres, tv: tvGenres };
 
-  // useEffect(() => {
-  //   let mediaGenreIds = {};
-
-  //   mediaObj[media_type].forEach((genre) => {
-  //     mediaGenreIds[genre.id] = true;
-  //   });
-
-  //   let filtered = selectedGenres.filter((genre) => {
-  //     if (mediaGenreIds[genre.id]) return genre;
-  //   });
-
-  //   // setGenreList(mediaObj[media_type]);
-  //   setSelectedGenres(filtered);
-  // }, [media_type]);
-
   useEffect(() => {
-    // let mediaObj = { movie: movieGenres, tv: tvGenres };
-
     const otherGenres = genreList.slice(selectedGenres.length);
     if (otherGenres.length) {
       const sorted = otherGenres.sort((a, b) => {
@@ -50,6 +33,18 @@ export default function Genres({
       setGenreList([...selectedGenres, ...sorted]);
     }
   }, [selectedGenres]);
+
+  useEffect(() => {
+    let mediaObj = { movie: movieGenres, tv: tvGenres };
+
+    const selectedGenreIds = selectedGenres.map((genre) => {
+      return genre.id;
+    });
+    const filtered = mediaObj[media_type].filter((genre) => {
+      return !selectedGenreIds.includes(genre.id);
+    });
+    setGenreList([...selectedGenres, ...filtered]);
+  }, [media_type]);
 
   return (
     <section className={styles.section}>

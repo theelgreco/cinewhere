@@ -1,4 +1,4 @@
-import SortBy from "./subcomponents/SortBy";
+import FilterBar from "./FilterBar";
 import MovieCard from "./subcomponents/MovieCard";
 import Preload from "./subcomponents/Preload";
 import styles from "@/styles/GenreMovies.module.css";
@@ -24,6 +24,8 @@ export default function GenreMovies({
   setSelectedGenres,
   selectedServices,
   media_type,
+  set_media_type,
+  setGenreList,
 }) {
   const [genreScroll, setGenreScroll] = useState({ atEnd: false, id: null });
 
@@ -86,7 +88,12 @@ export default function GenreMovies({
       })}
       ref={refs.sectionRefGenre}
       onScroll={handleScroll}>
-      <SortBy
+      <FilterBar
+        set_media_type={set_media_type}
+        setSelectedGenres={setSelectedGenres}
+        setGenreList={setGenreList}
+        setOptionsClicked={setOptionsClicked}
+        media_type={media_type}
         options={options}
         setOptions={setOptions}
         sort={sort}
@@ -94,7 +101,7 @@ export default function GenreMovies({
         order={order}
         setOrder={setOrder}
         optionsClicked={optionsClicked}
-        setOptionsClicked={setOptionsClicked}
+        selectedGenres={selectedGenres}
       />
       {selectedGenres.map((genre) => {
         return (

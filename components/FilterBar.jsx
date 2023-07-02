@@ -1,6 +1,6 @@
 import SortBy from "./subcomponents/SortBy";
 import ShowType from "./subcomponents/ShowType";
-import { movieGenres, tvGenres } from "constants/genres";
+import { movieGenres, tvGenres, movieIds, tvIds } from "constants/genres";
 
 export default function FilterBar({
   set_media_type,
@@ -15,14 +15,29 @@ export default function FilterBar({
   order,
   setOrder,
   optionsClicked,
+  selectedGenres,
 }) {
   function handleClick(e) {
-    let mediaObj = { movie: movieGenres, tv: tvGenres };
+    let mediaObj = {
+      movie: { data: movieGenres, ids: movieIds },
+      tv: { data: tvGenres, ids: tvIds },
+    };
 
     set_media_type(e.target.id);
 
-    setSelectedGenres([]);
-    setGenreList(mediaObj[e.target.id]);
+    if (selectedGenres && selectedGenres.length) {
+      let selectedGenresCopy = [];
+      selectedGenres.forEach((genre) => {
+        selectedGenresCopy.push({ ...genre });
+      });
+      const otherIds = mediaObj[e.target.id].ids;
+
+      const filtered = selectedGenresCopy.filter((genre) => {
+        return otherIds.indexOf(genre.id) > -1;
+      });
+
+      setSelectedGenres(filtered);
+    }
 
     setOptionsClicked(true);
   }
