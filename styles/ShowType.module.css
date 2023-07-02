@@ -1,6 +1,6 @@
 @font-face {
   font-family: "cruiser";
-  src: url("../public/fonts/cruiser/Cruiser.otf");
+  src: url("/fonts/cruiser/Cruiser.otf");
 }
 
 .flex_row {

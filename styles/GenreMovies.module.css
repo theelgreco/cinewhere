@@ -1,11 +1,11 @@
 @font-face {
   font-family: "albra";
-  src: url("../public/fonts/albra/albraTRIAL-Regular.otf") format("opentype");
+  src: url("/fonts/albra/albraTRIAL-Regular.otf") format("opentype");
 }
 
 @font-face {
   font-family: "cresing";
-  src: url("../public/fonts/cresing/cresing.otf") format("opentype");
+  src: url("/fonts/cresing/cresing.otf") format("opentype");
 }
 
 .genreMovies::-webkit-scrollbar {
