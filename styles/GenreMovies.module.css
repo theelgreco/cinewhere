@@ -151,3 +151,10 @@
   color: rgb(232 188 241 /60%);
   font-weight: 500;
 }
+
+@media screen and (width < 415px) {
+  .genreContainer::after,
+  .genreContainerCollapsed::after {
+    height: 80px;
+  }
+}
