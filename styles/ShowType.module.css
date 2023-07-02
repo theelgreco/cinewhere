@@ -25,6 +25,13 @@
   background-clip: text;
   color: transparent;
   text-shadow: rgba(245, 245, 245, 0.5) 3px 5px 1px;
+  transition: text-shadow 0.2s ease-out;
+}
+
+.engraved:hover {
+  text-shadow: rgba(245, 245, 245, 0.7) 3px 5px 1px;
+  transition: 0.2s ease-in;
+  cursor: pointer;
 }
 
 .embossed {
