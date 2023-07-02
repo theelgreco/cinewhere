@@ -42,6 +42,17 @@
   transition: top 0.5s ease, height 0s ease 0.5s;
 }
 
+.Movies:has(div:not(.noResults))::after,
+.MoviesCollapsed:has(div:not(.noResults))::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 90px;
+  top: -20px;
+  left: 0;
+  background: rgb(0 0 0 /50%);
+}
+
 .MoviesCollapsed {
   transition: top 0.5s ease;
   position: relative;
@@ -82,12 +93,18 @@
 .moviesFlex::after {
   content: "";
   position: absolute;
-  top: -20%;
   left: -50%;
   width: 200%;
-  height: 122%;
   background: rgba(0, 0, 0, 0.5);
-  filter: blur(100px);
+}
+
+.Movies > .moviesFlex::after {
+  height: max(100%, calc(64svh - 14px));
+  transition: 0.5s ease;
+}
+
+.MoviesCollapsed > .moviesFlex::after {
+  height: max(100%, calc(92svh - 60px));
 }
 
 .searchAll {
@@ -116,4 +133,19 @@
 .noResults p {
   align-self: baseline;
   color: rgb(232 188 241 /50%);
+}
+
+@media screen and (width < 415px) {
+  .Movies:has(div:not(.noResults))::after,
+  .MoviesCollapsed:has(div:not(.noResults))::after {
+    height: 80px;
+  }
+
+  .Movies > .moviesFlex::after {
+    height: max(100%, calc(64svh - 2px));
+  }
+
+  .MoviesCollapsed > .moviesFlex::after {
+    height: max(100%, calc(92svh - 48px));
+  }
 }
