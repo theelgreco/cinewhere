@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styles from "@/styles/ServiceIcon.module.css";
 import { getWatchLink } from "api";
 
 export default function ServiceIcon({ service, filmTitle, region }) {
   const [link, setLink] = useState(null);
+  const url = useRef();
 
   const iconStyles = {
     backgroundImage: `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
@@ -43,10 +44,10 @@ export default function ServiceIcon({ service, filmTitle, region }) {
       });
   }
 
-  /*
-        w4free = wedotv.com
-        runtime = runtime.tv
-    */
+  function simulateClick(el) {
+    const event = new MouseEvent("click");
+    el.dispatchEvent(event);
+  }
 
   if (service.provider_name === "Buy" || service.provider_name === "Rent") {
     return (
@@ -61,6 +62,15 @@ export default function ServiceIcon({ service, filmTitle, region }) {
         title={`Watch ${filmTitle} on ${service.provider_name}`}
         style={iconStyles}
         target="_blank"
+        onTouchEnd={() => {
+          const interval = setInterval(() => {
+            console.log("intervaling");
+            if (url.current) {
+              simulateClick(url.current);
+              clearInterval(interval);
+            }
+          }, 100);
+        }}
         onMouseEnter={() => {
           getLink(service.provider_name, filmTitle);
         }}></a>
@@ -78,6 +88,7 @@ export default function ServiceIcon({ service, filmTitle, region }) {
       <a
         title={`Watch ${filmTitle} on ${service.provider_name}`}
         className={styles.fetched}
+        ref={url}
         href={link}
         style={iconStyles}
         target="_blank"></a>

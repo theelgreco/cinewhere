@@ -138,7 +138,7 @@
 @media screen and (width < 415px) {
   .Movies:has(div:not(.noResults))::after,
   .MoviesCollapsed:has(div:not(.noResults))::after {
-    height: 80px;
+    height: 78px;
   }
 
   .Movies > .moviesFlex::after {
