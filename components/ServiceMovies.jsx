@@ -35,8 +35,9 @@ export default function ServiceMovies({
   setGenreList,
   set_media_type,
   setSelectedGenres,
+  atBottom,
+  setAtBottom,
 }) {
-  const [atBottom, setAtBottom] = useState(false);
   const [rowsObject, setRowsObject] = useState({});
 
   useEffect(() => {

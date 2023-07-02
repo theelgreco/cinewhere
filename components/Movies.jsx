@@ -38,6 +38,7 @@ export default function Movies({
 }) {
   const [collapsedMenus, setCollapsedMenus] = useState(false);
   const [trailerRow, setTrailerRow] = useState(null);
+  const [atBottom, setAtBottom] = useState(false);
   // const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
@@ -129,6 +130,7 @@ export default function Movies({
         setData(res);
         refs.page.current++;
         setClicked(false)
+        if(refs.sectionRef.current.scrollHeight === refs.sectionRef.current.offsetHeight) setAtBottom(true)
       });
       setServiceIdToSearch({})
       setGenreIdToSearch({})
@@ -196,6 +198,11 @@ export default function Movies({
       getFilmsTmdb(params, media_type).then((res) => {
         setData(res);
         refs.page.current++;
+        if (
+          refs.sectionRef.current.scrollHeight ===
+          refs.sectionRef.current.offsetHeight
+        )
+          setAtBottom(true);
       });
       // setServiceIdToSearch({});
       // setGenreIdToSearch({});
@@ -210,6 +217,11 @@ export default function Movies({
       getFilmsTmdb(params, media_type).then((res) => {
         setData(res);
         refs.page.current++;
+        if (
+          refs.sectionRef.current.scrollHeight ===
+          refs.sectionRef.current.offsetHeight
+        )
+          setAtBottom(true);
       });
     }
 
@@ -295,6 +307,8 @@ export default function Movies({
           setGenreList={setGenreList}
           set_media_type={set_media_type}
           setSelectedGenres={setSelectedGenres}
+          atBottom={atBottom}
+          setAtBottom={setAtBottom}
         />
       )}
     </>
