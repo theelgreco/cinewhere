@@ -145,7 +145,7 @@ export default function ServiceMovies({
       })}
       onScroll={handleScroll}
       ref={refs.sectionRef}>
-      {selectedServices.length ? (
+      {selectedServices.length && data !== "no results" ? (
         <FilterBar
           set_media_type={set_media_type}
           setSelectedGenres={setSelectedGenres}
