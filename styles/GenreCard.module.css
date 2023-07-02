@@ -6,7 +6,6 @@
   place-items: center;
   color: rgb(232, 188, 241);
   font-family: "Lexend";
-  font-size: 1.7vh;
   min-width: 100px;
   width: 10vw;
   border-radius: 10px;
@@ -26,7 +25,6 @@
 
 .selected {
   font-family: "Lexend";
-  text-align: left;
   background: linear-gradient(black, black) padding-box,
     linear-gradient(to right, rgb(84, 58, 232), darkorchid) border-box;
   border-bottom: 1px solid transparent;
