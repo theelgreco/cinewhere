@@ -31,27 +31,32 @@ export default function GenreMovies({
 
   useEffect(() => {
     if (genreScroll.atEnd) {
-      selectedGenres.forEach((genre) => {
-        if (String(genre.id) === genreScroll.id) {
-          let params = {
-            page: genre.page + 1,
-            with_watch_providers: selectedServices.join("|"),
-            with_genres: genre.id,
-            ...options,
-          };
-          getFilmsTmdb(params, media_type).then((res) => {
-            const genreDataCopy = [...selectedGenres];
-            const indexOfGenre = genreDataCopy.findIndex(
-              (el) => el.id === genre.id
-            );
-            //prettier-ignore
-            genreDataCopy[indexOfGenre].movies = [...genreDataCopy[indexOfGenre].movies, ...res];
-            genreDataCopy[indexOfGenre].page++;
-            setSelectedGenres(genreDataCopy);
-            setGenreScroll({ atEnd: false, id: null });
-          });
-        }
+      const genreIndex = selectedGenres.findIndex((el) => {
+        return String(el.id) === genreScroll.id;
       });
+      const genre = selectedGenres[genreIndex];
+      if (genre.page + 1 <= genre.totalPages) {
+        console.log(genre);
+        let params = {
+          page: genre.page + 1,
+          with_watch_providers: selectedServices.join("|"),
+          with_genres: genre.id,
+          ...options,
+        };
+        getFilmsTmdb(params, media_type).then((res) => {
+          const genreDataCopy = [...selectedGenres];
+          const indexOfGenre = genreDataCopy.findIndex(
+            (el) => el.id === genre.id
+          );
+          //prettier-ignore
+          genreDataCopy[indexOfGenre].movies = [...genreDataCopy[indexOfGenre].movies, ...res.data];
+          genreDataCopy[indexOfGenre].page++;
+          setSelectedGenres(genreDataCopy);
+          setGenreScroll({ atEnd: false, id: null });
+        });
+      } else {
+        setGenreScroll({ atEnd: false, id: null });
+      }
     }
   }, [genreScroll]);
 

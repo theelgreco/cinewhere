@@ -39,6 +39,7 @@ export default function Movies({
   const [collapsedMenus, setCollapsedMenus] = useState(false);
   const [trailerRow, setTrailerRow] = useState(null);
   const [atBottom, setAtBottom] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
   // const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
@@ -64,8 +65,9 @@ export default function Movies({
         const indexOfGenre = genreDataCopy.findIndex(
           (el) => el.id === genreIdToSearch.id
         );
-        genreDataCopy[indexOfGenre].movies = res;
+        genreDataCopy[indexOfGenre].movies = res.data;
         genreDataCopy[indexOfGenre].page = 1;
+        genreDataCopy[indexOfGenre].totalPages = res.total_pages;
         setSelectedGenres(genreDataCopy);
         setClicked(false);
       });
@@ -84,6 +86,7 @@ export default function Movies({
 
       genreDataCopy.forEach((genre) => {
         genre.movies = [];
+        genre.totalPages = 0
         setSelectedGenres(genreDataCopy);
       });
 
@@ -102,8 +105,9 @@ export default function Movies({
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
-          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].movies = res.data;
           genreDataCopy[indexOfGenre].page = 1;
+          genreDataCopy[indexOfGenre].totalPages = res.total_pages;
 
           if (index === genreDataCopy.length - 1) {
             setSelectedGenres(genreDataCopy);
@@ -128,7 +132,8 @@ export default function Movies({
         ...options,
       };
       getFilmsTmdb(params, media_type).then((res) => {
-        setData(res);
+        setData(res.data);
+        setTotalPages(res.total_pages)
         refs.page.current++;
         setClicked(false)
         if(refs.sectionRef.current.scrollHeight === refs.sectionRef.current.offsetHeight) setAtBottom(true)
@@ -162,6 +167,7 @@ export default function Movies({
 
       genreDataCopy.forEach((genre) => {
         genre.movies = [];
+        genre.totalPages = 0;
       });
 
       const fetchData = async () => {
@@ -179,8 +185,9 @@ export default function Movies({
           const indexOfGenre = genreDataCopy.findIndex(
             (el) => el.id === genre.id
           );
-          genreDataCopy[indexOfGenre].movies = res;
+          genreDataCopy[indexOfGenre].movies = res.data;
           genreDataCopy[indexOfGenre].page = 1;
+          genreDataCopy[indexOfGenre].totalPages = res.total_pages;
 
           if (index === genreDataCopy.length - 1) {
             setSelectedGenres(genreDataCopy);
@@ -199,13 +206,13 @@ export default function Movies({
         ...options,
       };
       getFilmsTmdb(params, media_type).then((res) => {
-        setData(res);
+        setData(res.data);
+        setTotalPages(res.total_pages);
         refs.page.current++;
-        if (
-          refs.sectionRef.current.scrollHeight ===
-          refs.sectionRef.current.offsetHeight
-        )
-          setAtBottom(true);
+        //prettier-ignore
+        if (refs.sectionRef.current.scrollHeight === refs.sectionRef.current.offsetHeight){
+          setAtBottom(true)
+        }
       });
       // setServiceIdToSearch({});
       // setGenreIdToSearch({});
@@ -297,6 +304,7 @@ export default function Movies({
           setSelectedGenres={setSelectedGenres}
           atBottom={atBottom}
           setAtBottom={setAtBottom}
+          totalPages={totalPages}
         />
       )}
     </>

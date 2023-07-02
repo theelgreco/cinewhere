@@ -16,12 +16,14 @@ export const getFilmsTmdb = (params, media_type) => {
       params: params,
     })
     .then((res) => {
-      if (!res.data.results.length) return "no results";
+      if (!res.data.results.length) {
+        return { data: "no results", total_pages: 0 };
+      }
       const movies = res.data.results;
       movies.map((movie) => {
         return (movie.media_type = media_type);
       });
-      return movies;
+      return { data: movies, total_pages: res.data.total_pages };
     })
     .catch((err) => {
       if (err) console.error(err);

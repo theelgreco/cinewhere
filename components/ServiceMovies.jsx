@@ -37,6 +37,7 @@ export default function ServiceMovies({
   setSelectedGenres,
   atBottom,
   setAtBottom,
+  totalPages,
 }) {
   const [rowsObject, setRowsObject] = useState({});
 
@@ -48,18 +49,25 @@ export default function ServiceMovies({
 
   useEffect(() => {
     if (atBottom) {
-      let params = {
-        page: refs.page.current,
-        with_watch_providers: selectedServices.join("|"),
-        ...options,
-      };
-      getFilmsTmdb(params, media_type).then((res) => {
-        setData([...data, ...res]);
-        refs.page.current++;
-        setAtBottom(false);
-      });
+      fetchResults(media_type);
     }
   }, [atBottom]);
+
+  async function fetchResults(media_type) {
+    let params = {
+      page: refs.page.current,
+      with_watch_providers: selectedServices.join("|"),
+      ...options,
+    };
+    const res = await getFilmsTmdb(params, media_type);
+    console.log(params.page, totalPages);
+    if (params.page <= totalPages) {
+      console.log("hello");
+      setData([...data, ...res.data]);
+      refs.page.current++;
+    }
+    setAtBottom(false);
+  }
 
   useEffect(() => {
     if (data.length) {

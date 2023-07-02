@@ -16,7 +16,6 @@ export default function InfoContainer({
   useEffect(() => {
     if (!info && cardFocused) {
       getFilmByIdTmdb(id, media_type).then((res) => {
-        console.log(res);
         setInfo(res);
       });
     }
