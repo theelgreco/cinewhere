@@ -43,7 +43,7 @@
 .genreContainer {
   display: flex;
   position: relative;
-  height: calc(64svh - 20px);
+  height: max(calc(64svh - 20px), calc(100svh - 290px));
   width: 100vw;
   flex-direction: column;
   padding-top: 20px;
@@ -77,7 +77,7 @@
   transition: top 0.5s ease;
   position: relative;
   display: flex;
-  height: calc(92svh - 20px);
+  height: max(calc(92svh - 20px), calc(100svh - 80px));
   width: 100vw;
   flex-direction: column;
   padding-top: 20px;
