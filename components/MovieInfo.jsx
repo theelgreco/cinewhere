@@ -16,8 +16,13 @@ export default function MovieInfo({ isMobile, options }) {
 
   useEffect(() => {
     getFilmByIdTmdb(imdb_id, media_type).then((res) => {
-      setFilm(res);
+      if (!res) {
+        setFilm("doesn't exist");
+        return;
+      }
 
+      setFilm(res);
+      console.log(res);
       const tempServices = res["watch/providers"].results[options.watch_region];
       if (tempServices) setStreamingServices(tempServices);
 
@@ -51,7 +56,8 @@ export default function MovieInfo({ isMobile, options }) {
     return dom;
   }
 
-  if (film) {
+  if (film === "doesn't exist") return <h1>BAD LUCK</h1>;
+  else if (film) {
     return (
       <div className={styles.expand}>
         <div className={styles.container}>

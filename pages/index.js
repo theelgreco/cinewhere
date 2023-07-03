@@ -6,7 +6,7 @@ import { todaysDate } from "utils/utils";
 import servicesArray from "constants/services";
 import { movieGenres, tvGenres, genreIds } from "constants/genres";
 import Main from "@/components/Main";
-import MovieInfo from "@/components/subcomponents/MovieInfo";
+import MovieInfo from "@/components/MovieInfo";
 import Privacy from "@/components/Privacy";
 import Head from "next/head";
 
