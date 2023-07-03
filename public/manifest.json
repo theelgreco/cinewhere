@@ -1,8 +1,8 @@
 {
   "manifest_version": "0.0.1",
   "version": "0.0.1",
-  "name": "Stream Browser",
-  "short_name": "Stream Browser",
+  "name": "Cinewhere",
+  "short_name": "Cinewhere",
   "theme_color": "#290441",
   "background_color": "#290441",
   "display": "standalone",
