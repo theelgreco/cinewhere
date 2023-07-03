@@ -26,13 +26,6 @@ export default function InfoContainer({
   if (cardFocused && info) {
     return (
       <>
-        <Link
-          to={`/${media_type}/${id}`}
-          className={styles.link}
-          onMouseDown={handleClick}
-          onTouchEnd={handleClick}>
-          Click for more info
-        </Link>
         <div
           title={`Watch official trailer for '${info.title || info.name}'`}
           className={styles.playButtonContainer}
@@ -48,6 +41,13 @@ export default function InfoContainer({
           <div className={clsx(styles.playButton, { [styles.hov]: hov })}></div>
         </div>
         <div className={styles.col}>
+          <Link
+            to={`/${media_type}/${id}`}
+            className={styles.link}
+            onMouseDown={handleClick}
+            onTouchEnd={handleClick}>
+            More info
+          </Link>
           <p className={styles.title}>{info.title || info.name}</p>
           <div className={styles.InfoContainer}>
             <div className={styles.ratingContainer}>

@@ -195,7 +195,7 @@ export default function MovieCard({
         document.removeEventListener("touchstart", handleTouchWhileFocused);
         document.removeEventListener("touchend", handleTouchWhileHovered);
         document.removeEventListener("touchmove", handleTouchMove);
-      }, 100);
+      }, 4);
     }
   }
 
