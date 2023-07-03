@@ -9,7 +9,6 @@ import { getOfficialTrailer } from "utils/utils";
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { clsx } from "clsx";
-import { Link } from "react-router-dom";
 import { getAllDescendantElements } from "utils/utils";
 
 export default function MovieCard({
@@ -187,12 +186,23 @@ export default function MovieCard({
 
   //remember to set film clicked when going to individual film page
   function handleClick(e) {
-    // setFilmClicked(true);
+    setFilmClicked(true);
+    if (e.touches) {
+      setTimeout(() => {
+        setCardFocused(false);
+        setPreCardHovered(false);
+        setCardHovered(false);
+        document.removeEventListener("touchstart", handleTouchWhileFocused);
+        document.removeEventListener("touchend", handleTouchWhileHovered);
+        document.removeEventListener("touchmove", handleTouchMove);
+      }, 100);
+    }
   }
 
   /* Touch event handler callbacks */
 
   function handleTouchWhileFocused(e) {
+    if (!Card.current) return;
     let descendants = getAllDescendantElements(Card.current, []);
 
     if (e.target !== Card.current && !descendants.includes(e.target)) {
@@ -209,7 +219,9 @@ export default function MovieCard({
     );
 
     if (targetElement === Card.current) {
-      setCardFocused(true);
+      setTimeout(() => {
+        setCardFocused(true);
+      }, 200);
     }
 
     setPreCardHovered(false);
@@ -234,7 +246,6 @@ export default function MovieCard({
   return (
     <>
       {Object.keys(film).length ? (
-        // <Link to={`/${film.media_type}/${film.id}`}></Link>
         <div
           title={film.title}
           ref={Card}
@@ -286,6 +297,7 @@ export default function MovieCard({
                   id={film.id}
                   media_type={film.media_type}
                   setPlayButtonClick={setPlayButtonClick}
+                  handleClick={handleClick}
                 />
               </>
             ) : (

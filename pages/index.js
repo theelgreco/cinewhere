@@ -65,6 +65,7 @@ export default function Home() {
       refsObject.search = React.createRef();
       refsObject.close = React.createRef();
       refsObject.services = React.createRef();
+      refsObject.totalPages = React.createRef();
 
       setRefs(refsObject);
     }

@@ -37,7 +37,6 @@ export default function ServiceMovies({
   setSelectedGenres,
   atBottom,
   setAtBottom,
-  totalPages,
 }) {
   const [rowsObject, setRowsObject] = useState({});
 
@@ -60,8 +59,7 @@ export default function ServiceMovies({
       ...options,
     };
     const res = await getFilmsTmdb(params, media_type);
-    console.log(params.page, totalPages);
-    if (params.page <= totalPages) {
+    if (params.page <= refs.totalPages.current) {
       console.log("hello");
       setData([...data, ...res.data]);
       refs.page.current++;

@@ -39,11 +39,14 @@ export default function Movies({
   const [collapsedMenus, setCollapsedMenus] = useState(false);
   const [trailerRow, setTrailerRow] = useState(null);
   const [atBottom, setAtBottom] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
+
   // const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
-    if (filmClicked) return;
+    if (filmClicked) {
+      setFilmClicked(false);
+      return;
+    }
     // prettier-ignore
     if(!Object.keys(genreIdToSearch).length && !Object.keys(serviceIdToSearch).length) return;
 
@@ -133,7 +136,7 @@ export default function Movies({
       };
       getFilmsTmdb(params, media_type).then((res) => {
         setData(res.data);
-        setTotalPages(res.total_pages)
+        refs.totalPages.current = res.total_pages
         refs.page.current++;
         setClicked(false)
         if(refs.sectionRef.current.scrollHeight === refs.sectionRef.current.offsetHeight) setAtBottom(true)
@@ -207,7 +210,7 @@ export default function Movies({
       };
       getFilmsTmdb(params, media_type).then((res) => {
         setData(res.data);
-        setTotalPages(res.total_pages);
+        refs.totalPages.current = res.total_pages;
         refs.page.current++;
         //prettier-ignore
         if (refs.sectionRef.current.scrollHeight === refs.sectionRef.current.offsetHeight){
@@ -304,7 +307,6 @@ export default function Movies({
           setSelectedGenres={setSelectedGenres}
           atBottom={atBottom}
           setAtBottom={setAtBottom}
-          totalPages={totalPages}
         />
       )}
     </>

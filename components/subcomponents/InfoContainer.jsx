@@ -1,6 +1,7 @@
 import styles from "@/styles/InfoContainer.module.css";
 import { getFilmByIdTmdb } from "api";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 
 export default function InfoContainer({
@@ -9,6 +10,7 @@ export default function InfoContainer({
   id,
   media_type,
   setPlayButtonClick,
+  handleClick,
 }) {
   const [info, setInfo] = useState(null);
   const [hov, setHov] = useState(false);
@@ -24,6 +26,13 @@ export default function InfoContainer({
   if (cardFocused && info) {
     return (
       <>
+        <Link
+          to={`/${media_type}/${id}`}
+          className={styles.link}
+          onMouseDown={handleClick}
+          onTouchEnd={handleClick}>
+          Click for more info
+        </Link>
         <div
           title={`Watch official trailer for '${info.title || info.name}'`}
           className={styles.playButtonContainer}
