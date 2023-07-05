@@ -285,6 +285,7 @@ export default function MovieCard({
                 <Poster
                   url={film.poster_path || null}
                   title={film.title || film.name}
+                  quality={"w500"}
                 />
                 <ServiceIcons
                   serviceIcons={serviceIcons}

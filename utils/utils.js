@@ -40,7 +40,6 @@ export const getOfficialTrailer = (res) => {
   if (!trail) trail = res.videos.results.find((el) => el.type === "Trailer");
   if (!trail) trail = res.videos.results.find((el) => el.type === "Teaser");
   if (trail) {
-    // return `https://yewtu.be/embed/${trail.key}`;
     return `https://yewtu.be/embed/${trail.key}`;
   }
 

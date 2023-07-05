@@ -2,6 +2,7 @@ import styles from "@/styles/MovieInfo.module.css";
 import React from "react";
 import { Link } from "react-router-dom";
 import Trailer from "./subcomponents/Trailer";
+import Poster from "./subcomponents/Poster";
 import { getFilmByIdTmdb } from "api";
 import { getOfficialTrailer } from "utils/utils";
 import { useEffect, useState } from "react";
@@ -32,15 +33,22 @@ export default function MovieInfo({ isMobile, options }) {
   if (film === "doesn't exist") return <h1>BAD LUCK</h1>;
   else if (film) {
     return (
-      <section className={styles.topSection}>
-        <div className={styles.video}>
-          <Trailer
-            trailer={trailer}
-            trailerPlaying={trailerPlaying}
-            autoplay={""}
+      <main className={styles.main}>
+        <div className={styles.backdrop}>
+          <Poster
+            url={film.backdrop_path}
+            quality={"original"}
+            title={film.title || film.name}
           />
         </div>
-      </section>
+        <div className={styles.poster}>
+          <Poster
+            url={film.poster_path}
+            quality={"w500"}
+            title={film.title || film.name}
+          />
+        </div>
+      </main>
     );
   }
 }

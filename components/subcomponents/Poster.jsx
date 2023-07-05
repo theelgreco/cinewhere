@@ -1,12 +1,12 @@
 import styles from "@/styles/Poster.module.css";
 
-export default function Poster({ url, title }) {
+export default function Poster({ url, title, quality }) {
   if (url) {
     return (
       <img
         className={styles.moviePoster}
         alt={title}
-        src={`https://image.tmdb.org/t/p/w500${url}`}
+        src={`https://image.tmdb.org/t/p/${quality}${url}`}
       />
     );
   } else {
