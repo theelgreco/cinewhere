@@ -301,11 +301,19 @@ export default function MovieCard({
                 />
               </>
             ) : (
-              <Trailer
-                trailerPlaying={trailerPlaying}
-                trailer={trailer}
-                closeTrailer={closeTrailer}
-              />
+              <>
+                <div
+                  onTouchEnd={closeTrailer}
+                  onMouseDown={closeTrailer}
+                  className={styles.closeBtn}>
+                  <p>X</p>
+                </div>
+                <Trailer
+                  trailerPlaying={trailerPlaying}
+                  trailer={trailer}
+                  autoplay={"autoplay"}
+                />
+              </>
             )}
           </div>
         </div>
