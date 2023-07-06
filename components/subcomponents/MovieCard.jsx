@@ -247,7 +247,6 @@ export default function MovieCard({
     <>
       {Object.keys(film).length ? (
         <div
-          title={film.title}
           ref={Card}
           onTouchStart={(e) => {
             if (!cardFocused && !trailerPlaying) {

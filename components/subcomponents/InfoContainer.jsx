@@ -27,7 +27,7 @@ export default function InfoContainer({
     return (
       <>
         <div
-          title={`Watch official trailer for '${info.title || info.name}'`}
+          // title={`Watch official trailer for '${info.title || info.name}'`}
           className={styles.playButtonContainer}
           onClick={() => {
             setPlayButtonClick(true);
@@ -39,6 +39,9 @@ export default function InfoContainer({
             setHov(false);
           }}>
           <div className={clsx(styles.playButton, { [styles.hov]: hov })}></div>
+          <div className={clsx(styles.popup, { [styles.wide]: hov })}>
+            Watch trailer
+          </div>
         </div>
         <div className={styles.col}>
           <Link

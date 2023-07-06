@@ -54,51 +54,87 @@
 
 .playButtonContainer {
   position: absolute;
-  top: 8%;
-  left: 8%;
+  top: 5px;
+  left: 5px;
   width: fit-content;
   height: fit-content;
-  z-index: 3;
+  z-index: 101;
+  outline: none;
 }
 
 .playButton {
   cursor: pointer;
-
+  border: 1px solid white;
   position: relative;
-  width: 0px;
-  height: 0px;
+  width: 0.8em;
+  height: 0.8em;
   font-size: 35px;
   border-radius: 9999px;
-  background-color: transparent;
-  box-shadow: 0px 0px 21px 17px rgb(46, 18, 123);
+  box-shadow: 0px 0px 6px 0.5px rgb(255 255 255 /30%);
   transition: box-shadow 0.2s ease-out;
   z-index: 0;
+  backdrop-filter: blur(50px);
+  display: grid;
+  place-items: center;
 }
 
 .playButton::after {
-  position: absolute;
+  position: relative;
   content: "";
   width: 0px;
   height: 0px;
-  font-size: 25px;
+  font-size: 0.4em;
   background-color: transparent;
-  border-left: 0.9em solid rgba(182, 134, 221, 0.8);
-  border-top: 0.5em solid transparent;
-  border-bottom: 0.5em solid transparent;
+  border-left: 0.9em solid rgba(255, 255, 255, 0.8);
+  border-top: 0.4em solid transparent;
+  border-bottom: 0.4em solid transparent;
   z-index: 1;
-  transform: translate(-7.5px, -10.5px);
+  margin-left: 3px;
   transition: border 0.2s ease-out;
 }
 
 .playButton.hov {
   transition: 0.2s ease-in;
-  box-shadow: 0px 0px 21px 15px rgb(46, 18, 123);
+  background-color: rgb(0 0 0 / 50%);
+  border-color: rgba(182, 134, 221, 1);
+  box-shadow: 0px 0px 11px 5px rgb(46, 18, 123);
 }
 
 .playButton.hov::after {
   content: "";
   transition: 0.2s ease-in;
   border-left: 0.9em solid rgba(182, 134, 221, 1);
+}
+
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  font-size: 10px;
+  left: 120%;
+  background-color: rgb(255 255 255 / 90%);
+  background: black;
+  color: rgba(182, 134, 221, 1);
+  border: 1px solid;
+  border-color: rgba(182, 134, 221, 1);
+  /* box-shadow: 0px 0px 11px 5px rgb(46, 18, 123); */
+  width: 0;
+  border-radius: 5px;
+  height: 13px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.wide {
+  width: 70px;
+  padding-left: 4px;
+  padding-right: 4px;
+  max-width: max-content;
+  opacity: 1;
+  transition: width 0.5s ease, opacity 1.5s ease;
 }
 
 .ratingContainer {
