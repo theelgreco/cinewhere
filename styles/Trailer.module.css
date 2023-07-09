@@ -3,8 +3,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   position: relative;
-  min-width: 127%;
-  min-height: 150%;
+  min-width: 100%;
   aspect-ratio: 1/1;
   z-index: 500;
 }

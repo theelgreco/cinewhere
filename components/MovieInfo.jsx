@@ -41,12 +41,37 @@ export default function MovieInfo({ isMobile, options }) {
             title={film.title || film.name}
           />
         </div>
-        <div className={styles.poster}>
-          <Poster
-            url={film.poster_path}
-            quality={"w500"}
-            title={film.title || film.name}
-          />
+        <div className={styles.column + " " + styles.first}>
+          <div className={styles.poster}>
+            <Poster
+              url={film.poster_path}
+              quality={"w500"}
+              title={film.title || film.name}
+            />
+          </div>
+          <p>{film.title || film.name}</p>
+          <p>
+            {media_type === "movie" ? (
+              <>
+                <span>{film.release_date.split("-")[0]}</span>{" "}
+                <span>{film.runtime + " mins"}</span>
+              </>
+            ) : (
+              <>
+                <span>{film.first_air_date.split("-")[0]}</span>{" "}
+                <span>{film.seasons.length} Seasons</span>
+              </>
+            )}
+          </p>
+        </div>
+        <div className={styles.column}>
+          <div className={styles.video}>
+            <Trailer trailer={trailer} autoplay={""} trailerPlaying={true} />
+          </div>
+          <div className={styles.round_tags + " " + styles.description}>
+            <p>Description</p>
+            <img src="/svg/down_arrow.svg" />
+          </div>
         </div>
       </main>
     );

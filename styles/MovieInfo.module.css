@@ -1,45 +1,21 @@
 .main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   height: 100%;
+  margin: 50px;
+  gap: 10px;
   background: rgb(0 0 0 /50%);
 }
 
 .backdrop {
-  position: relative;
+  position: absolute;
   left: 0%;
   top: 0;
   width: 100%;
   height: 100%;
   animation: slidein 2s ease 0s 1 alternate,
     move 60s ease-in-out 2s infinite alternate;
-}
-
-@keyframes move {
-  from {
-    width: 100%;
-  }
-  to {
-    width: 400%;
-  }
-}
-
-.poster {
-  position: absolute;
-  width: 150px;
-  top: 0;
-  translate: 0 50%;
-  margin: 50px;
-}
-
-@keyframes slidein {
-  from {
-    width: 400%;
-  }
-  to {
-    width: 100%;
-  }
 }
 
 .backdrop::after {
@@ -56,4 +32,70 @@
   );
   background-repeat: no-repeat;
   backdrop-filter: blur(50px);
+}
+
+.poster {
+  height: 225px;
+  aspect-ratio: 9/13;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  z-index: 1;
+}
+
+.first {
+  gap: 10px;
+}
+
+.video {
+  border: 1px solid rgb(106, 106, 106);
+  background: rgb(0 0 0 /50%);
+  position: relative;
+  height: 225px;
+  aspect-ratio: 2/1;
+  overflow: hidden;
+}
+
+.round_tags {
+  border: 1px solid;
+  border-radius: 15px;
+  padding: 3px 10px;
+}
+
+.round_tags.description {
+  width: fit-content;
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.round_tags.description:hover {
+  background: rgb(255 255 255 /20%);
+}
+
+.round_tags.description > img {
+  width: 10px;
+  margin-top: 3px;
+}
+
+@keyframes move {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 400%;
+  }
+}
+
+@keyframes slidein {
+  from {
+    width: 400%;
+  }
+  to {
+    width: 100%;
+  }
 }
