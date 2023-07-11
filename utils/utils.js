@@ -1,4 +1,5 @@
 import { getFilmServicesTmdb } from "api";
+import { useRouter } from "next/router";
 
 export const placeItemsAtStart = (
   list,
@@ -34,13 +35,15 @@ export const getTodaysDate = () => {
   return date;
 };
 
-export const getOfficialTrailer = (res) => {
+export const getOfficialTrailer = (res, baseUrl) => {
   let regex = /Official Trailer/i;
   let trail = res.videos.results.find((el) => regex.test(el.name));
   if (!trail) trail = res.videos.results.find((el) => el.type === "Trailer");
   if (!trail) trail = res.videos.results.find((el) => el.type === "Teaser");
   if (trail) {
-    return `https://yewtu.be/embed/${trail.key}`;
+    // return `https://yewtu.be/embed/${trail.key}`;
+    // return `${baseUrl}/api/video/${trail.key}`;
+    return trail.key;
   }
 
   return undefined;

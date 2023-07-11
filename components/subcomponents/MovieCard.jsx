@@ -33,6 +33,7 @@ export default function MovieCard({
   const [startTimer, setStartTimer] = useState(null);
   const [currentRow, setCurrentRow] = useState(null);
   const [playButtonClick, setPlayButtonClick] = useState(false);
+  const baseURL = window.location.origin;
   let prevTouch;
   const Card = useRef();
 
@@ -109,10 +110,10 @@ export default function MovieCard({
 
       if (!trailer) {
         getFilmByIdTmdb(film.id, film.media_type).then((res) => {
-          const getTrailer = getOfficialTrailer(res);
+          const getTrailer = getOfficialTrailer(res, baseURL);
 
           if (getTrailer) {
-            setTrailer(getOfficialTrailer(res));
+            setTrailer(getTrailer);
             setTrailerPlaying(true);
             !genre ? setTrailerRow(rowsObject[film.id]) : null;
           } else {
@@ -175,8 +176,14 @@ export default function MovieCard({
     }
   }, [cardHovered]);
 
-  function closeTrailer(e) {
-    if (e.target !== Card.current) {
+  function closeTrailer(e, btn) {
+    e.stopPropagation();
+    const descendants = getAllDescendantElements(Card.current, []);
+
+    const isValid =
+      (e.target !== Card.current && !descendants.includes(e.target)) || btn;
+
+    if (isValid) {
       setTrailerPlaying(false);
       setCardFocused(false);
       setStartTimer(null);
@@ -303,16 +310,16 @@ export default function MovieCard({
             ) : (
               <>
                 <div
-                  onTouchEnd={closeTrailer}
-                  onMouseDown={closeTrailer}
+                  onTouchEnd={(e) => {
+                    closeTrailer(e, true);
+                  }}
+                  onMouseDown={(e) => {
+                    closeTrailer(e, true);
+                  }}
                   className={styles.closeBtn}>
                   <p>X</p>
                 </div>
-                <Trailer
-                  trailerPlaying={trailerPlaying}
-                  trailer={trailer}
-                  autoplay={"autoplay"}
-                />
+                <Trailer trailerPlaying={trailerPlaying} trailer={trailer} />
               </>
             )}
           </div>

@@ -1,6 +1,7 @@
 import styles from "@/styles/MovieInfo.module.css";
 import React from "react";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 import Trailer from "./subcomponents/Trailer";
 import Poster from "./subcomponents/Poster";
 import { getFilmByIdTmdb } from "api";
@@ -12,7 +13,6 @@ export default function MovieInfo({ isMobile, options }) {
   const { imdb_id, media_type } = useParams();
   const [film, setFilm] = useState(null);
   const [trailer, setTrailer] = useState(null);
-  const [trailerPlaying, setTrailerPlaying] = useState(true);
 
   useEffect(() => {
     getFilmByIdTmdb(imdb_id, media_type).then((res) => {
@@ -26,10 +26,6 @@ export default function MovieInfo({ isMobile, options }) {
     });
   }, []);
 
-  function closeTrailer() {
-    setTrailerPlaying(false);
-  }
-
   if (film === "doesn't exist") return <h1>BAD LUCK</h1>;
   else if (film) {
     return (
@@ -41,36 +37,42 @@ export default function MovieInfo({ isMobile, options }) {
             title={film.title || film.name}
           />
         </div>
-        <div className={styles.column + " " + styles.first}>
-          <div className={styles.poster}>
-            <Poster
-              url={film.poster_path}
-              quality={"w500"}
-              title={film.title || film.name}
-            />
+        <div className={styles.flex}>
+          <div className={styles.column + " " + styles.first}>
+            <div className={styles.column + " " + styles.info}>
+              <div className={styles.poster}>
+                <Poster
+                  url={film.poster_path}
+                  quality={"w500"}
+                  title={film.title || film.name}
+                />
+              </div>
+              <p>{film.title || film.name}</p>
+              <p>
+                {media_type === "movie" ? (
+                  <>
+                    <span>{film.release_date.split("-")[0]}</span>
+                    <span className={styles.circle}></span>
+                    <span>{film.runtime + " mins"}</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{film.first_air_date.split("-")[0]}</span>
+                    <span className={styles.circle}></span>
+                    <span>{film.seasons.length} Seasons</span>
+                  </>
+                )}
+              </p>
+            </div>
           </div>
-          <p>{film.title || film.name}</p>
-          <p>
-            {media_type === "movie" ? (
-              <>
-                <span>{film.release_date.split("-")[0]}</span>{" "}
-                <span>{film.runtime + " mins"}</span>
-              </>
-            ) : (
-              <>
-                <span>{film.first_air_date.split("-")[0]}</span>{" "}
-                <span>{film.seasons.length} Seasons</span>
-              </>
-            )}
-          </p>
-        </div>
-        <div className={styles.column}>
-          <div className={styles.video}>
-            <Trailer trailer={trailer} autoplay={""} trailerPlaying={true} />
-          </div>
-          <div className={styles.round_tags + " " + styles.description}>
-            <p>Description</p>
-            <img src="/svg/down_arrow.svg" />
+          <div className={styles.column + " " + styles.second}>
+            <div className={styles.video}>
+              <Trailer trailer={trailer} trailerPlaying={true} />
+            </div>
+            <div className={styles.round_tags + " " + styles.description}>
+              <p>Description</p>
+              <img src="/svg/down_arrow.svg" />
+            </div>
           </div>
         </div>
       </main>

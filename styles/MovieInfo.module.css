@@ -1,11 +1,17 @@
 .main {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  margin: 50px;
-  gap: 10px;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
   background: rgb(0 0 0 /50%);
+  overflow: hidden;
+}
+
+.flex {
+  display: flex;
+  padding: 4vw;
+  height: 100%;
+  gap: 10px;
+  overflow: scroll;
 }
 
 .backdrop {
@@ -31,12 +37,12 @@
     black
   );
   background-repeat: no-repeat;
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(30px) saturate(2);
 }
 
 .poster {
   height: 225px;
-  aspect-ratio: 9/13;
+  width: 155px;
 }
 
 .column {
@@ -46,7 +52,15 @@
   z-index: 1;
 }
 
-.first {
+.column > p {
+  display: inline-flex;
+  align-items: center;
+  max-width: 155px;
+}
+
+.info {
+  align-items: center;
+  width: fit-content;
   gap: 10px;
 }
 
@@ -82,6 +96,14 @@
   margin-top: 3px;
 }
 
+.circle {
+  width: 8px;
+  height: 8px;
+  margin: 0px 4px;
+  border-radius: 9999px;
+  background-color: rgb(113, 113, 113);
+}
+
 @keyframes move {
   from {
     width: 100%;
@@ -97,5 +119,19 @@
   }
   to {
     width: 100%;
+  }
+}
+
+@media screen and (width < 710px) {
+  .flex {
+    flex-direction: column;
+  }
+
+  .first {
+    order: 2;
+  }
+
+  .second {
+    order: 1;
   }
 }
