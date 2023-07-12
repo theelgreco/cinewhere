@@ -9,10 +9,11 @@ import { getOfficialTrailer } from "utils/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function MovieInfo({ isMobile, options }) {
+export default function MovieInfo({ isMobile, options, region }) {
   const { imdb_id, media_type } = useParams();
   const [film, setFilm] = useState(null);
   const [trailer, setTrailer] = useState(null);
+  const [layout, setLayout] = useState(updateLayout(window.innerWidth));
 
   useEffect(() => {
     getFilmByIdTmdb(imdb_id, media_type).then((res) => {
@@ -24,7 +25,25 @@ export default function MovieInfo({ isMobile, options }) {
         setTrailer(getOfficialTrailer(res));
       }
     });
+
+    window.addEventListener("resize", () => {
+      setLayout(updateLayout(window.innerWidth));
+    });
+
+    return () => {
+      window.removeEventListener("resize", () => {
+        setLayout(updateLayout(window.innerWidth));
+      });
+    };
   }, []);
+
+  function updateLayout(width) {
+    if (width < 710) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
 
   if (film === "doesn't exist") return <h1>BAD LUCK</h1>;
   else if (film) {
@@ -37,43 +56,85 @@ export default function MovieInfo({ isMobile, options }) {
             title={film.title || film.name}
           />
         </div>
-        <div className={styles.flex}>
-          <div className={styles.column + " " + styles.first}>
-            <div className={styles.column + " " + styles.info}>
-              <div className={styles.poster}>
-                <Poster
-                  url={film.poster_path}
-                  quality={"w500"}
-                  title={film.title || film.name}
-                />
+        <div className={styles.column + " " + styles.container}>
+          <div className={styles.row + " " + styles.content}>
+            <div className={styles.column + " " + styles.first}>
+              <div className={styles.column + " " + styles.info}>
+                <div className={styles.poster}>
+                  <Poster
+                    url={film.poster_path}
+                    quality={"w500"}
+                    title={film.title || film.name}
+                  />
+                </div>
+                <p>{film.title || film.name}</p>
+                <p>
+                  {media_type === "movie" ? (
+                    <>
+                      <span>{film.release_date.split("-")[0]}</span>
+                      <span className={styles.circle}></span>
+                      <span>{film.runtime + " mins"}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{film.first_air_date.split("-")[0]}</span>
+                      <span className={styles.circle}></span>
+                      <span>{film.seasons.length} Seasons</span>
+                    </>
+                  )}
+                </p>
+                <div
+                  className={
+                    styles.row + " " + styles.wrap + " " + styles.genreList
+                  }>
+                  {film.genres.map((genre) => {
+                    return (
+                      <div
+                        key={genre.name}
+                        className={styles.round_tags + " " + styles.genre}>
+                        {genre.name}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <p>{film.title || film.name}</p>
-              <p>
-                {media_type === "movie" ? (
-                  <>
-                    <span>{film.release_date.split("-")[0]}</span>
-                    <span className={styles.circle}></span>
-                    <span>{film.runtime + " mins"}</span>
-                  </>
-                ) : (
-                  <>
-                    <span>{film.first_air_date.split("-")[0]}</span>
-                    <span className={styles.circle}></span>
-                    <span>{film.seasons.length} Seasons</span>
-                  </>
-                )}
-              </p>
+              {layout === 2 ? (
+                <div className={styles.column + " " + styles.services}>
+                  <h3>Where to watch:</h3>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
+            <div className={styles.column + " " + styles.second}>
+              <div className={styles.video}>
+                <Trailer trailer={trailer} trailerPlaying={true} />
+              </div>
+              <div className={styles.round_tags + " " + styles.description}>
+                <p>Description</p>
+                <img src="/svg/down_arrow.svg" />
+              </div>
+            </div>
+            {layout === 2 ? (
+              <div className={styles.column + " " + styles.cast}>
+                <h3>Cast</h3>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
-          <div className={styles.column + " " + styles.second}>
-            <div className={styles.video}>
-              <Trailer trailer={trailer} trailerPlaying={true} />
-            </div>
-            <div className={styles.round_tags + " " + styles.description}>
-              <p>Description</p>
-              <img src="/svg/down_arrow.svg" />
-            </div>
-          </div>
+          {layout === 1 ? (
+            <>
+              <div className={styles.column + " " + styles.services}>
+                <h3>Where to watch:</h3>
+              </div>
+              <div className={styles.column + " " + styles.cast}>
+                <h3>Cast</h3>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </main>
     );

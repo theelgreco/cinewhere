@@ -39,14 +39,9 @@ export default function Home() {
   });
   const [media_type, set_media_type] = useState("movie");
   const [settings, setSettings] = useState({ autoplay: false });
-  const [rowSize, setRowSize] = useState(returnRowSize(window.innerWidth));
 
   useEffect(() => {
     setIsMobile(window.matchMedia("(any-pointer:coarse)").matches);
-
-    window.addEventListener("resize", () => {
-      setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
-    });
 
     if (!Object.keys(refs).length) {
       const refsObject = {};
@@ -70,16 +65,6 @@ export default function Home() {
       setRefs(refsObject);
     }
   }, []);
-
-  function returnRowSize(width) {
-    if (width > 1499) return 7;
-    else if (width > 1149) return 6;
-    else if (width > 899) return 5;
-    else if (width > 599) return 4;
-    else if (width > 449) return 3;
-    else if (width > 229) return 2;
-    else return 1;
-  }
 
   return (
     <BrowserRouter>
@@ -137,13 +122,14 @@ export default function Home() {
               set_media_type={set_media_type}
               settings={settings}
               setSettings={setSettings}
-              rowSize={rowSize}
             />
           }
         />
         <Route
           path="/:media_type/:imdb_id"
-          element={<MovieInfo options={options} />}
+          element={
+            <MovieInfo options={options} region={options.watch_region} />
+          }
         />
         <Route path="/privacy-policy" element={<Privacy />} />
       </Routes>

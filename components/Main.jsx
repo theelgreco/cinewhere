@@ -40,7 +40,6 @@ export default function Main({
   set_media_type,
   settings,
   setSettings,
-  rowSize,
 }) {
   const [divToScroll, setDivToScroll] = useState(null);
   const [mouseDown, setMouseDown] = useState(false);
@@ -50,13 +49,33 @@ export default function Main({
   const [serviceIdToSearch, setServiceIdToSearch] = useState({});
   const [clicked, setClicked] = useState(false);
   const [optionsClicked, setOptionsClicked] = useState(false);
+  const [rowSize, setRowSize] = useState(returnRowSize(window.innerWidth));
 
   useEffect(() => {
     document.addEventListener("mouseleave", handleMouseUp);
     window.addEventListener("beforeunload", (e) => {
       e.preventDefault();
     });
+    window.addEventListener("resize", () => {
+      setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
+    });
+
+    return () => {
+      window.removeEventListener("resize", () => {
+        setRowSize(returnRowSize(window.innerWidth), window.innerWidth);
+      });
+    };
   }, []);
+
+  function returnRowSize(width) {
+    if (width > 1499) return 7;
+    else if (width > 1149) return 6;
+    else if (width > 899) return 5;
+    else if (width > 599) return 4;
+    else if (width > 449) return 3;
+    else if (width > 229) return 2;
+    else return 1;
+  }
 
   function handleMouseDown(e) {
     setMouseDown(true);
