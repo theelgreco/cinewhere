@@ -29,7 +29,6 @@
   height: calc(100% - 4vw - 20px);
   gap: 20px;
   overflow-y: scroll;
-  overflow-x: hidden;
   align-items: center;
 }
 
