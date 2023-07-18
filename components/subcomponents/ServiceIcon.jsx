@@ -1,21 +1,26 @@
 import { useState, useRef } from "react";
 import styles from "@/styles/ServiceIcon.module.css";
 import { getWatchLink } from "api";
+let iconStyles;
 
-export default function ServiceIcon({ service, filmTitle, region }) {
+export default function ServiceIcon({ service, filmTitle, region, style }) {
   const [link, setLink] = useState(null);
   const url = useRef();
 
-  const iconStyles = {
-    backgroundImage: `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
-    display: "inline-block",
-    width: "80%",
-    maxWidth: "80px",
-    borderRadius: "9999px",
-    aspectRatio: "1",
-    backgroundSize: "contain",
-    backgroundPosition: "center",
-  };
+  if (style) {
+    iconStyles = style;
+  } else {
+    iconStyles = {
+      backgroundImage: `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
+      display: "inline-block",
+      width: "80%",
+      maxWidth: "80px",
+      borderRadius: "9999px",
+      aspectRatio: "1",
+      backgroundSize: "contain",
+      backgroundPosition: "center",
+    };
+  }
 
   function getLink(serviceName, title) {
     if (link) return;

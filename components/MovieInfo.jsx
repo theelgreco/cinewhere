@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import clsx from "clsx";
 import Trailer from "./subcomponents/Trailer";
 import Poster from "./subcomponents/Poster";
+import ServicesTable from "./subcomponents/ServicesTable";
 import { getFilmByIdTmdb } from "api";
 import { getOfficialTrailer } from "utils/utils";
 import { useEffect, useState } from "react";
@@ -99,8 +100,8 @@ export default function MovieInfo({ isMobile, options, region }) {
                 </div>
               </div>
               {layout === 2 ? (
-                <div className={styles.column + " " + styles.services}>
-                  <h3>Where to watch:</h3>
+                <div className={styles.column + " " + styles.cast}>
+                  <h3>Cast</h3>
                 </div>
               ) : (
                 <></>
@@ -116,8 +117,12 @@ export default function MovieInfo({ isMobile, options, region }) {
               </div>
             </div>
             {layout === 2 ? (
-              <div className={styles.column + " " + styles.cast}>
-                <h3>Cast</h3>
+              <div className={styles.column + " " + styles.services}>
+                <ServicesTable
+                  services={film["watch/providers"]["results"][region]}
+                  filmTitle={film.title || film.name}
+                  region={region}
+                />
               </div>
             ) : (
               <></>
@@ -126,10 +131,18 @@ export default function MovieInfo({ isMobile, options, region }) {
           {layout === 1 ? (
             <>
               <div className={styles.column + " " + styles.services}>
-                <h3>Where to watch:</h3>
+                <h3>Where to watch</h3>
+                <ServicesTable
+                  services={film["watch/providers"]["results"][region]}
+                  filmTitle={film.title || film.name}
+                  region={region}
+                />
               </div>
               <div className={styles.column + " " + styles.cast}>
                 <h3>Cast</h3>
+                <div className={styles.wrapper}>
+                  <div className={styles.flex}></div>
+                </div>
               </div>
             </>
           ) : (

@@ -1,0 +1,81 @@
+.flex::-webkit-scrollbar {
+  height: 0px;
+  width: 0px;
+}
+
+.demo {
+  font-size: 10px;
+  border-spacing: 0px;
+  border: none;
+  backdrop-filter: hue-rotate(334deg);
+  border-radius: 10px;
+  box-shadow: 0px 0px 8px 1px rgb(0 0 0 /50%);
+}
+
+.demo th {
+  color: white;
+  height: 60px;
+  width: 50px;
+  /* writing-mode: vertical-lr; */
+  background: rgb(0 0 0 /40%);
+}
+
+.demo td {
+  border: none;
+  margin: 0;
+  max-width: 0px;
+}
+
+.demo tr:first-of-type th {
+  border-top-left-radius: 10px;
+}
+
+.demo tr:first-of-type td:last-of-type {
+  border-top-right-radius: 10px;
+}
+
+.demo tr:last-of-type th {
+  border-bottom-left-radius: 10px;
+}
+
+.demo tr:last-of-type td:last-of-type {
+  border-bottom-right-radius: 10px;
+}
+
+.flex {
+  display: flex;
+  overflow-x: scroll;
+  gap: 10px;
+  padding-left: 5px;
+  min-height: 60px;
+  align-items: center;
+  background-color: rgb(0 0 0 /30%);
+  box-shadow: inset 0px 0px 8px 1px rgb(0 0 0 /50%);
+}
+
+.demo tr:first-of-type .flex {
+  border-top-right-radius: 10px;
+}
+
+.demo tr:last-of-type .flex {
+  border-bottom-right-radius: 10px;
+}
+
+.box {
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+/* @media screen and (width >= 710px) {
+  .flex {
+    max-width: 551px;
+  }
+}
+
+@media screen and (width < 710px) {
+  .flex {
+    max-width: 318px;
+  }
+} */
