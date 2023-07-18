@@ -69,6 +69,9 @@ export default function MovieInfo({ isMobile, options, region }) {
       if (i === arr.length - 1 && i % 10 !== 0) {
         obj[page] = resArr;
       }
+      if (arr.length === 1) {
+        obj[page] = resArr;
+      }
       resArr.push(arr[i]);
     }
 
