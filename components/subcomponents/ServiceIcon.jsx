@@ -8,7 +8,7 @@ export default function ServiceIcon({ service, filmTitle, region, style }) {
   const url = useRef();
 
   if (style) {
-    iconStyles = style;
+    iconStyles = { ...style, cursor: "alias" };
   } else {
     iconStyles = {
       backgroundImage: `url(https://image.tmdb.org/t/p/w500${service.logo_path})`,
@@ -16,6 +16,7 @@ export default function ServiceIcon({ service, filmTitle, region, style }) {
       width: "80%",
       maxWidth: "80px",
       borderRadius: "9999px",
+      cursor: "alias",
       aspectRatio: "1",
       backgroundSize: "contain",
       backgroundPosition: "center",
@@ -67,7 +68,8 @@ export default function ServiceIcon({ service, filmTitle, region, style }) {
         title={`Watch ${filmTitle} on ${service.provider_name}`}
         style={iconStyles}
         target="_blank"
-        onTouchEnd={() => {
+        onClick={() => {
+          getLink(service.provider_name, filmTitle);
           const interval = setInterval(() => {
             console.log("intervaling");
             if (url.current) {
@@ -76,9 +78,10 @@ export default function ServiceIcon({ service, filmTitle, region, style }) {
             }
           }, 100);
         }}
-        onMouseEnter={() => {
-          getLink(service.provider_name, filmTitle);
-        }}></a>
+        // onMouseEnter={() => {
+        //   getLink(service.provider_name, filmTitle);
+        // }}
+      ></a>
     );
   } else if (link === "fetching") {
     return (
