@@ -4,7 +4,7 @@ import { JSDOM } from "jsdom";
 export default async function handler(req, res) {
   const { key } = req.query;
   try {
-    const response = await axios.get(`http://yewtu.be/embed/${key}`);
+    const response = await axios.get(`https://yewtu.be/embed/${key}`);
     const html = response.data;
 
     const dom = new JSDOM(html);

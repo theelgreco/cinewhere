@@ -41,8 +41,6 @@ export const getOfficialTrailer = (res, baseUrl) => {
   if (!trail) trail = res.videos.results.find((el) => el.type === "Trailer");
   if (!trail) trail = res.videos.results.find((el) => el.type === "Teaser");
   if (trail) {
-    // return `https://yewtu.be/embed/${trail.key}`;
-    // return `${baseUrl}/api/video/${trail.key}`;
     return trail.key;
   }
 
