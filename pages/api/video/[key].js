@@ -38,6 +38,6 @@ export default async function handler(req, res) {
     res.status(200).send(videoHTML);
   } catch (error) {
     console.error(error);
-    res.status(404).send({ msg: `can't find that video` });
+    res.status(404).send({ msg: `can't find that video`, error: error });
   }
 }
