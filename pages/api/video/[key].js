@@ -37,6 +37,7 @@ export default async function handler(req, res) {
     // Send the video HTML element as the response
     res.status(200).send(videoHTML);
   } catch (error) {
+    console.error(error);
     res.status(404).send({ msg: `can't find that video` });
   }
 }
