@@ -22,6 +22,7 @@ export default function Trailer({ trailerPlaying, trailer }) {
 
       setVideoElement(videoHTML);
     } catch (error) {
+      console.error(error);
       setError(true);
     }
   }
