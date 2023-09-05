@@ -12,6 +12,7 @@ export default function Trailer({ trailerPlaying, trailer }) {
   async function getVideoElement() {
     const baseURL = window.location.origin;
     try {
+      console.log("trying");
       const res = await axios.get(`${baseURL}/api/video/${trailer}`);
 
       const videoElementString = res.data;
