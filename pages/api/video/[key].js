@@ -4,7 +4,7 @@ import { JSDOM } from "jsdom";
 export default async function handler(req, res) {
   const { key } = req.query;
   try {
-    const response = await axios.get(`https://yewtu.be/embed/${key}`);
+    const response = await axios.get(`https://vid.puffyan.us/embed/${key}`);
     const html = response.data;
 
     const dom = new JSDOM(html);
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     sourceElements.forEach((source) => {
       const url = source.getAttribute("src");
       if (url && !url.startsWith("http")) {
-        const updatedUrl = "https://yewtu.be" + url;
+        const updatedUrl = "https://vid.puffyan.us" + url;
         source.setAttribute("src", updatedUrl);
       }
     });
