@@ -2,10 +2,7 @@ import styles from "@/styles/CastCrew.module.css";
 import { useEffect } from "react";
 
 export default function CastCrew({ arr, page, setPage, title }) {
-  useEffect(() => {
-    console.log(page);
-    console.log(arr);
-  }, []);
+  useEffect(() => {}, []);
 
   if (arr[page]) {
     return (

@@ -17,7 +17,6 @@ export default function handler(req, res) {
 }
 
 function getStreamingLink(string, region) {
-  console.log(string, region);
   return axios
     .get(`https://www.google.com/search?q=${string}&gl=${region}`)
     .then((res) => {
@@ -29,7 +28,7 @@ function getStreamingLink(string, region) {
         .querySelector(".egMi0")
         .innerHTML.split("&amp;")[0]
         .split("url?q=")[1];
-      console.log(url);
+
       return url;
     })
     .catch((err) => {

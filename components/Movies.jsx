@@ -53,7 +53,7 @@ export default function Movies({
     // prettier-ignore
     // execute if a genre is added
     if (genreIdToSearch.add) {
-      console.log('here')
+      
       let params = {
         page: 1,
         with_genres: genreIdToSearch.id,
@@ -78,7 +78,6 @@ export default function Movies({
     }
     // execute if a service is clicked with genres selected
     else if (Object.keys(serviceIdToSearch).length && selectedGenres.length) {
-      console.log('here')
       selectedGenres.forEach((genre) => {
         if (refs[genre.id].current) {
           refs[genre.id].current.scrollLeft = 0;
@@ -124,7 +123,7 @@ export default function Movies({
     }
     // only execute if a service has been clicked with no genres selected or if the last genre has been removed with services still selected
     else if ((Object.keys(genreIdToSearch).length || Object.keys(serviceIdToSearch).length) && selectedServices.length && !selectedGenres.length) {
-      console.log('here')
+      
       setData([]);
       refs.sectionRef.current.scrollTop = 0;
       refs.page.current = 1;
@@ -146,7 +145,7 @@ export default function Movies({
     }
 
     else {
-      console.log('here')
+      
       setData([])
       setServiceIdToSearch({})
       setGenreIdToSearch({})

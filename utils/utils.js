@@ -31,7 +31,7 @@ export const placeItemsAtStart = (
 
 export const getTodaysDate = () => {
   const date = new Date().toISOString().split("T")[0];
-  console.log(date);
+
   return date;
 };
 

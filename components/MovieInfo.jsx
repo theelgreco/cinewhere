@@ -27,7 +27,7 @@ export default function MovieInfo({ isMobile, options, region }) {
         setFilm("doesn't exist");
       } else {
         setFilm(res);
-        console.log(res);
+
         setTrailer(getOfficialTrailer(res));
         setCast(paginate(res.credits.cast));
         setCrew(paginate(res.credits.crew));

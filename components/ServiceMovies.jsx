@@ -60,7 +60,6 @@ export default function ServiceMovies({
     };
     const res = await getFilmsTmdb(params, media_type);
     if (params.page <= refs.totalPages.current) {
-      console.log("hello");
       setData([...data, ...res.data]);
       refs.page.current++;
     }

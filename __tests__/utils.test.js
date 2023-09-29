@@ -192,7 +192,7 @@ describe("test suite for genreArrange", () => {
       isSelected,
       originalOrder
     );
-    console.log(input, actual);
+
     expect(actual[4]).toEqual({ id: 12, genre: "Adventure" });
   });
 });

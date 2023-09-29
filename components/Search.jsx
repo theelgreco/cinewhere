@@ -102,7 +102,6 @@ export default function Search({
       setExpand(true);
       router.query.search = "true";
       router.push(router);
-      console.log(router);
     }
   }
 

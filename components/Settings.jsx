@@ -25,9 +25,7 @@ export default function Settings({ settings, setSettings }) {
     }
   }, [expandSettings]);
 
-  useEffect(() => {
-    console.log(settings);
-  }, [settings]);
+  useEffect(() => {}, [settings]);
 
   function toggleSettings() {
     if (expandSettings) {

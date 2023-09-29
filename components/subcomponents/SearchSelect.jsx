@@ -8,7 +8,6 @@ export default function SearchSelect({
   setOptionsClicked,
 }) {
   function handleSelect(e) {
-    console.log({ [e.target.id]: e.target.value });
     setOptions({
       ...options,
       [e.target.id]: e.target.value,

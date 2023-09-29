@@ -36,7 +36,6 @@ export default function GenreMovies({
       });
       const genre = selectedGenres[genreIndex];
       if (genre.page + 1 <= genre.totalPages) {
-        console.log(genre);
         let params = {
           page: genre.page + 1,
           with_watch_providers: selectedServices.join("|"),

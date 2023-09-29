@@ -71,7 +71,6 @@ export default function ServiceIcon({ service, filmTitle, region, style }) {
         onClick={() => {
           getLink(service.provider_name, filmTitle);
           const interval = setInterval(() => {
-            console.log("intervaling");
             if (url.current) {
               simulateClick(url.current);
               clearInterval(interval);

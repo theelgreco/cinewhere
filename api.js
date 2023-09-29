@@ -9,7 +9,6 @@ const authHeader = {
 };
 
 export const getFilmsTmdb = (params, media_type) => {
-  console.log(params);
   return tmdb
     .get(`/discover/${media_type}`, {
       headers: authHeader,
@@ -58,7 +57,6 @@ export const getFilmByIdTmdb = (movie_id, media) => {
 };
 
 export const searchMovies = (params) => {
-  console.log(params);
   return tmdb
     .get("/search/multi", {
       headers: authHeader,
