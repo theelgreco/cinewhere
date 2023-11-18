@@ -126,6 +126,7 @@
   overflow: hidden;
   max-width: 500px;
   border-radius: 10px;
+  align-self: center;
 }
 
 .closeBtn {
