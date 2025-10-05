@@ -83,12 +83,7 @@ export default function Home() {
         <Script src="./install-sw.js" strategy="beforeInteractive" />
         <Script src="./fetch-sw.js" strategy="beforeInteractive" />
         <Script src="./activate-sw.js" strategy="beforeInteractive" />
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6116586273897198"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-          async
-        />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6116586273897198" crossorigin="anonymous"></script>
       </Head>
       <Routes>
         <Route
