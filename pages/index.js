@@ -77,13 +77,13 @@ export default function Home() {
           name="viewport"
           content="width=device-width, height=device-height, initial-scale=1, interactive-widget=overlays-content"
         />
+        <meta name="google-adsense-account" content="ca-pub-6116586273897198">
         <link rel="icon" type="image/svg" href="/icon.svg"></link>
         <link rel="manifest" href="/manifest.json"></link>
         <Script src="./register-sw.js" strategy="beforeInteractive" />
         <Script src="./install-sw.js" strategy="beforeInteractive" />
         <Script src="./fetch-sw.js" strategy="beforeInteractive" />
         <Script src="./activate-sw.js" strategy="beforeInteractive" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6116586273897198" crossorigin="anonymous"></script>
       </Head>
       <Routes>
         <Route
